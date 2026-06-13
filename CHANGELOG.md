@@ -29,3 +29,7 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Version-pinning policy requiring implementation manifests to reference an exact Biosiglib commit.
 - Implementation manifest specification support now uses an object keyed by canonical specification ID, guaranteeing identifier uniqueness and simplifying lookup by implementations.
 - External implementation-manifest validation with current Biosiglib commit matching.
+- Replaced the small synthetic `tdmetrics` fixture with the existing Biosigmat ECG timing fixture.
+- Adopted direct use of the Biosigmat ECG timing fixture `dtk` column for `hrv.tdmetrics`.
+- Preserved the leading `NaN` in the ECG timing fixture to verify missing-value handling.
+- Recalculated full-precision expected outputs for the `hrv.tdmetrics` ECG timing conformance case.

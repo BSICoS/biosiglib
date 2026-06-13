@@ -2,25 +2,40 @@
   "$schema": "../schemas/fixture-catalog.schema.json",
   "fixtures": [
     {
-      "id": "hrv.tdmetrics.synthetic_mixed_001",
-      "module": "hrv",
-      "data_kind": "interval_series",
+      "id": "ecg.bsicos.ecg_tk_001",
+      "module": "ecg",
+      "data_kind": "table",
       "source": {
-        "type": "synthetic",
-        "description": "Synthetic NN interval sequence intentionally designed to test interval statistics with missing values, non-bridging of NaN gaps, multiple valid successive-difference magnitudes, and strict pNN50 threshold behavior without placing a difference exactly at 50 ms."
+        "type": "self_recording",
+        "description": "ECG-derived beat timing file recorded by the Biosiglib maintainers. The file contains beat times and the corresponding NN interval series."
       },
       "files": [
         {
-          "role": "nn_intervals",
-          "path": "fixtures/data/hrv/tdmetrics/nn_intervals_mixed.csv",
+          "role": "beat_timing_table",
+          "path": "fixtures/data/ecg/ecg_tk.csv",
           "format": "csv"
         }
       ],
       "channels": [
         {
-          "id": "nn_interval_s",
+          "id": "tk",
+          "unit": "s"
+        },
+        {
+          "id": "tkSamples",
+          "unit": "sample"
+        },
+        {
+          "id": "dtk",
           "unit": "s"
         }
+      ],
+      "processing": [
+        "tk contains beat times in seconds.",
+        "tkSamples contains corresponding sample positions.",
+        "dtk is a leading NaN followed by successive differences of tk.",
+        "The leading NaN preserves alignment between beat times and intervals.",
+        "Algorithms consuming dtk must apply their specified missing-value behavior."
       ]
     }
   ]
