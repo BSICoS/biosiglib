@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Biosiglib algorithm specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "metadata",
+    "informative",
+    "provenance",
+    "normative"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "module",
+        "algorithm_status",
+        "specification_status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "module": {
+          "type": "string",
+          "enum": [
+            "ecg",
+            "ppg",
+            "respiration",
+            "hrv",
+            "tools"
+          ]
+        },
+        "algorithm_status": {
+          "type": "string",
+          "enum": [
+            "stable",
+            "experimental",
+            "deprecated"
+          ]
+        },
+        "specification_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "stable",
+            "deprecated"
+          ]
+        }
+      }
+    },
+    "informative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "summary"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "references"
+      ],
+      "properties": {
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "relation"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relation": {
+                "type": "string",
+                "enum": [
+                  "original_method",
+                  "method_extension",
+                  "metric_definition",
+                  "validation",
+                  "other"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "normative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputs",
+        "parameters",
+        "outputs",
+        "definitions",
+        "behavior"
+      ],
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/input"
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parameter"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/output"
+          }
+        },
+        "definitions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/definition"
+          }
+        },
+        "behavior": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "nan_handling",
+            "empty_input",
+            "input_orientation",
+            "insufficient_data"
+          ],
+          "properties": {
+            "nan_handling": {
+              "type": "string"
+            },
+            "empty_input": {
+              "type": "string"
+            },
+            "input_orientation": {
+              "type": "string"
+            },
+            "insufficient_data": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "data_type": {
+      "type": "string",
+      "enum": [
+        "real_scalar",
+        "real_vector",
+        "integer_scalar",
+        "boolean",
+        "string"
+      ]
+    },
+    "shape": {
+      "type": "string",
+      "enum": [
+        "scalar",
+        "vector"
+      ]
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "type": "number"
+        },
+        "exclusive_minimum": {
+          "type": "number"
+        },
+        "maximum": {
+          "type": "number"
+        },
+        "exclusive_maximum": {
+          "type": "number"
+        },
+        "minimum_length": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "data_type",
+        "shape",
+        "unit",
+        "allow_nan",
+        "allow_inf"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "data_type": {
+          "$ref": "#/$defs/data_type"
+        },
+        "shape": {
+          "$ref": "#/$defs/shape"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "allow_nan": {
+          "type": "boolean"
+        },
+        "allow_inf": {
+          "type": "boolean"
+        },
+        "constraints": {
+          "$ref": "#/$defs/constraints"
+        }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "data_type",
+        "default"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "data_type": {
+          "$ref": "#/$defs/data_type"
+        },
+        "default": true,
+        "unit": {
+          "type": "string"
+        },
+        "constraints": {
+          "$ref": "#/$defs/constraints"
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "data_type",
+        "shape",
+        "unit"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "data_type": {
+          "$ref": "#/$defs/data_type"
+        },
+        "shape": {
+          "$ref": "#/$defs/shape"
+        },
+        "unit": {
+          "type": "string"
+        }
+      }
+    },
+    "definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target",
+        "text"
+      ],
+      "properties": {
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "latex": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

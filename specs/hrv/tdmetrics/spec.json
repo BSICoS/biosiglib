@@ -1,0 +1,120 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "hrv.tdmetrics",
+    "module": "hrv",
+    "algorithm_status": "stable",
+    "specification_status": "draft"
+  },
+  "informative": {
+    "title": "Time-domain heart rate variability metrics",
+    "summary": "Computes standard time-domain HRV metrics from normal-to-normal intervals.",
+    "description": "The input contains normal-to-normal intervals. Abnormal intervals include intervals affected by ectopic beats, missed detections, false detections, and other artifacts. Correction or removal of abnormal intervals occurs before calling this algorithm.",
+    "notes": [
+      "Unresolved behavior: empty input.",
+      "Unresolved behavior: input containing only NaN values.",
+      "Unresolved behavior: one valid NN interval.",
+      "Unresolved behavior: no valid successive differences.",
+      "Unresolved behavior: only one valid successive difference when sample standard deviation is requested."
+    ],
+    "keywords": [
+      "HRV",
+      "time-domain",
+      "NN intervals"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "task_force_hrv_1996",
+        "relation": "metric_definition",
+        "note": "Supports the conventional definitions and units of the time-domain HRV metrics."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "nn_intervals",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [],
+    "outputs": [
+      {
+        "id": "mhr",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "beats/min"
+      },
+      {
+        "id": "sdnn",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "ms"
+      },
+      {
+        "id": "sdsd",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "ms"
+      },
+      {
+        "id": "rmssd",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "ms"
+      },
+      {
+        "id": "pnn50",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "%"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "valid_nn_interval",
+        "text": "A valid NN interval is finite, positive, expressed in seconds, and not NaN."
+      },
+      {
+        "target": "mhr",
+        "text": "Mean heart rate is 60 / mean(valid nn_intervals), where the mean is calculated over valid NN intervals.",
+        "latex": "\\mathrm{MHR} = \\frac{60}{\\operatorname{mean}(NN)}"
+      },
+      {
+        "target": "sdnn",
+        "text": "SDNN is the sample standard deviation of valid NN intervals using denominator N - 1, converted from seconds to milliseconds."
+      },
+      {
+        "target": "successive_differences",
+        "text": "Successive differences are calculated between adjacent entries in the original ordered NN interval vector. NaN values are not removed before calculating differences. A difference is valid only when both adjacent intervals are valid; [1.0, NaN, 1.1] does not produce a difference between 1.0 and 1.1."
+      },
+      {
+        "target": "rmssd",
+        "text": "RMSSD is the square root of the mean squared valid successive differences, converted from seconds to milliseconds."
+      },
+      {
+        "target": "sdsd",
+        "text": "SDSD is the sample standard deviation of valid successive differences using denominator N - 1, converted from seconds to milliseconds."
+      },
+      {
+        "target": "pnn50",
+        "text": "pNN50 is 100 * count(abs(valid successive differences) > 0.05 s) / number of valid successive differences. The threshold is strictly greater than 50 ms."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaN intervals are excluded from interval-based statistics. Differences involving NaN intervals are invalid, and NaN gaps are not bridged.",
+      "empty_input": "unspecified",
+      "input_orientation": "Row and column vectors represent the same canonical sequence and must produce scientifically equivalent outputs.",
+      "insufficient_data": "unspecified"
+    }
+  }
+}

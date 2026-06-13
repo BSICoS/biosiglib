@@ -173,6 +173,13 @@ The manifest identifies:
 
 Continuous integration verifies the declared relationship by running the relevant conformance cases against the referenced Biosiglib version.
 
+## Local validation
+
+```bash
+python -m pip install -r requirements-dev.txt
+python tools/validate_specs.py
+```
+
 ## Versioning
 
 Biosiglib and each language-specific implementation use independent semantic versioning:

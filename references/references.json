@@ -1,0 +1,21 @@
+{
+  "$schema": "../schemas/reference-catalog.schema.json",
+  "references": [
+    {
+      "id": "task_force_hrv_1996",
+      "type": "journal_article",
+      "title": "Heart rate variability: standards of measurement, physiological interpretation and clinical use",
+      "authors": [
+        {
+          "type": "organization",
+          "name": "Task Force of the European Society of Cardiology and the North American Society of Pacing and Electrophysiology"
+        }
+      ],
+      "year": 1996,
+      "journal": "European Heart Journal",
+      "volume": "17",
+      "issue": "3",
+      "pages": "354-381"
+    }
+  ]
+}
