@@ -28,3 +28,4 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Implementation conformance manifest schema.
 - Version-pinning policy requiring implementation manifests to reference an exact Biosiglib commit.
 - Implementation manifest specification support now uses an object keyed by canonical specification ID, guaranteeing identifier uniqueness and simplifying lookup by implementations.
+- External implementation-manifest validation with current Biosiglib commit matching.

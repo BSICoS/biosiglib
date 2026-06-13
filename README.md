@@ -211,6 +211,22 @@ source .venv/bin/activate
 
 Explicitly invoking the environment interpreter is preferred for automation and AI agents because it avoids ambiguity about which Python installation is being used.
 
+## Implementation manifest validation
+
+Implementation repositories can validate their conformance manifest from a Biosiglib checkout. Validation uses the current Biosiglib checkout, requires the manifest's pinned commit to match that checkout, and checks manifest structure and specification identifiers without executing the implementation.
+
+Windows PowerShell:
+
+```powershell
+.venv\Scripts\python.exe tools\validate_specs.py --manifest ..\biosigmat\conformance.json
+```
+
+Linux/macOS:
+
+```bash
+.venv/bin/python tools/validate_specs.py --manifest ../biosigmat/conformance.json
+```
+
 ## Versioning
 
 Biosiglib and each language-specific implementation use independent semantic versioning:
