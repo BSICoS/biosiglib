@@ -175,7 +175,7 @@ Continuous integration verifies the declared relationship by running the relevan
 
 ## Local validation
 
-Create a repository-local virtual environment, install the development requirements, and run the validator through that environment's Python executable.
+Create a repository-local virtual environment, install the development requirements, and run the validator through that environment's Python executable. The local validator checks specifications, references, fixture metadata, fixture files, and conformance cases.
 
 Windows PowerShell:
 

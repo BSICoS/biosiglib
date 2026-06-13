@@ -1,0 +1,27 @@
+{
+  "$schema": "../schemas/fixture-catalog.schema.json",
+  "fixtures": [
+    {
+      "id": "hrv.tdmetrics.synthetic_mixed_001",
+      "module": "hrv",
+      "data_kind": "interval_series",
+      "source": {
+        "type": "synthetic",
+        "description": "Synthetic NN interval sequence intentionally designed to test interval statistics with missing values, non-bridging of NaN gaps, multiple valid successive-difference magnitudes, and strict pNN50 threshold behavior without placing a difference exactly at 50 ms."
+      },
+      "files": [
+        {
+          "role": "nn_intervals",
+          "path": "fixtures/data/hrv/tdmetrics/nn_intervals_mixed.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "nn_interval_s",
+          "unit": "s"
+        }
+      ]
+    }
+  ]
+}

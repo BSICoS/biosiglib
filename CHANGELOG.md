@@ -20,3 +20,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Repository-local `.venv` for Python development tooling.
 - Windows and POSIX environment setup documentation.
 - Virtual-environment and Python-cache exclusions in `.gitignore`.
+- Fixture catalog schema.
+- Conformance case schema.
+- First synthetic HRV interval fixture.
+- First `hrv.tdmetrics` conformance case.
+- Cross-validation of specs, references, fixture files, inputs, parameters, and outputs.
