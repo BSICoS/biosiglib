@@ -173,7 +173,7 @@ The manifest identifies:
 
 Continuous integration verifies the declared relationship by running the relevant conformance cases against the referenced Biosiglib version.
 
-Implementation repositories declare their relationship to Biosiglib with a machine-readable implementation manifest. The manifest identifies the implementation, pins the exact Biosiglib commit used for validation, lists implemented specifications, and records each entry's conformance status.
+Implementation repositories declare their relationship to Biosiglib with a machine-readable implementation manifest. The manifest identifies the implementation, pins the exact Biosiglib commit used for validation, and records specification support in an object keyed by canonical Biosiglib specification ID. Each value contains the implementation status and optional implementation-specific metadata; object keys guarantee one entry per specification ID.
 
 ## Local validation
 

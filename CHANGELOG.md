@@ -27,3 +27,4 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Cross-validation of specs, references, fixture files, inputs, parameters, and outputs.
 - Implementation conformance manifest schema.
 - Version-pinning policy requiring implementation manifests to reference an exact Biosiglib commit.
+- Implementation manifest specification support now uses an object keyed by canonical specification ID, guaranteeing identifier uniqueness and simplifying lookup by implementations.
