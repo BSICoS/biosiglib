@@ -25,3 +25,5 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - First synthetic HRV interval fixture.
 - First `hrv.tdmetrics` conformance case.
 - Cross-validation of specs, references, fixture files, inputs, parameters, and outputs.
+- Implementation conformance manifest schema.
+- Version-pinning policy requiring implementation manifests to reference an exact Biosiglib commit.

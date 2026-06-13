@@ -66,3 +66,5 @@ Relative tolerances are not part of the initial design.
 20. Do not make architectural decisions that contradict this file without explicitly reporting the conflict to the maintainers.
 
 21. All local Python tooling in Biosiglib must run inside the repository-local `.venv`. AI agents must create `.venv` when it is absent, invoke the `.venv` Python executable explicitly, and never commit `.venv` or generated Python caches. `requirements-dev.txt` remains the dependency declaration for Biosiglib tooling. CI environments, when introduced later, must install dependencies in a clean environment and must not reuse the local `.venv`. Biosigpy will also use its own independent repository-local `.venv` when its package structure is created.
+
+22. Each implementation repository will contain a machine-readable conformance manifest validated against `schemas/implementation-manifest.schema.json`. The manifest must pin an exact Biosiglib commit. `conformant` may only be declared after all applicable conformance cases pass. Implementation versions remain independent from Biosiglib versions, and no per-algorithm version is used at this stage.

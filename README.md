@@ -173,6 +173,8 @@ The manifest identifies:
 
 Continuous integration verifies the declared relationship by running the relevant conformance cases against the referenced Biosiglib version.
 
+Implementation repositories declare their relationship to Biosiglib with a machine-readable implementation manifest. The manifest identifies the implementation, pins the exact Biosiglib commit used for validation, lists implemented specifications, and records each entry's conformance status.
+
 ## Local validation
 
 Create a repository-local virtual environment, install the development requirements, and run the validator through that environment's Python executable. The local validator checks specifications, references, fixture metadata, fixture files, and conformance cases.

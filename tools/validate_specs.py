@@ -466,6 +466,7 @@ def main() -> int:
         "reference": root / "schemas" / "reference-catalog.schema.json",
         "fixture": root / "schemas" / "fixture-catalog.schema.json",
         "conformance": root / "schemas" / "conformance-case.schema.json",
+        "implementation_manifest": root / "schemas" / "implementation-manifest.schema.json",
     }
 
     schemas: dict[str, Any] = {}
