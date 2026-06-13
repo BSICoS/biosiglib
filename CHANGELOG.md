@@ -17,3 +17,6 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Draft `hrv.tdmetrics` specification.
 - Local validator.
 - Cross-validation between specs and references.
+- Repository-local `.venv` for Python development tooling.
+- Windows and POSIX environment setup documentation.
+- Virtual-environment and Python-cache exclusions in `.gitignore`.

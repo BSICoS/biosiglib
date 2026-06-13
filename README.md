@@ -175,10 +175,39 @@ Continuous integration verifies the declared relationship by running the relevan
 
 ## Local validation
 
-```bash
-python -m pip install -r requirements-dev.txt
-python tools/validate_specs.py
+Create a repository-local virtual environment, install the development requirements, and run the validator through that environment's Python executable.
+
+Windows PowerShell:
+
+```powershell
+py -m venv .venv
+.venv\Scripts\python.exe -m pip install --upgrade pip
+.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.venv\Scripts\python.exe tools\validate_specs.py
 ```
+
+Activation is optional for interactive development:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Linux/macOS:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python tools/validate_specs.py
+```
+
+Activation is optional for interactive development:
+
+```bash
+source .venv/bin/activate
+```
+
+Explicitly invoking the environment interpreter is preferred for automation and AI agents because it avoids ambiguity about which Python installation is being used.
 
 ## Versioning
 
