@@ -33,3 +33,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Adopted direct use of the Biosigmat ECG timing fixture `dtk` column for `hrv.tdmetrics`.
 - Preserved the leading `NaN` in the ECG timing fixture to verify missing-value handling.
 - Recalculated full-precision expected outputs for the `hrv.tdmetrics` ECG timing conformance case.
+- Pan-Tompkins 1985 reference entry.
+- Draft `ecg.pantompkins` specification.
+- Fixture-column references for ordered vector expected outputs in conformance cases.
+- ECG signal fixture copied from the existing Biosigmat regression data.
+- First `ecg.pantompkins` conformance case.

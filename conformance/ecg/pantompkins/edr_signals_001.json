@@ -1,0 +1,31 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.pantompkins.edr_signals_001",
+  "specification_id": "ecg.pantompkins",
+  "description": "Detect R-peak times from the shared ECG signal using the default Pan-Tompkins-style parameters.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "fixture_id": "ecg.bsicos.edr_signals_001",
+      "file_role": "signal_table",
+      "column": "ecg"
+    }
+  ],
+  "parameters": {
+    "sampling_frequency": 256
+  },
+  "expected_outputs": [
+    {
+      "id": "r_peak_times",
+      "fixture_id": "ecg.bsicos.ecg_tk_001",
+      "file_role": "beat_timing_table",
+      "column": "tk",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "This case formalizes the existing Biosigmat pantompkinsTest regression fixture as a shared conformance case."
+  }
+}

@@ -452,11 +452,14 @@ def validate_conformance_references(
 
         parameters = case.get("parameters", {})
         if spec_info is not None and isinstance(parameters, dict):
+            # Case parameters also carry literal scalar inputs such as sampling frequency.
+            known_case_value_ids = spec_info["parameter_ids"] | spec_info["input_ids"]
             for parameter_id in parameters:
-                if parameter_id not in spec_info["parameter_ids"]:
+                if parameter_id not in known_case_value_ids:
                     errors.append(
                         f"{relative_name(case_path, root)}: "
-                        f"{json_path(['parameters', parameter_id])}: unknown specification parameter id "
+                        f"{json_path(['parameters', parameter_id])}: "
+                        "unknown specification parameter or scalar input id "
                         f"'{parameter_id}'"
                     )
 
@@ -470,6 +473,53 @@ def validate_conformance_references(
                         f"{relative_name(case_path, root)}: "
                         f"{json_path(['expected_outputs', output_index, 'id'])}: unknown specification output id "
                         f"'{output_id}'"
+                    )
+
+            fixture_id = expected_output.get("fixture_id")
+            if not isinstance(fixture_id, str):
+                continue
+
+            fixture_info = fixtures_by_id.get(fixture_id)
+            if fixture_info is None:
+                errors.append(
+                    f"{relative_name(case_path, root)}: "
+                    f"{json_path(['expected_outputs', output_index, 'fixture_id'])}: "
+                    f"unknown fixture id '{fixture_id}'"
+                )
+                continue
+
+            file_role = expected_output.get("file_role")
+            fixture_file = None
+            if isinstance(file_role, str):
+                fixture_file = fixture_info["files_by_role"].get(file_role)
+                if fixture_file is None:
+                    errors.append(
+                        f"{relative_name(case_path, root)}: "
+                        f"{json_path(['expected_outputs', output_index, 'file_role'])}: "
+                        f"unknown fixture file role '{file_role}'"
+                    )
+                    continue
+
+            if fixture_file is not None:
+                fixture_path = fixture_file.get("path")
+                if not isinstance(fixture_path, Path) or not is_inside_root(fixture_path, root):
+                    continue
+
+                if fixture_file.get("format") != "csv":
+                    errors.append(
+                        f"{relative_name(case_path, root)}: "
+                        f"{json_path(['expected_outputs', output_index, 'file_role'])}: "
+                        f"fixture file role '{file_role}' is not CSV"
+                    )
+                    continue
+
+                column = expected_output.get("column")
+                header = fixture_file.get("header")
+                if isinstance(column, str) and isinstance(header, list) and column not in header:
+                    errors.append(
+                        f"{relative_name(case_path, root)}: "
+                        f"{json_path(['expected_outputs', output_index, 'column'])}: "
+                        f"missing CSV column '{column}'"
                     )
 
         oracle = case.get("oracle", {})

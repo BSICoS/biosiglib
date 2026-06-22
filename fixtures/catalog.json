@@ -37,6 +37,37 @@
         "The leading NaN preserves alignment between beat times and intervals.",
         "Algorithms consuming dtk must apply their specified missing-value behavior."
       ]
+    },
+    {
+      "id": "ecg.bsicos.edr_signals_001",
+      "module": "ecg",
+      "data_kind": "table",
+      "source": {
+        "type": "self_recording",
+        "description": "ECG signal used by the Biosigmat Pan-Tompkins regression test and related examples."
+      },
+      "files": [
+        {
+          "role": "signal_table",
+          "path": "fixtures/data/ecg/edr_signals.csv",
+          "format": "csv"
+        }
+      ],
+      "sampling_frequency_hz": 256,
+      "channels": [
+        {
+          "id": "t",
+          "unit": "s"
+        },
+        {
+          "id": "ecg",
+          "unit": "a.u."
+        },
+        {
+          "id": "resp",
+          "unit": "a.u."
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,122 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "ecg.pantompkins",
+    "module": "ecg",
+    "algorithm_status": "stable",
+    "specification_status": "draft"
+  },
+  "informative": {
+    "title": "Pan-Tompkins-style ECG R-peak detection",
+    "summary": "Detects ordered R-wave occurrence times from a sampled ECG signal.",
+    "description": "This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement. The current implementation follows the Pan-Tompkins processing style but is not a byte-for-byte reproduction of the original paper.",
+    "notes": [
+      "Only the primary R-peak timing output is normative in this draft.",
+      "Biosigmat's additional intermediate MATLAB outputs are implementation-specific.",
+      "Insufficient-data behavior remains unspecified in this draft."
+    ],
+    "keywords": [
+      "ECG",
+      "Pan-Tompkins",
+      "QRS detection",
+      "R peaks"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "pan_tompkins_1985",
+        "relation": "original_method",
+        "note": "Algorithm origin for the Pan-Tompkins-style processing chain."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "ecg",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false
+      },
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "bandpass_frequency",
+        "data_type": "real_vector",
+        "default": [
+          5,
+          12
+        ],
+        "unit": "Hz",
+        "constraints": {
+          "minimum_length": 2
+        }
+      },
+      {
+        "id": "integration_window_size",
+        "data_type": "real_scalar",
+        "default": 0.15,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "minimum_peak_distance",
+        "data_type": "real_scalar",
+        "default": 0.5,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "snap_to_peak_window_size",
+        "data_type": "real_scalar",
+        "default": 20,
+        "unit": "sample",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "r_peak_times",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "detection_chain",
+        "text": "Apply bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement to the ECG signal."
+      },
+      {
+        "target": "r_peak_times",
+        "text": "Detected R-wave occurrence times in seconds, sorted in ascending order."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaN samples in the ECG signal are preserved through filtering as the implementation permits. Detections should not be produced inside NaN-corrupted regions in a future shared NaN case; the case in this draft contains no NaN samples.",
+      "empty_input": "Empty ECG input is invalid; the exact failure mechanism is implementation-specific.",
+      "input_orientation": "Treat ECG input as a one-dimensional vector regardless of row or column orientation. R-peak times are conceptually a one-dimensional ordered vector.",
+      "insufficient_data": "Unspecified in this draft."
+    }
+  }
+}

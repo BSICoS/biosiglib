@@ -108,7 +108,6 @@
       "additionalProperties": false,
       "required": [
         "id",
-        "value",
         "absolute_tolerance"
       ],
       "properties": {
@@ -126,11 +125,61 @@
             }
           ]
         },
+        "fixture_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "column": {
+          "type": "string",
+          "minLength": 1
+        },
         "absolute_tolerance": {
           "type": "number",
           "minimum": 0
         }
-      }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "value"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "fixture_id"
+                ]
+              },
+              {
+                "required": [
+                  "file_role"
+                ]
+              },
+              {
+                "required": [
+                  "column"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "fixture_id",
+            "file_role",
+            "column"
+          ],
+          "not": {
+            "required": [
+              "value"
+            ]
+          }
+        }
+      ]
     },
     "oracle": {
       "type": "object",

@@ -16,6 +16,25 @@
       "volume": "17",
       "issue": "3",
       "pages": "354-381"
+    },
+    {
+      "id": "pan_tompkins_1985",
+      "type": "journal_article",
+      "title": "A Real-Time QRS Detection Algorithm",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Pan",
+          "given_names": "Jiapu"
+        },
+        {
+          "type": "person",
+          "family_name": "Tompkins",
+          "given_names": "Willis J."
+        }
+      ],
+      "year": 1985,
+      "journal": "IEEE Transactions on Biomedical Engineering"
     }
   ]
 }
