@@ -244,6 +244,17 @@ A Biosigmat or Biosigpy release therefore declares which Biosiglib version it co
 
 Specification changes are recorded in the Biosiglib changelog. Changes that affect implementations are propagated automatically to their repositories.
 
+## Releases
+
+To create a Biosiglib release:
+
+1. Ensure the `Validate Biosiglib` workflow passes on `main`.
+2. Update `CHANGELOG.md` manually.
+3. Run the `Release Biosiglib` workflow from `main`.
+4. Enter a version such as `v0.1.0`.
+
+The workflow validates the repository before creating the matching Git tag and GitHub Release. It does not rewrite the changelog.
+
 ## Documentation
 
 The human-readable documentation is generated from the machine-readable specifications.
