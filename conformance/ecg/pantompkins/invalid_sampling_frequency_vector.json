@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.pantompkins.invalid_sampling_frequency_vector",
+  "specification_id": "ecg.pantompkins",
+  "description": "Reject a non-scalar sampling frequency.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "fixture_id": "ecg.bsicos.edr_signals_001",
+      "file_role": "signal_table",
+      "column": "ecg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": [
+        256,
+        256
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_shape",
+    "description": "sampling_frequency must be scalar."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative sampling-frequency shape."
+  }
+}

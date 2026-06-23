@@ -2,13 +2,13 @@
   "$schema": "../../../schemas/conformance-case.schema.json",
   "id": "hrv.tdmetrics.ecg_tk_001",
   "specification_id": "hrv.tdmetrics",
-  "description": "This case replaces the previous small synthetic fixture with an existing Biosigmat regression fixture and verifies that the leading NaN is omitted according to the hrv.tdmetrics specification.",
+  "description": "Compute time-domain variability metrics from the ECG-derived beat timing sequence tk. Intervals are derived as successive differences of adjacent tk values.",
   "inputs": [
     {
-      "id": "nn_intervals",
+      "id": "tk",
       "fixture_id": "ecg.bsicos.ecg_tk_001",
       "file_role": "beat_timing_table",
-      "column": "dtk"
+      "column": "tk"
     }
   ],
   "parameters": {},
@@ -42,6 +42,6 @@
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "Expected values are calculated directly from the normative definitions and independently checked against the current Biosigmat implementation."
+    "description": "Expected values are calculated directly from the normative definitions after deriving dtk = diff(tk), and independently checked against the current Biosigmat implementation."
   }
 }

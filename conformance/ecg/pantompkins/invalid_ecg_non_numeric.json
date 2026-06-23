@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.pantompkins.invalid_ecg_non_numeric",
+  "specification_id": "ecg.pantompkins",
+  "description": "Reject a non-numeric ECG vector.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "value": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 256
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_type",
+    "description": "ecg must be numeric."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative ECG type."
+  }
+}

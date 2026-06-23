@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.pantompkins.invalid_ecg_matrix",
+  "specification_id": "ecg.pantompkins",
+  "description": "Reject an ECG matrix that is not a vector.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "value": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.5,
+          -0.5
+        ]
+      ]
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 256
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_shape",
+    "description": "ecg must be a one-dimensional vector."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative ECG shape."
+  }
+}

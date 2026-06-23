@@ -8,18 +8,23 @@
   },
   "informative": {
     "title": "Pan-Tompkins-style ECG R-peak detection",
-    "summary": "Detects ordered R-wave occurrence times from a sampled ECG signal.",
+    "summary": "Detects ordered R-wave occurrence times from a sampled ECG signal and exposes intermediate processing signals for plotting and debugging.",
     "description": "This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement. The current implementation follows the Pan-Tompkins processing style but is not a byte-for-byte reproduction of the original paper.",
     "notes": [
-      "Only the primary R-peak timing output is normative in this draft.",
-      "Biosigmat's additional intermediate MATLAB outputs are implementation-specific.",
+      "The primary detection target is the ECG R wave.",
+      "Intermediate outputs are part of the public contract because they are used for plotting and debugging detections.",
+      "Exact cross-language numerical equality of intermediate signals is not required by the first positive conformance case.",
+      "Python should expose r_peak_times, ecg_filtered, decg, and decg_envelope using the canonical names.",
+      "Biosigmat maps r_peak_times to its first output currently named tk, ecg_filtered to ecgFiltered, decg to decg, and decg_envelope to decgEnvelope.",
       "Insufficient-data behavior remains unspecified in this draft."
     ],
     "keywords": [
       "ECG",
       "Pan-Tompkins",
       "QRS detection",
-      "R peaks"
+      "R peaks",
+      "debugging",
+      "intermediate signals"
     ]
   },
   "provenance": {
@@ -100,6 +105,24 @@
         "data_type": "real_vector",
         "shape": "vector",
         "unit": "s"
+      },
+      {
+        "id": "ecg_filtered",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      },
+      {
+        "id": "decg",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      },
+      {
+        "id": "decg_envelope",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.^2"
       }
     ],
     "definitions": [
@@ -109,13 +132,25 @@
       },
       {
         "target": "r_peak_times",
-        "text": "Detected R-wave occurrence times in seconds, sorted in ascending order."
+        "text": "Detected ECG R-wave occurrence times in seconds, sorted in ascending order."
+      },
+      {
+        "target": "ecg_filtered",
+        "text": "Bandpass-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG."
+      },
+      {
+        "target": "decg",
+        "text": "Derivative-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG."
+      },
+      {
+        "target": "decg_envelope",
+        "text": "Squared and moving-window integrated detection envelope, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG."
       }
     ],
     "behavior": {
       "nan_handling": "NaN samples in the ECG signal are preserved through filtering as the implementation permits. Detections should not be produced inside NaN-corrupted regions in a future shared NaN case; the case in this draft contains no NaN samples.",
       "empty_input": "Empty ECG input is invalid; the exact failure mechanism is implementation-specific.",
-      "input_orientation": "Treat ECG input as a one-dimensional vector regardless of row or column orientation. R-peak times are conceptually a one-dimensional ordered vector.",
+      "input_orientation": "Treat ECG input as a one-dimensional vector regardless of row or column orientation. All vector outputs are conceptually one-dimensional ordered vectors.",
       "insufficient_data": "Unspecified in this draft."
     }
   }

@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.pantompkins.invalid_sampling_frequency_non_numeric",
+  "specification_id": "ecg.pantompkins",
+  "description": "Reject a non-numeric sampling frequency.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "fixture_id": "ecg.bsicos.edr_signals_001",
+      "file_role": "signal_table",
+      "column": "ecg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": "not_numeric"
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_type",
+    "description": "sampling_frequency must be numeric."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative sampling-frequency type."
+  }
+}

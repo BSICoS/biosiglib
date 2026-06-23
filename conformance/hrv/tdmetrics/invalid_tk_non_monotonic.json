@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.invalid_tk_non_monotonic",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Reject event times that decrease.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [
+        0.0,
+        1.0,
+        0.5
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "tk must be strictly increasing."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative tk ordering."
+  }
+}

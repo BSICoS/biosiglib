@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.pantompkins.invalid_sampling_frequency_non_positive",
+  "specification_id": "ecg.pantompkins",
+  "description": "Reject a non-positive sampling frequency.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "fixture_id": "ecg.bsicos.edr_signals_001",
+      "file_role": "signal_table",
+      "column": "ecg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 0
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "sampling_frequency must be positive."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative input constraints."
+  }
+}

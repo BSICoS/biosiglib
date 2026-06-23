@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.invalid_tk_negative",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Reject negative event times.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [
+        -0.5,
+        0.5,
+        1.0
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "tk values must be non-negative."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative tk value constraints."
+  }
+}

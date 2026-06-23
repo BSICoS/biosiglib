@@ -38,6 +38,10 @@ Biosigmat and Biosigpy are independent implementations of the same specification
 
 The Python implementation is not intended to be a line-by-line translation of the MATLAB implementation. Both implementations must reproduce the behavior defined by Biosiglib within the established numerical tolerances.
 
+### Canonical names across implementations
+
+Biosiglib uses canonical `snake_case` IDs as the conceptual source of truth. Python APIs should generally use those names directly. MATLAB APIs may use idiomatic camelCase or name-value spelling, but each different spelling must map explicitly to the same canonical concept. Implementations should not introduce unrelated names unless the underlying signal semantics differ.
+
 ### Scientific provenance and software attribution are separate
 
 The scientific authorship of an algorithm is recognised by citing the publications that introduce or extend the method.
@@ -139,6 +143,7 @@ Conformance cases associate:
 * Expected outputs.
 * Absolute numerical tolerances.
 * Expected handling of `NaN` values.
+* Language-independent expected-error categories for scientifically mandatory invalid inputs.
 * The origin of the reference result.
 
 Reference results may originate from analytical calculations, external annotations, published values, manual review, or a previously validated implementation.
