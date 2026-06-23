@@ -30,11 +30,14 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Implementation manifest specification support now uses an object keyed by canonical specification ID, guaranteeing identifier uniqueness and simplifying lookup by implementations.
 - External implementation-manifest validation with current Biosiglib commit matching.
 - Replaced the small synthetic `tdmetrics` fixture with the existing Biosigmat ECG timing fixture.
-- Adopted direct use of the Biosigmat ECG timing fixture `dtk` column for `hrv.tdmetrics`.
-- Preserved the leading `NaN` in the ECG timing fixture to verify missing-value handling.
+- Adopted the Biosigmat ECG timing fixture `tk` column for `hrv.tdmetrics`.
+- Defined `dtk` as the successive differences derived from canonical event times `tk`.
 - Recalculated full-precision expected outputs for the `hrv.tdmetrics` ECG timing conformance case.
 - Pan-Tompkins 1985 reference entry.
 - Draft `ecg.pantompkins` specification.
 - Fixture-column references for ordered vector expected outputs in conformance cases.
 - ECG signal fixture copied from the existing Biosigmat regression data.
 - First `ecg.pantompkins` conformance case.
+- Normative `ecg_filtered`, `decg`, and `decg_envelope` outputs for `ecg.pantompkins`.
+- Expected-error conformance cases with language-independent error categories and literal inputs.
+- Initial invalid-type, invalid-shape, and invalid-value cases for both pilot specifications.

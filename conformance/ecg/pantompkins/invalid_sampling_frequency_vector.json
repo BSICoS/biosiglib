@@ -1,8 +1,8 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ecg.pantompkins.invalid_sampling_frequency_non_positive",
+  "id": "ecg.pantompkins.invalid_sampling_frequency_vector",
   "specification_id": "ecg.pantompkins",
-  "description": "Reject a non-positive sampling frequency.",
+  "description": "Reject a non-scalar sampling frequency.",
   "inputs": [
     {
       "id": "ecg",
@@ -12,16 +12,19 @@
     },
     {
       "id": "sampling_frequency",
-      "value": 0
+      "value": [
+        256,
+        256
+      ]
     }
   ],
   "parameters": {},
   "expected_error": {
-    "category": "invalid_value",
-    "description": "sampling_frequency must be positive."
+    "category": "invalid_shape",
+    "description": "sampling_frequency must be scalar."
   },
   "oracle": {
     "type": "analytical",
-    "description": "This expected-error case follows directly from the normative input constraints."
+    "description": "This expected-error case follows directly from the normative sampling-frequency shape."
   }
 }

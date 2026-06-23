@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.invalid_tk_matrix",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Reject a timing matrix that is not a vector.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [
+        [
+          0.0,
+          0.8
+        ],
+        [
+          1.6,
+          2.4
+        ]
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_shape",
+    "description": "tk must be a one-dimensional vector."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative tk shape."
+  }
+}

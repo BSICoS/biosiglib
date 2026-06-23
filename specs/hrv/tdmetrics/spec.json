@@ -13,6 +13,9 @@
     "notes": [
       "The canonical input is tk, not an ECG-only RR/NN interval series.",
       "The interval series dtk is derived as successive differences of adjacent tk values.",
+      "Python should expose the canonical input as tk.",
+      "Biosigmat currently accepts the derived interval vector dtk; a conformance adapter derives dtk = diff(tk) until the MATLAB public API is aligned with the canonical input.",
+      "Canonical output IDs map directly in Python. In Biosigmat, pnn50 maps to pNN50 and the other output IDs map directly.",
       "Unresolved behavior: empty input.",
       "Unresolved behavior: one valid event time.",
       "Unresolved behavior: no valid successive intervals.",

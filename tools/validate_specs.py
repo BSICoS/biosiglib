@@ -410,6 +410,9 @@ def validate_conformance_references(
                         f"'{input_id}'"
                     )
 
+            if "value" in input_mapping:
+                continue
+
             fixture_id = input_mapping.get("fixture_id")
             fixture_info = fixtures_by_id.get(fixture_id) if isinstance(fixture_id, str) else None
             if isinstance(fixture_id, str) and fixture_info is None:

@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.invalid_tk_repeated",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Reject repeated event times.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [
+        0.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "Adjacent tk values must be distinct and strictly increasing."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative tk ordering."
+  }
+}
