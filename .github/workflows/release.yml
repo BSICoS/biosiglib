@@ -118,3 +118,31 @@ jobs:
           )
           PY
           gh api --method POST /repos/BSICoS/biosigmat/dispatches --input dispatch-payload.json
+
+      - name: Dispatch Biosigpy propagation
+        env:
+          GH_TOKEN: ${{ secrets.BIOSIGPY_PROPAGATION_TOKEN }}
+          RELEASE_TARGET_COMMIT: ${{ steps.release-target.outputs.release_target_commit }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [[ -z "${GH_TOKEN:-}" ]]; then
+            echo "BIOSIGPY_PROPAGATION_TOKEN is required to dispatch Biosigpy propagation" >&2
+            exit 1
+          fi
+          python - <<'PY' > dispatch-payload.json
+          import json
+          import os
+          import sys
+
+          json.dump(
+              {
+                  "event_type": "biosiglib-release",
+                  "client_payload": {
+                      "release": os.environ["VERSION"],
+                      "commit": os.environ["RELEASE_TARGET_COMMIT"],
+                  },
+              },
+              sys.stdout,
+          )
+          PY
+          gh api --method POST /repos/BSICoS/biosigpy/dispatches --input dispatch-payload.json
