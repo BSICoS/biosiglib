@@ -255,7 +255,7 @@ To create a Biosiglib release:
 
 The workflow validates the repository before creating the matching Git tag and GitHub Release. It does not rewrite the changelog.
 
-After the release is created, the workflow dispatches Biosigmat propagation automatically. Repository secret `BIOSIGLIB_PROPAGATION_TOKEN` must be configured with permission to create `repository_dispatch` events in `BSICoS/biosigmat`. The expected downstream result is a Biosigmat pull request updating `conformance.json` to the new Biosiglib release.
+After the release is created, the workflow dispatches Biosigmat propagation automatically. Repository secret `BIOSIGLIB_PROPAGATION_TOKEN` must be configured in `BSICoS/biosiglib`. The token should be scoped to `BSICoS/biosigmat`; for a fine-grained personal access token, GitHub requires `Contents: write` permission to create `repository_dispatch` events. The expected downstream result is a Biosigmat pull request updating `conformance.json` to the new Biosiglib release.
 
 ## Documentation
 
