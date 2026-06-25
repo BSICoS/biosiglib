@@ -38,6 +38,13 @@ jobs:
             exit 1
           fi
 
+      - name: Resolve release target commit
+        id: release-target
+        run: |
+          release_target_commit="$(git rev-parse HEAD)"
+          echo "release_target_commit=$release_target_commit" >> "$GITHUB_OUTPUT"
+          echo "Release target commit: $release_target_commit"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -62,11 +69,52 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TARGET_COMMIT: ${{ steps.release-target.outputs.release_target_commit }}
           VERSION: ${{ inputs.version }}
         run: |
           gh release create "$VERSION" \
-            --target "$GITHUB_SHA" \
+            --target "$RELEASE_TARGET_COMMIT" \
             --title "$VERSION" \
             --notes "Biosiglib $VERSION
 
           See CHANGELOG.md for details."
+
+      - name: Verify release tag target
+        env:
+          RELEASE_TARGET_COMMIT: ${{ steps.release-target.outputs.release_target_commit }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          git fetch --force origin "refs/tags/$VERSION:refs/tags/$VERSION"
+          tag_commit="$(git rev-list -n 1 "$VERSION")"
+          if [[ "$tag_commit" != "$RELEASE_TARGET_COMMIT" ]]; then
+            echo "Release tag $VERSION points to $tag_commit, expected $RELEASE_TARGET_COMMIT" >&2
+            exit 1
+          fi
+
+      - name: Dispatch Biosigmat propagation
+        env:
+          GH_TOKEN: ${{ secrets.BIOSIGLIB_PROPAGATION_TOKEN }}
+          RELEASE_TARGET_COMMIT: ${{ steps.release-target.outputs.release_target_commit }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [[ -z "${GH_TOKEN:-}" ]]; then
+            echo "BIOSIGLIB_PROPAGATION_TOKEN is required to dispatch Biosigmat propagation" >&2
+            exit 1
+          fi
+          python - <<'PY' > dispatch-payload.json
+          import json
+          import os
+          import sys
+
+          json.dump(
+              {
+                  "event_type": "biosiglib-release",
+                  "client_payload": {
+                      "release": os.environ["VERSION"],
+                      "commit": os.environ["RELEASE_TARGET_COMMIT"],
+                  },
+              },
+              sys.stdout,
+          )
+          PY
+          gh api --method POST /repos/BSICoS/biosigmat/dispatches --input dispatch-payload.json
