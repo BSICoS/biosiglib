@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## v0.2.0 - 2026-06-26
+
+### Breaking changes
+
+- Corrected the canonical `hrv.tdmetrics` input from event times `tk` to interval series `dtk`.
+- Updated `hrv.tdmetrics` so `NaN` values in `dtk` are allowed as missing or invalid interval markers and omitted from all metric calculations.
+- Replaced `tk`-based `hrv.tdmetrics` conformance cases with `dtk`-based cases.
+- Updated successive-difference metric definitions to operate on the cleaned valid interval sequence after omitting `NaN` markers.
+
+### Added
+
+- Missing-data and preprocessing guidance reference: Cajal et al. 2022, “Effects of Missing Data on Heart Rate Variability Metrics”.
+- `hrv.tdmetrics` conformance coverage for clean `dtk`, `dtk` with `NaN` markers, non-numeric input, matrix-shaped input, negative intervals, zero intervals, and infinite intervals.
+- Optional `article_number` support in the reference catalog schema.
+- `preprocessing_guidance` as a controlled provenance relation for algorithm specifications.
+
+### Changed
+
+- Regenerated the `hrv.tdmetrics` documentation page from the corrected JSON specification.
+- Updated fixture catalog notes to describe `dtk` missing-value handling.
+- Removed stale documentation and agent guidance that described `tk` as the canonical `hrv.tdmetrics` input.
+
 ## v0.1.1 - 2026-06-26
 
 ### Added
