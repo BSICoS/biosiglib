@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.invalid_dtk_negative",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Reject a negative finite interval.",
+  "inputs": [
+    {
+      "id": "dtk",
+      "value": [
+        0.8,
+        -0.1,
+        0.82
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "Finite dtk intervals must be strictly positive."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative dtk value constraints."
+  }
+}

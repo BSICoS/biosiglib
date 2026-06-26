@@ -68,6 +68,32 @@
           "unit": "a.u."
         }
       ]
+    },
+    {
+      "id": "hrv.synthetic.invalid_dtk_inf_001",
+      "module": "hrv",
+      "data_kind": "interval_series",
+      "source": {
+        "type": "synthetic",
+        "description": "Synthetic interval series containing a non-finite interval for hrv.tdmetrics invalid-value conformance."
+      },
+      "files": [
+        {
+          "role": "interval_series",
+          "path": "fixtures/data/hrv/invalid_dtk_inf.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "dtk",
+          "unit": "s"
+        }
+      ],
+      "processing": [
+        "Contains a positive interval sequence with one Inf value.",
+        "The Inf value is invalid for hrv.tdmetrics and is retained to test rejection of non-finite intervals."
+      ]
     }
   ]
 }

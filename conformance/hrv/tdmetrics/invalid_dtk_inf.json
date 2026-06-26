@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.invalid_dtk_inf",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Reject an infinite interval.",
+  "inputs": [
+    {
+      "id": "dtk",
+      "fixture_id": "hrv.synthetic.invalid_dtk_inf_001",
+      "file_role": "interval_series",
+      "column": "dtk"
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "Inf and -Inf dtk intervals are invalid."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative dtk finite-value constraint."
+  }
+}

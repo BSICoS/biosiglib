@@ -1,11 +1,11 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "hrv.tdmetrics.invalid_tk_non_numeric",
+  "id": "hrv.tdmetrics.invalid_dtk_non_numeric",
   "specification_id": "hrv.tdmetrics",
-  "description": "Reject a non-numeric beat or pulse timing vector.",
+  "description": "Reject a non-numeric interval vector.",
   "inputs": [
     {
-      "id": "tk",
+      "id": "dtk",
       "value": [
         "a",
         "b",
@@ -16,10 +16,10 @@
   "parameters": {},
   "expected_error": {
     "category": "invalid_type",
-    "description": "tk must be numeric."
+    "description": "dtk must be numeric apart from allowed NaN interval markers."
   },
   "oracle": {
     "type": "analytical",
-    "description": "This expected-error case follows directly from the normative tk type."
+    "description": "This expected-error case follows directly from the normative dtk type."
   }
 }

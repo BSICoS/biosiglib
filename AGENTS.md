@@ -57,11 +57,11 @@ Relative tolerances are not part of the initial design.
 - ecg.pantompkins.
 
 17. For hrv.tdmetrics:
-- the canonical input tk is the ordered sequence of beat or pulse event occurrence times in seconds;
-- events may come from ECG R waves, PPG fiducial points, or another validated beat or pulse timing source;
-- dtk is derived internally as diff(tk);
-- tk must be finite, non-negative, and strictly increasing;
-- mean heart or pulse rate is defined as 60 / mean(dtk);
+- the canonical input dtk is the cleaned beat-to-beat or pulse-to-pulse interval sequence in seconds;
+- valid finite intervals must be strictly positive; Inf, -Inf, zero, and negative intervals are invalid;
+- NaN values in dtk are allowed as missing or invalid interval markers and are omitted from metric calculations;
+- dtk is produced before tdmetrics by beat or pulse detection, interval construction, and preprocessing for artifacts, missed beats, false detections, ectopic beats, outliers, and missing data;
+- mean heart or pulse rate is defined as 60 / mean(valid dtk), after omitting NaN markers;
 - outputs use their conventional units.
 
 18. Avoid overengineering. Do not introduce resource APIs, cross-language test runners, code generators, databases, or additional repositories unless they solve a demonstrated problem.

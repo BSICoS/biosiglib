@@ -118,6 +118,7 @@
                   "original_method",
                   "method_extension",
                   "metric_definition",
+                  "preprocessing_guidance",
                   "validation",
                   "other"
                 ]
