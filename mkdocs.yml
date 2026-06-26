@@ -1,0 +1,47 @@
+site_name: Biosiglib
+site_description: Language-independent specifications and conformance resources for reproducible biomedical signal processing.
+repo_url: https://github.com/BSICoS/biosiglib
+repo_name: BSICoS/biosiglib
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Ecosystem: ecosystem.md
+  - Specifications:
+      - Overview: specifications.md
+      - hrv.tdmetrics: specifications/hrv.tdmetrics.md
+      - ecg.pantompkins: specifications/ecg.pantompkins.md
+  - Conformance: conformance.md
+  - Releases: releases.md
+  - Citation: citation.md
+  - Development: development.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
