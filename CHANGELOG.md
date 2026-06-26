@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## v0.1.1 - 2026-06-26
+
+### Added
+
+- Automatic Biosigmat propagation after Biosiglib releases through `repository_dispatch`.
+- Automatic Biosigpy propagation after Biosiglib releases through `repository_dispatch`.
+- Multi-implementation release path from Biosiglib releases to downstream implementation pull requests.
+- Biosigpy conformance manifest integration for the pilot `hrv.tdmetrics` and `ecg.pantompkins` specifications.
+
+### Changed
+
+- Documented release propagation secrets and target-repository permissions for Biosigmat and Biosigpy.
+- Updated Biosigpy CI to read the pinned Biosiglib commit from `conformance.json` instead of duplicating the commit in the workflow.
+
 ## v0.1.0 - 2026-06-24
 
 ### Added
