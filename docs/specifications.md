@@ -21,11 +21,15 @@ The current MVP pilots are:
 
 | Specification | Module | Summary |
 | --- | --- | --- |
-| [`hrv.tdmetrics`](specifications/hrv.tdmetrics.md) | HRV | Time-domain beat or pulse variability metrics from ordered event times. |
-| [`ecg.pantompkins`](specifications/ecg.pantompkins.md) | ECG | Pan-Tompkins-style ECG R-peak detection with public intermediate signals. |
+| [`hrv.tdmetrics`](generated/specifications/hrv.tdmetrics.md) | HRV | Time-domain beat or pulse variability metrics from ordered event times. |
+| [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) | ECG | Pan-Tompkins-style ECG R-peak detection with public intermediate signals. |
 
 These pilots are not the final Biosiglib scope. They establish the specification format, validation rules, fixtures, conformance cases, documentation structure, and release propagation pattern that later specifications will reuse.
 
+## Generated Pages
+
+The algorithm-specific pages are generated from the JSON specifications and committed under `docs/generated/specifications/`. They should not be edited manually. Update the JSON source and run `python tools/generate_docs.py` instead.
+
 ## JSON Remains Normative
 
-The human-readable pages summarize the JSON specifications. They are intentionally not full Markdown copies of the JSON files. Generated documentation from the JSON specifications will be introduced in a follow-up issue so that the website remains synchronized with the machine-readable source.
+The human-readable pages summarize the JSON specifications. They are generated views of the JSON files, not separate normative copies.
