@@ -28,6 +28,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
 
+      - name: Check generated documentation
+        run: python tools/generate_docs.py --check
+
       - name: Build documentation
         run: mkdocs build --strict
 

@@ -24,7 +24,7 @@ The repository is designed so humans can read the behavior while tools can valid
 
 The current documentation covers the initial MVP pilots:
 
-* [`hrv.tdmetrics`](specifications/hrv.tdmetrics.md) - time-domain beat or pulse variability metrics.
-* [`ecg.pantompkins`](specifications/ecg.pantompkins.md) - Pan-Tompkins-style ECG R-peak detection.
+* [`hrv.tdmetrics`](generated/specifications/hrv.tdmetrics.md) - time-domain beat or pulse variability metrics.
+* [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) - Pan-Tompkins-style ECG R-peak detection.
 
 These pilots establish the specification, fixture, conformance, and release patterns before the full Biosiglib scope expands across ECG, PPG, respiration, HRV, and other biomedical signal-processing tools.
