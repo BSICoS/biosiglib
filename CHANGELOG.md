@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## v0.2.1 - 2026-06-26
+
+### Fixed
+
+- Corrected the expected outputs for `hrv.tdmetrics.valid_dtk_with_nan_001` so the case matches omit-missing-value semantics on the fixture `dtk` column.
+- Restored equivalence between the fixture `dtk` column after omitting its leading missing-value marker and the interval sequence obtained from the corresponding `tk` differences.
+
 ## v0.2.0 - 2026-06-26
 
 ### Breaking changes
