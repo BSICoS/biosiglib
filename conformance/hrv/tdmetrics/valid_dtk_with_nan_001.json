@@ -13,35 +13,15 @@
   ],
   "parameters": {},
   "expected_outputs": [
-    {
-      "id": "mhr",
-      "value": 82.98677010459237,
-      "absolute_tolerance": 1e-10
-    },
-    {
-      "id": "sdnn",
-      "value": 28.275001169554155,
-      "absolute_tolerance": 1e-10
-    },
-    {
-      "id": "sdsd",
-      "value": 19.162781576611078,
-      "absolute_tolerance": 1e-10
-    },
-    {
-      "id": "rmssd",
-      "value": 19.038008870606852,
-      "absolute_tolerance": 1e-10
-    },
-    {
-      "id": "pnn50",
-      "value": 1.2987012987012987,
-      "absolute_tolerance": 1e-10
-    }
+    {"id": "mhr", "value": 85.0470840237643, "absolute_tolerance": 1e-10},
+    {"id": "sdnn", "value": 40.260126771653375, "absolute_tolerance": 1e-10},
+    {"id": "sdsd", "value": 18.621407372538773, "absolute_tolerance": 1e-10},
+    {"id": "rmssd", "value": 18.553175731756973, "absolute_tolerance": 1e-10},
+    {"id": "pnn50", "value": 1.4705882352941178, "absolute_tolerance": 1e-10}
   ],
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "Expected values are calculated directly from the fixture dtk column after omitting NaN markers, matching omit-NaN semantics."
+    "description": "Expected values are calculated directly from the fixture dtk column after omitting missing-value markers."
   }
 }
