@@ -21,7 +21,7 @@ The current MVP pilots are:
 
 | Specification | Module | Summary |
 | --- | --- | --- |
-| [`hrv.tdmetrics`](generated/specifications/hrv.tdmetrics.md) | HRV | Time-domain beat or pulse variability metrics from ordered event times. |
+| [`hrv.tdmetrics`](generated/specifications/hrv.tdmetrics.md) | HRV | Time-domain HRV metrics from cleaned beat-to-beat or pulse-to-pulse intervals. |
 | [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) | ECG | Pan-Tompkins-style ECG R-peak detection with public intermediate signals. |
 
 These pilots are not the final Biosiglib scope. They establish the specification format, validation rules, fixtures, conformance cases, documentation structure, and release propagation pattern that later specifications will reuse.

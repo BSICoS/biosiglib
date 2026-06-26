@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.invalid_dtk_matrix",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Reject an interval matrix that is not a vector.",
+  "inputs": [
+    {
+      "id": "dtk",
+      "value": [
+        [
+          0.8,
+          0.82
+        ],
+        [
+          0.78,
+          0.86
+        ]
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_shape",
+    "description": "dtk must be a one-dimensional vector."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative dtk shape."
+  }
+}

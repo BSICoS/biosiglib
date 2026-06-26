@@ -73,6 +73,9 @@
           "pages": {
             "type": "string"
           },
+          "article_number": {
+            "type": "string"
+          },
           "doi": {
             "type": "string"
           },

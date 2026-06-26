@@ -35,6 +35,49 @@
       ],
       "year": 1985,
       "journal": "IEEE Transactions on Biomedical Engineering"
+    },
+    {
+      "id": "cajal_missing_data_hrv_2022",
+      "type": "journal_article",
+      "title": "Effects of Missing Data on Heart Rate Variability Metrics",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Cajal",
+          "given_names": "Diego"
+        },
+        {
+          "type": "person",
+          "family_name": "Hernando",
+          "given_names": "David"
+        },
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        },
+        {
+          "type": "person",
+          "family_name": "Gil",
+          "given_names": "Eduardo"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        }
+      ],
+      "year": 2022,
+      "journal": "Sensors",
+      "volume": "22",
+      "issue": "15",
+      "article_number": "5774",
+      "doi": "10.3390/s22155774"
     }
   ]
 }

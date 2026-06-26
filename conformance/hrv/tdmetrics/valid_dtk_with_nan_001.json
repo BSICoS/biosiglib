@@ -1,47 +1,47 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "hrv.tdmetrics.ecg_tk_001",
+  "id": "hrv.tdmetrics.valid_dtk_with_nan_001",
   "specification_id": "hrv.tdmetrics",
-  "description": "Compute time-domain variability metrics from the ECG-derived beat timing sequence tk. Intervals are derived as successive differences of adjacent tk values.",
+  "description": "Compute time-domain HRV metrics from an interval vector dtk containing NaN markers that are omitted from all calculations.",
   "inputs": [
     {
-      "id": "tk",
+      "id": "dtk",
       "fixture_id": "ecg.bsicos.ecg_tk_001",
       "file_role": "beat_timing_table",
-      "column": "tk"
+      "column": "dtk"
     }
   ],
   "parameters": {},
   "expected_outputs": [
     {
       "id": "mhr",
-      "value": 85.0470840237643,
+      "value": 82.98677010459237,
       "absolute_tolerance": 1e-10
     },
     {
       "id": "sdnn",
-      "value": 40.260126771653375,
+      "value": 28.275001169554155,
       "absolute_tolerance": 1e-10
     },
     {
       "id": "sdsd",
-      "value": 18.621407372538773,
+      "value": 19.162781576611078,
       "absolute_tolerance": 1e-10
     },
     {
       "id": "rmssd",
-      "value": 18.553175731756973,
+      "value": 19.038008870606852,
       "absolute_tolerance": 1e-10
     },
     {
       "id": "pnn50",
-      "value": 1.4705882352941178,
+      "value": 1.2987012987012987,
       "absolute_tolerance": 1e-10
     }
   ],
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "Expected values are calculated directly from the normative definitions after deriving dtk = diff(tk), and independently checked against the current Biosigmat implementation."
+    "description": "Expected values are calculated directly from the fixture dtk column after omitting NaN markers, matching omit-NaN semantics."
   }
 }

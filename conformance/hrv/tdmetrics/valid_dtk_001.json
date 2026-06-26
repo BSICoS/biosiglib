@@ -1,0 +1,52 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.valid_dtk_001",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Compute time-domain HRV metrics from a cleaned beat-to-beat or pulse-to-pulse interval vector dtk.",
+  "inputs": [
+    {
+      "id": "dtk",
+      "value": [
+        0.8,
+        0.82,
+        0.78,
+        0.86,
+        0.79,
+        0.83
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "mhr",
+      "value": 73.77049180327867,
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "sdnn",
+      "value": 29.439202887759464,
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "sdsd",
+      "value": 60.66300355241235,
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "rmssd",
+      "value": 54.58937625582467,
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "pnn50",
+      "value": 40.0,
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Expected values are calculated directly from the normative definitions using the supplied dtk interval sequence."
+  }
+}
