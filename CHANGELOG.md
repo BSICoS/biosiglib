@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+### Added
+
+- Draft `ecg.sloperange` specification for slope-range ECG-derived respiration.
+- Kontaxis et al. 2020 and Varon et al. 2020 references for ECG-derived respiration.
+- Synthetic `ecg.sloperange` conformance cases covering positive EDR values, boundary `NaN` output alignment, invalid input types and shapes, non-finite values, invalid sampling frequency, and out-of-bounds R-wave times.
+- Scientific note for `ecg.sloperange`.
+
 ## v0.2.1 - 2026-06-26
 
 ### Fixed

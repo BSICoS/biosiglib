@@ -78,6 +78,132 @@
       "issue": "15",
       "article_number": "5774",
       "doi": "10.3390/s22155774"
+    },
+    {
+      "id": "kontaxis_edr_af_2020",
+      "type": "journal_article",
+      "title": "ECG-derived Respiratory Rate in Atrial Fibrillation",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Kontaxis",
+          "given_names": "Stylianos"
+        },
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Corino",
+          "given_names": "Valentina D. A."
+        },
+        {
+          "type": "person",
+          "family_name": "Sandberg",
+          "given_names": "Frida"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        },
+        {
+          "type": "person",
+          "family_name": "S\u00f6rnmo",
+          "given_names": "Leif"
+        }
+      ],
+      "year": 2020,
+      "journal": "IEEE Transactions on Biomedical Engineering",
+      "volume": "67",
+      "issue": "3",
+      "pages": "905-914",
+      "doi": "10.1109/TBME.2019.2923587"
+    },
+    {
+      "id": "varon_comparative_edr_2020",
+      "type": "journal_article",
+      "title": "A Comparative Study of ECG-derived Respiration in Ambulatory Monitoring using the Single-lead ECG",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Varon",
+          "given_names": "Carolina"
+        },
+        {
+          "type": "person",
+          "family_name": "Morales",
+          "given_names": "John"
+        },
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Orini",
+          "given_names": "Michele"
+        },
+        {
+          "type": "person",
+          "family_name": "Deviaene",
+          "given_names": "Margot"
+        },
+        {
+          "type": "person",
+          "family_name": "Kontaxis",
+          "given_names": "Stylianos"
+        },
+        {
+          "type": "person",
+          "family_name": "Testelmans",
+          "given_names": "Dries"
+        },
+        {
+          "type": "person",
+          "family_name": "Buyse",
+          "given_names": "Bertien"
+        },
+        {
+          "type": "person",
+          "family_name": "Borz\u00e9e",
+          "given_names": "Pascal"
+        },
+        {
+          "type": "person",
+          "family_name": "S\u00f6rnmo",
+          "given_names": "Leif"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        },
+        {
+          "type": "person",
+          "family_name": "Gil",
+          "given_names": "Eduardo"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        }
+      ],
+      "year": 2020,
+      "journal": "Scientific Reports",
+      "volume": "10",
+      "pages": "1-14",
+      "article_number": "5704",
+      "doi": "10.1038/s41598-020-62624-5"
     }
   ]
 }

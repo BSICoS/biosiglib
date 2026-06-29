@@ -38,6 +38,6 @@ Changes touching specifications or scientific notes require a consistency review
 
 ## Current Notes
 
-No scientific notes are currently published.
+* [`ecg.sloperange`](ecg.sloperange.md) - slope-range ECG-derived respiration.
 
 Use the [scientific-note template](template.md) when adding one.

@@ -15,16 +15,17 @@ A specification can describe:
 
 Specification fields are separated into normative behavior and informative documentation. Normative fields affect conformance. Informative fields help explain the algorithm without creating a separate source of truth.
 
-## Current Pilot Specifications
+## Current Specifications
 
-The current MVP pilots are:
+The current specifications are:
 
 | Specification | Module | Summary |
 | --- | --- | --- |
 | [`hrv.tdmetrics`](generated/specifications/hrv.tdmetrics.md) | HRV | Time-domain HRV metrics from cleaned beat-to-beat or pulse-to-pulse intervals. |
 | [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) | ECG | Pan-Tompkins-style ECG R-peak detection with public intermediate signals. |
+| [`ecg.sloperange`](generated/specifications/ecg.sloperange.md) | ECG | Slope-range ECG-derived respiration from derivative ECG morphology around R waves. |
 
-These pilots are not the final Biosiglib scope. They establish the specification format, validation rules, fixtures, conformance cases, documentation structure, and release propagation pattern that later specifications will reuse.
+These specifications are not the final Biosiglib scope. The initial pilots established the specification format, validation rules, fixtures, conformance cases, documentation structure, and release propagation pattern that later specifications reuse.
 
 ## Generated Pages
 
