@@ -22,7 +22,7 @@
           "unit": "s"
         },
         {
-          "id": "tkSamples",
+          "id": "tk_samples",
           "unit": "sample"
         },
         {
@@ -32,7 +32,7 @@
       ],
       "processing": [
         "tk contains beat times in seconds.",
-        "tkSamples contains corresponding sample positions.",
+        "tk_samples contains corresponding sample positions.",
         "dtk is a leading NaN followed by successive differences of tk.",
         "The leading NaN preserves alignment between beat times and intervals.",
         "Algorithms consuming dtk must apply their specified missing-value behavior."
@@ -124,33 +124,6 @@
       "processing": [
         "positive_edr contains the analytical EDR sequence [5, 7, 6] for the small positive synthetic case.",
         "boundary_edr contains [NaN, 7, NaN] to preserve alignment when the first and last R-wave windows are incomplete."
-      ]
-    },
-    {
-      "id": "ecg.synthetic.sloperange_invalid_decg_inf_001",
-      "module": "ecg",
-      "data_kind": "signal",
-      "source": {
-        "type": "synthetic",
-        "description": "Synthetic derivative ECG sequence containing an Inf value for ecg.sloperange invalid-value conformance."
-      },
-      "files": [
-        {
-          "role": "derivative_signal",
-          "path": "fixtures/data/ecg/sloperange_invalid_decg_inf.csv",
-          "format": "csv"
-        }
-      ],
-      "sampling_frequency_hz": 100,
-      "channels": [
-        {
-          "id": "decg",
-          "unit": "a.u."
-        }
-      ],
-      "processing": [
-        "Contains a derivative ECG sequence with one Inf value.",
-        "The Inf value is invalid for ecg.sloperange and is retained to test rejection of non-finite derivative samples."
       ]
     }
   ]

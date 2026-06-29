@@ -1,8 +1,8 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ecg.sloperange.invalid_r_peak_time_out_of_bounds",
+  "id": "ecg.sloperange.invalid_r_wave_times_not_strict",
   "specification_id": "ecg.sloperange",
-  "description": "Reject an R-wave time that maps outside the derivative ECG signal.",
+  "description": "Reject repeated R-wave times because they are not strictly increasing.",
   "inputs": [
     {
       "id": "decg",
@@ -20,9 +20,10 @@
       ]
     },
     {
-      "id": "r_peak_times",
+      "id": "r_wave_times",
       "value": [
-        1.0
+        0.02,
+        0.02
       ]
     },
     {
@@ -33,10 +34,10 @@
   "parameters": {},
   "expected_error": {
     "category": "invalid_value",
-    "description": "R-wave sample positions must lie within the derivative ECG sample grid."
+    "description": "r_wave_times must be strictly increasing and must not contain repeated values."
   },
   "oracle": {
     "type": "analytical",
-    "description": "With fs = 100 Hz, r_peak_times = [1.0] maps outside a 10-sample derivative ECG vector."
+    "description": "The repeated timestamp maps to a valid sample-grid position, but the timing sequence itself violates the strict-increase requirement."
   }
 }

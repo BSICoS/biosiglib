@@ -25,7 +25,7 @@ The repository is designed so humans can read the behavior while tools can valid
 The current documentation covers:
 
 * [`hrv.tdmetrics`](generated/specifications/hrv.tdmetrics.md) - time-domain beat or pulse variability metrics.
-* [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) - Pan-Tompkins-style ECG R-peak detection.
+* [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) - Pan-Tompkins-style ECG R-wave detection.
 * [`ecg.sloperange`](generated/specifications/ecg.sloperange.md) - slope-range ECG-derived respiration.
 
 The initial pilots established the specification, fixture, conformance, and release patterns before the full Biosiglib scope expands across ECG, PPG, respiration, HRV, and other biomedical signal-processing tools.

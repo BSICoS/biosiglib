@@ -2,7 +2,7 @@
   "$schema": "../../../schemas/conformance-case.schema.json",
   "id": "ecg.pantompkins.edr_signals_001",
   "specification_id": "ecg.pantompkins",
-  "description": "Detect R-peak times from the shared ECG signal using the default Pan-Tompkins-style parameters.",
+  "description": "Detect R-wave occurrence times from the shared ECG signal using the default Pan-Tompkins-style parameters.",
   "inputs": [
     {
       "id": "ecg",
@@ -18,7 +18,7 @@
   "parameters": {},
   "expected_outputs": [
     {
-      "id": "r_peak_times",
+      "id": "r_wave_times",
       "fixture_id": "ecg.bsicos.ecg_tk_001",
       "file_role": "beat_timing_table",
       "column": "tk",

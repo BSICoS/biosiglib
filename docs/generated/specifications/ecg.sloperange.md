@@ -35,7 +35,7 @@ The slope-range method summarizes beat-to-beat respiratory modulation by compari
 | id | data_type | shape | unit | allow_nan | allow_inf | constraints |
 | --- | --- | --- | --- | --- | --- | --- |
 | `decg` | real_vector | vector | a.u. | false | false | minimum_length=2 |
-| `r_peak_times` | real_vector | vector | s | false | false | minimum_length=1 |
+| `r_wave_times` | real_vector | vector | s | false | false | minimum_length=1 |
 | `sampling_frequency` | real_scalar | scalar | Hz | false | false | exclusive_minimum=0 |
 
 ## Parameters
@@ -52,45 +52,42 @@ No parameters.
 
 | Target | Definition | Formula |
 | --- | --- | --- |
-| `r_wave_sample_positions` | Each R-wave time is mapped to the corresponding sample position on the derivative ECG sample grid using the sampling frequency. Implementations must evaluate the analysis windows around those sample positions while respecting their own array-indexing convention. |  |
-| `analysis_windows` | Set shortWindow = round(sampling_frequency * 0.015), longWindow = round(sampling_frequency * 0.05), upslopeWindow = -longWindow + 1 through shortWindow, and downslopeWindow = -shortWindow through longWindow - 1. |  |
+| `r_wave_times` | ECG R-wave occurrence times in seconds. Values must be finite, one-dimensional, strictly increasing, without repeats, and mappable onto the derivative ECG sample grid using sampling_frequency. |  |
+| `r_wave_samples` | Conceptual sample-grid positions derived from r_wave_times and sampling_frequency on the derivative ECG sample grid. Each value must lie within the decg sample grid. The contract does not specify implementation-specific array indexing conventions. |  |
+| `analysis_windows` | Set short_window = round(sampling_frequency * 0.015) and long_window = round(sampling_frequency * 0.05). The upslope_window contains integer offsets greater than -long_window and less than or equal to short_window. The downslope_window contains integer offsets greater than or equal to -short_window and less than long_window. |  |
 | `edr` | For each R wave with complete analysis windows, compute edr as max(decg over the upslope window) minus min(decg over the downslope window). |  |
-| `boundary_edr` | For an R wave whose analysis windows extend outside the derivative ECG signal, preserve output alignment with r_peak_times and set the corresponding edr value to NaN. |  |
+| `boundary_edr` | For an R wave whose analysis windows extend outside the derivative ECG signal, preserve output alignment with r_wave_times and set the corresponding edr value to NaN. |  |
 
 ## Behavior
 
 ### Nan handling
 
-NaN and infinite values in decg, r_peak_times, or sampling_frequency are invalid inputs. NaN values may appear in edr only to mark R waves whose analysis windows are incomplete at signal boundaries.
+NaN and infinite values in decg, r_wave_times, or sampling_frequency are invalid inputs. NaN values may appear in edr only to mark R waves whose analysis windows are incomplete at signal boundaries.
 
 ### Empty input
 
-Empty decg and empty r_peak_times inputs are invalid.
+Empty decg and empty r_wave_times inputs are invalid.
 
 ### Input orientation
 
-Treat decg and r_peak_times as one-dimensional vectors regardless of row or column orientation. The edr output is a one-dimensional ordered vector aligned with r_peak_times.
+Treat decg and r_wave_times as one-dimensional vectors regardless of row or column orientation. The edr output is a one-dimensional ordered vector aligned with r_wave_times.
 
 ### Insufficient data
 
-If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the corresponding R-wave sample position is inside the signal. R-wave times that map outside the derivative ECG sample grid are invalid.
+If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the corresponding r_wave_samples value is inside the signal. R-wave times that map outside the derivative ECG sample grid are invalid.
 
 ## Informative Notes
 
 * This first Biosiglib contract makes edr the only normative output.
 * Diagnostic arrays exposed by Biosigmat, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.
-* Biosigmat maps r_peak_times to its input currently named tk and sampling_frequency to fs.
+* Biosigmat maps r_wave_times to its input currently named tk and sampling_frequency to fs.
 * Implementation-specific array indexing conventions are not part of the Biosiglib contract.
 
 ## Conformance Cases
 
 | Case ID | File |
 | --- | --- |
-| `ecg.sloperange.invalid_decg_inf` | [conformance/ecg/sloperange/invalid_decg_inf.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_decg_inf.json) |
-| `ecg.sloperange.invalid_decg_matrix` | [conformance/ecg/sloperange/invalid_decg_matrix.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_decg_matrix.json) |
-| `ecg.sloperange.invalid_decg_non_numeric` | [conformance/ecg/sloperange/invalid_decg_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_decg_non_numeric.json) |
-| `ecg.sloperange.invalid_r_peak_time_out_of_bounds` | [conformance/ecg/sloperange/invalid_r_peak_time_out_of_bounds.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_r_peak_time_out_of_bounds.json) |
-| `ecg.sloperange.invalid_sampling_frequency_non_numeric` | [conformance/ecg/sloperange/invalid_sampling_frequency_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_sampling_frequency_non_numeric.json) |
-| `ecg.sloperange.invalid_sampling_frequency_non_positive` | [conformance/ecg/sloperange/invalid_sampling_frequency_non_positive.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_sampling_frequency_non_positive.json) |
+| `ecg.sloperange.invalid_r_wave_time_out_of_bounds` | [conformance/ecg/sloperange/invalid_r_wave_time_out_of_bounds.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_r_wave_time_out_of_bounds.json) |
+| `ecg.sloperange.invalid_r_wave_times_not_strict` | [conformance/ecg/sloperange/invalid_r_wave_times_not_strict.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_r_wave_times_not_strict.json) |
 | `ecg.sloperange.synthetic_boundary_nan_001` | [conformance/ecg/sloperange/synthetic_boundary_nan_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/synthetic_boundary_nan_001.json) |
 | `ecg.sloperange.synthetic_positive_001` | [conformance/ecg/sloperange/synthetic_positive_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/synthetic_positive_001.json) |

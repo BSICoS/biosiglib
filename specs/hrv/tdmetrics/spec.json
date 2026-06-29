@@ -38,7 +38,7 @@
       {
         "id": "task_force_hrv_1996",
         "relation": "metric_definition",
-        "note": "Supports the conventional definitions and units of time-domain variability metrics; Biosiglib generalizes the timing input beyond ECG-only R-wave timing."
+        "note": "Supports the conventional definitions and units of time-domain variability metrics while allowing interval sequences derived from ECG, PPG, or other fiducial timing sources."
       },
       {
         "id": "cajal_missing_data_hrv_2022",
