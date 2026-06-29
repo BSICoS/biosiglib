@@ -52,7 +52,7 @@ No parameters.
 
 | Target | Definition | Formula |
 | --- | --- | --- |
-| `r_wave_sample_indices` | Convert each R-wave time in seconds to a one-based sample index using round(r_peak_times * sampling_frequency) + 1. |  |
+| `r_wave_sample_positions` | Each R-wave time is mapped to the corresponding sample position on the derivative ECG sample grid using the sampling frequency. Implementations must evaluate the analysis windows around those sample positions while respecting their own array-indexing convention. |  |
 | `analysis_windows` | Set shortWindow = round(sampling_frequency * 0.015), longWindow = round(sampling_frequency * 0.05), upslopeWindow = -longWindow + 1 through shortWindow, and downslopeWindow = -shortWindow through longWindow - 1. |  |
 | `edr` | For each R wave with complete analysis windows, compute edr as max(decg over the upslope window) minus min(decg over the downslope window). |  |
 | `boundary_edr` | For an R wave whose analysis windows extend outside the derivative ECG signal, preserve output alignment with r_peak_times and set the corresponding edr value to NaN. |  |
@@ -73,14 +73,14 @@ Treat decg and r_peak_times as one-dimensional vectors regardless of row or colu
 
 ### Insufficient data
 
-If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the R-wave sample index is inside the signal. R-wave times that map outside the signal are invalid.
+If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the corresponding R-wave sample position is inside the signal. R-wave times that map outside the derivative ECG sample grid are invalid.
 
 ## Informative Notes
 
 * This first Biosiglib contract makes edr the only normative output.
 * Diagnostic arrays exposed by Biosigmat, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.
 * Biosigmat maps r_peak_times to its input currently named tk and sampling_frequency to fs.
-* R-wave sample indices follow the existing Biosigmat convention round(r_peak_times * sampling_frequency) + 1.
+* Implementation-specific array indexing conventions are not part of the Biosiglib contract.
 
 ## Conformance Cases
 

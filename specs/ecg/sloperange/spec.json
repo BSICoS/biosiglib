@@ -14,7 +14,7 @@
       "This first Biosiglib contract makes edr the only normative output.",
       "Diagnostic arrays exposed by Biosigmat, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.",
       "Biosigmat maps r_peak_times to its input currently named tk and sampling_frequency to fs.",
-      "R-wave sample indices follow the existing Biosigmat convention round(r_peak_times * sampling_frequency) + 1."
+      "Implementation-specific array indexing conventions are not part of the Biosiglib contract."
     ],
     "keywords": [
       "ECG",
@@ -85,8 +85,8 @@
     ],
     "definitions": [
       {
-        "target": "r_wave_sample_indices",
-        "text": "Convert each R-wave time in seconds to a one-based sample index using round(r_peak_times * sampling_frequency) + 1."
+        "target": "r_wave_sample_positions",
+        "text": "Each R-wave time is mapped to the corresponding sample position on the derivative ECG sample grid using the sampling frequency. Implementations must evaluate the analysis windows around those sample positions while respecting their own array-indexing convention."
       },
       {
         "target": "analysis_windows",
@@ -105,7 +105,7 @@
       "nan_handling": "NaN and infinite values in decg, r_peak_times, or sampling_frequency are invalid inputs. NaN values may appear in edr only to mark R waves whose analysis windows are incomplete at signal boundaries.",
       "empty_input": "Empty decg and empty r_peak_times inputs are invalid.",
       "input_orientation": "Treat decg and r_peak_times as one-dimensional vectors regardless of row or column orientation. The edr output is a one-dimensional ordered vector aligned with r_peak_times.",
-      "insufficient_data": "If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the R-wave sample index is inside the signal. R-wave times that map outside the signal are invalid."
+      "insufficient_data": "If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the corresponding R-wave sample position is inside the signal. R-wave times that map outside the derivative ECG sample grid are invalid."
     }
   }
 }

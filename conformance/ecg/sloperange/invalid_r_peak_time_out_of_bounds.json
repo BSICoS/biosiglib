@@ -33,10 +33,10 @@
   "parameters": {},
   "expected_error": {
     "category": "invalid_value",
-    "description": "R-wave sample indices must lie within the derivative ECG signal."
+    "description": "R-wave sample positions must lie within the derivative ECG sample grid."
   },
   "oracle": {
     "type": "analytical",
-    "description": "With fs = 100 Hz, r_peak_times = [1.0] maps to one-based sample index 101, outside a 10-sample decg vector."
+    "description": "With fs = 100 Hz, r_peak_times = [1.0] maps outside a 10-sample derivative ECG vector."
   }
 }
