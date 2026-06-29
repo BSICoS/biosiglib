@@ -6,7 +6,7 @@
   "inputs": [
     {
       "id": "ecg",
-      "fixture_id": "ecg.bsicos.edr_signals_001",
+      "fixture_id": "ecg.medicom_mtd.ecg_respiration",
       "file_role": "signal_table",
       "column": "ecg"
     },
@@ -19,9 +19,9 @@
   "expected_outputs": [
     {
       "id": "r_wave_times",
-      "fixture_id": "ecg.bsicos.ecg_tk_001",
+      "fixture_id": "ecg.medicom_mtd.r_wave_timing",
       "file_role": "beat_timing_table",
-      "column": "tk",
+      "column": "r_wave_times",
       "absolute_tolerance": 0
     }
   ],

@@ -19,6 +19,9 @@ from jsonschema import Draft202012Validator
 SCIENTIFIC_NOTE_DIR = Path("docs") / "scientific"
 SCIENTIFIC_NOTE_SUPPORT_PAGES = {"index.md", "template.md"}
 SNAKE_CASE_IDENTIFIER_RE = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+DOT_CASE_IDENTIFIER_RE = re.compile(
+    r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:_[a-z0-9]+)*)*$"
+)
 FORBIDDEN_IDENTIFIER_FRAGMENT = "r_peak"
 
 
@@ -183,6 +186,62 @@ def validate_conformance_structured_identifiers(
                     ["parameters", parameter_id],
                     "parameter id",
                     parameter_id,
+                )
+            )
+
+    return errors
+
+
+def validate_fixture_structured_identifiers(
+    fixture_catalog: Any,
+    fixture_catalog_path: Path,
+    root: Path,
+) -> list[str]:
+    errors = []
+    fixtures = fixture_catalog.get("fixtures", []) if isinstance(fixture_catalog, dict) else []
+
+    for fixture_index, fixture in enumerate(fixtures):
+        if not isinstance(fixture, dict):
+            continue
+
+        fixture_id = fixture.get("id")
+        if isinstance(fixture_id, str):
+            if not DOT_CASE_IDENTIFIER_RE.fullmatch(fixture_id):
+                errors.append(
+                    f"{relative_name(fixture_catalog_path, root)}: "
+                    f"{json_path(['fixtures', fixture_index, 'id'])}: "
+                    f"fixture id '{fixture_id}' must use dot-separated snake_case segments"
+                )
+            if FORBIDDEN_IDENTIFIER_FRAGMENT in fixture_id:
+                errors.append(
+                    f"{relative_name(fixture_catalog_path, root)}: "
+                    f"{json_path(['fixtures', fixture_index, 'id'])}: "
+                    f"fixture id '{fixture_id}' must use r_wave terminology, not r_peak"
+                )
+
+        for file_index, file_entry in enumerate(fixture.get("files", [])):
+            if not isinstance(file_entry, dict):
+                continue
+            errors.extend(
+                validate_structured_identifier(
+                    fixture_catalog_path,
+                    root,
+                    ["fixtures", fixture_index, "files", file_index, "role"],
+                    "fixture file role",
+                    file_entry.get("role"),
+                )
+            )
+
+        for channel_index, channel in enumerate(fixture.get("channels", [])):
+            if not isinstance(channel, dict):
+                continue
+            errors.extend(
+                validate_structured_identifier(
+                    fixture_catalog_path,
+                    root,
+                    ["fixtures", fixture_index, "channels", channel_index, "id"],
+                    "fixture channel id",
+                    channel.get("id"),
                 )
             )
 
@@ -971,6 +1030,9 @@ def validate_repository(root: Path) -> tuple[list[str], dict[str, dict[str, Any]
     fixture_catalog = load_json(fixture_catalog_path)
     errors.extend(
         report_schema_errors(validators["fixture"], fixture_catalog, fixture_catalog_path, root)
+    )
+    errors.extend(
+        validate_fixture_structured_identifiers(fixture_catalog, fixture_catalog_path, root)
     )
     known_fixture_ids, duplicate_fixture_errors = collect_fixture_ids(fixture_catalog)
     errors.extend(duplicate_fixture_errors)

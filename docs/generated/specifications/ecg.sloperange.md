@@ -79,8 +79,7 @@ If decg is too short to support complete windows around a beat, the affected bou
 ## Informative Notes
 
 * This first Biosiglib contract makes edr the only normative output.
-* Diagnostic arrays exposed by Biosigmat, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.
-* Biosigmat maps r_wave_times to its input currently named tk and sampling_frequency to fs.
+* Diagnostic arrays exposed by implementations, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.
 * Implementation-specific array indexing conventions are not part of the Biosiglib contract.
 
 ## Conformance Cases

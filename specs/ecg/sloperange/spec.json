@@ -12,8 +12,7 @@
     "description": "The slope-range method summarizes beat-to-beat respiratory modulation by comparing the maximum upslope and minimum downslope of a derivative ECG signal in short windows around each R wave.",
     "notes": [
       "This first Biosiglib contract makes edr the only normative output.",
-      "Diagnostic arrays exposed by Biosigmat, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.",
-      "Biosigmat maps r_wave_times to its input currently named tk and sampling_frequency to fs.",
+      "Diagnostic arrays exposed by implementations, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.",
       "Implementation-specific array indexing conventions are not part of the Biosiglib contract."
     ],
     "keywords": [

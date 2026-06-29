@@ -88,7 +88,6 @@ Unspecified in this draft.
 * Intermediate outputs are part of the public contract because they are used for plotting and debugging detections.
 * Exact cross-language numerical equality of intermediate signals is not required by the first positive conformance case.
 * Python should expose r_wave_times, ecg_filtered, decg, and decg_envelope using the canonical names.
-* Biosigmat maps r_wave_times to its first output currently named tk, ecg_filtered to ecgFiltered, decg to decg, and decg_envelope to decgEnvelope.
 * Insufficient-data behavior remains unspecified in this draft.
 
 ## Conformance Cases
