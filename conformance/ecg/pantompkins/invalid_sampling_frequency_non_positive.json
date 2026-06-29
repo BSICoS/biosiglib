@@ -6,7 +6,7 @@
   "inputs": [
     {
       "id": "ecg",
-      "fixture_id": "ecg.bsicos.edr_signals_001",
+      "fixture_id": "ecg.medicom_mtd.ecg_respiration",
       "file_role": "signal_table",
       "column": "ecg"
     },

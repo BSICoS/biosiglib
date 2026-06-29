@@ -7,22 +7,21 @@
     "specification_status": "draft"
   },
   "informative": {
-    "title": "Pan-Tompkins-style ECG R-peak detection",
+    "title": "Pan-Tompkins-style ECG R-wave detection",
     "summary": "Detects ordered R-wave occurrence times from a sampled ECG signal and exposes intermediate processing signals for plotting and debugging.",
     "description": "This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement. The current implementation follows the Pan-Tompkins processing style but is not a byte-for-byte reproduction of the original paper.",
     "notes": [
       "The primary detection target is the ECG R wave.",
       "Intermediate outputs are part of the public contract because they are used for plotting and debugging detections.",
       "Exact cross-language numerical equality of intermediate signals is not required by the first positive conformance case.",
-      "Python should expose r_peak_times, ecg_filtered, decg, and decg_envelope using the canonical names.",
-      "Biosigmat maps r_peak_times to its first output currently named tk, ecg_filtered to ecgFiltered, decg to decg, and decg_envelope to decgEnvelope.",
+      "Python should expose r_wave_times, ecg_filtered, decg, and decg_envelope using the canonical names.",
       "Insufficient-data behavior remains unspecified in this draft."
     ],
     "keywords": [
       "ECG",
       "Pan-Tompkins",
       "QRS detection",
-      "R peaks",
+      "R waves",
       "debugging",
       "intermediate signals"
     ]
@@ -101,7 +100,7 @@
     ],
     "outputs": [
       {
-        "id": "r_peak_times",
+        "id": "r_wave_times",
         "data_type": "real_vector",
         "shape": "vector",
         "unit": "s"
@@ -131,7 +130,7 @@
         "text": "Apply bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement to the ECG signal."
       },
       {
-        "target": "r_peak_times",
+        "target": "r_wave_times",
         "text": "Detected ECG R-wave occurrence times in seconds, sorted in ascending order."
       },
       {

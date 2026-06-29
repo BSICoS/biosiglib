@@ -73,6 +73,7 @@ The initial pilot specifications are:
 
 * `hrv.tdmetrics`
 * `ecg.pantompkins`
+* `ecg.sloperange`
 
 Additional specifications will be incorporated progressively from the current Biosigmat public API.
 
@@ -283,6 +284,7 @@ The first development phase will establish:
 * The JSON Schema templates.
 * The `tdmetrics` pilot specification.
 * The `pantompkins` pilot specification.
+* The `sloperange` pilot specification.
 * The initial fixture catalog.
 * Shared conformance cases.
 * Validation and documentation-generation tooling.

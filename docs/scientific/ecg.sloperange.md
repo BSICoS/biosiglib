@@ -24,7 +24,7 @@ The method assumes R-wave times are reliable, the derivative ECG emphasizes QRS 
 
 ## Interpretation and limitations
 
-Larger EDR values indicate stronger local slope-range modulation around a beat. Interpretation should focus on trends or derived respiratory rate estimates after suitable post-processing. The method may be unreliable when R-peak detections are wrong, QRS morphology is unstable for non-respiratory reasons, ECG noise is high, or boundary beats lack enough neighboring samples.
+Larger EDR values indicate stronger local slope-range modulation around a beat. Interpretation should focus on trends or derived respiratory rate estimates after suitable post-processing. The method may be unreliable when R-wave detections are wrong, QRS morphology is unstable for non-respiratory reasons, ECG noise is high, or boundary beats lack enough neighboring samples.
 
 ## References
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 import subprocess
 import sys
 from collections import Counter
@@ -17,6 +18,11 @@ from jsonschema import Draft202012Validator
 
 SCIENTIFIC_NOTE_DIR = Path("docs") / "scientific"
 SCIENTIFIC_NOTE_SUPPORT_PAGES = {"index.md", "template.md"}
+SNAKE_CASE_IDENTIFIER_RE = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+DOT_CASE_IDENTIFIER_RE = re.compile(
+    r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:_[a-z0-9]+)*)*$"
+)
+FORBIDDEN_IDENTIFIER_FRAGMENT = "r_peak"
 
 
 def find_repository_root() -> Path:
@@ -60,6 +66,186 @@ def display_path(path: Path) -> str:
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
+
+
+def validate_structured_identifier(
+    path: Path,
+    root: Path,
+    path_parts: list[object],
+    label: str,
+    identifier: Any,
+    *,
+    require_snake_case: bool = True,
+) -> list[str]:
+    if not isinstance(identifier, str):
+        return []
+
+    errors = []
+    if require_snake_case and not SNAKE_CASE_IDENTIFIER_RE.fullmatch(identifier):
+        errors.append(
+            f"{relative_name(path, root)}: {json_path(path_parts)}: "
+            f"{label} '{identifier}' must be snake_case"
+        )
+
+    if FORBIDDEN_IDENTIFIER_FRAGMENT in identifier:
+        errors.append(
+            f"{relative_name(path, root)}: {json_path(path_parts)}: "
+            f"{label} '{identifier}' must use r_wave terminology, not r_peak"
+        )
+
+    return errors
+
+
+def validate_algorithm_structured_identifiers(
+    spec: dict[str, Any],
+    spec_path: Path,
+    root: Path,
+) -> list[str]:
+    errors = []
+    normative = spec.get("normative", {})
+    if not isinstance(normative, dict):
+        return errors
+
+    fields = [
+        ("inputs", "id", "input id"),
+        ("outputs", "id", "output id"),
+        ("parameters", "id", "parameter id"),
+        ("definitions", "target", "definition target"),
+    ]
+    for field_name, key_name, label in fields:
+        entries = normative.get(field_name, [])
+        if not isinstance(entries, list):
+            continue
+        for index, entry in enumerate(entries):
+            if not isinstance(entry, dict):
+                continue
+            errors.extend(
+                validate_structured_identifier(
+                    spec_path,
+                    root,
+                    ["normative", field_name, index, key_name],
+                    label,
+                    entry.get(key_name),
+                )
+            )
+
+    return errors
+
+
+def validate_conformance_structured_identifiers(
+    case_path: Path,
+    root: Path,
+    case: dict[str, Any],
+) -> list[str]:
+    errors = []
+    if FORBIDDEN_IDENTIFIER_FRAGMENT in case_path.stem:
+        errors.append(
+            f"{relative_name(case_path, root)}: filename must use r_wave terminology, not r_peak"
+        )
+
+    case_id = case.get("id")
+    if isinstance(case_id, str) and FORBIDDEN_IDENTIFIER_FRAGMENT in case_id:
+        errors.append(
+            f"{relative_name(case_path, root)}: $.id: "
+            f"conformance-case id '{case_id}' must use r_wave terminology, not r_peak"
+        )
+
+    for input_index, input_mapping in enumerate(case.get("inputs", [])):
+        if not isinstance(input_mapping, dict):
+            continue
+        errors.extend(
+            validate_structured_identifier(
+                case_path,
+                root,
+                ["inputs", input_index, "id"],
+                "input id",
+                input_mapping.get("id"),
+            )
+        )
+
+    for output_index, expected_output in enumerate(case.get("expected_outputs", [])):
+        if not isinstance(expected_output, dict):
+            continue
+        errors.extend(
+            validate_structured_identifier(
+                case_path,
+                root,
+                ["expected_outputs", output_index, "id"],
+                "expected output id",
+                expected_output.get("id"),
+            )
+        )
+
+    parameters = case.get("parameters", {})
+    if isinstance(parameters, dict):
+        for parameter_id in parameters:
+            errors.extend(
+                validate_structured_identifier(
+                    case_path,
+                    root,
+                    ["parameters", parameter_id],
+                    "parameter id",
+                    parameter_id,
+                )
+            )
+
+    return errors
+
+
+def validate_fixture_structured_identifiers(
+    fixture_catalog: Any,
+    fixture_catalog_path: Path,
+    root: Path,
+) -> list[str]:
+    errors = []
+    fixtures = fixture_catalog.get("fixtures", []) if isinstance(fixture_catalog, dict) else []
+
+    for fixture_index, fixture in enumerate(fixtures):
+        if not isinstance(fixture, dict):
+            continue
+
+        fixture_id = fixture.get("id")
+        if isinstance(fixture_id, str):
+            if not DOT_CASE_IDENTIFIER_RE.fullmatch(fixture_id):
+                errors.append(
+                    f"{relative_name(fixture_catalog_path, root)}: "
+                    f"{json_path(['fixtures', fixture_index, 'id'])}: "
+                    f"fixture id '{fixture_id}' must use dot-separated snake_case segments"
+                )
+            if FORBIDDEN_IDENTIFIER_FRAGMENT in fixture_id:
+                errors.append(
+                    f"{relative_name(fixture_catalog_path, root)}: "
+                    f"{json_path(['fixtures', fixture_index, 'id'])}: "
+                    f"fixture id '{fixture_id}' must use r_wave terminology, not r_peak"
+                )
+
+        for file_index, file_entry in enumerate(fixture.get("files", [])):
+            if not isinstance(file_entry, dict):
+                continue
+            errors.extend(
+                validate_structured_identifier(
+                    fixture_catalog_path,
+                    root,
+                    ["fixtures", fixture_index, "files", file_index, "role"],
+                    "fixture file role",
+                    file_entry.get("role"),
+                )
+            )
+
+        for channel_index, channel in enumerate(fixture.get("channels", [])):
+            if not isinstance(channel, dict):
+                continue
+            errors.extend(
+                validate_structured_identifier(
+                    fixture_catalog_path,
+                    root,
+                    ["fixtures", fixture_index, "channels", channel_index, "id"],
+                    "fixture channel id",
+                    channel.get("id"),
+                )
+            )
+
+    return errors
 
 
 def report_schema_errors(
@@ -268,6 +454,8 @@ def load_algorithm_specs(
         if not isinstance(spec, dict):
             continue
 
+        errors.extend(validate_algorithm_structured_identifiers(spec, spec_path, root))
+
         metadata = spec.get("metadata", {})
         specification_id = metadata.get("id") if isinstance(metadata, dict) else None
         normative = spec.get("normative", {})
@@ -464,6 +652,8 @@ def load_conformance_cases(
         print(f"Validating {relative_name(case_path, root)}")
         case = load_json(case_path)
         errors.extend(report_schema_errors(validator, case, case_path, root))
+        if isinstance(case, dict):
+            errors.extend(validate_conformance_structured_identifiers(case_path, root, case))
         cases.append((case_path, case))
 
     ids = [
@@ -840,6 +1030,9 @@ def validate_repository(root: Path) -> tuple[list[str], dict[str, dict[str, Any]
     fixture_catalog = load_json(fixture_catalog_path)
     errors.extend(
         report_schema_errors(validators["fixture"], fixture_catalog, fixture_catalog_path, root)
+    )
+    errors.extend(
+        validate_fixture_structured_identifiers(fixture_catalog, fixture_catalog_path, root)
     )
     known_fixture_ids, duplicate_fixture_errors = collect_fixture_ids(fixture_catalog)
     errors.extend(duplicate_fixture_errors)

@@ -1,4 +1,4 @@
-# Pan-Tompkins-style ECG R-peak detection
+# Pan-Tompkins-style ECG R-wave detection
 
 !!! warning "Generated page"
     This page is generated from the Biosiglib JSON specification. Do not edit it manually; update the JSON source and run `python tools/generate_docs.py` instead.
@@ -21,7 +21,7 @@ This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filt
 
 ## Keywords
 
-`ECG`, `Pan-Tompkins`, `QRS detection`, `R peaks`, `debugging`, `intermediate signals`
+`ECG`, `Pan-Tompkins`, `QRS detection`, `R waves`, `debugging`, `intermediate signals`
 
 ## Scientific References
 
@@ -49,7 +49,7 @@ This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filt
 
 | id | data_type | shape | unit |
 | --- | --- | --- | --- |
-| `r_peak_times` | real_vector | vector | s |
+| `r_wave_times` | real_vector | vector | s |
 | `ecg_filtered` | real_vector | vector | a.u. |
 | `decg` | real_vector | vector | a.u. |
 | `decg_envelope` | real_vector | vector | a.u.^2 |
@@ -59,7 +59,7 @@ This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filt
 | Target | Definition | Formula |
 | --- | --- | --- |
 | `detection_chain` | Apply bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement to the ECG signal. |  |
-| `r_peak_times` | Detected ECG R-wave occurrence times in seconds, sorted in ascending order. |  |
+| `r_wave_times` | Detected ECG R-wave occurrence times in seconds, sorted in ascending order. |  |
 | `ecg_filtered` | Bandpass-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
 | `decg` | Derivative-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
 | `decg_envelope` | Squared and moving-window integrated detection envelope, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
@@ -87,17 +87,16 @@ Unspecified in this draft.
 * The primary detection target is the ECG R wave.
 * Intermediate outputs are part of the public contract because they are used for plotting and debugging detections.
 * Exact cross-language numerical equality of intermediate signals is not required by the first positive conformance case.
-* Python should expose r_peak_times, ecg_filtered, decg, and decg_envelope using the canonical names.
-* Biosigmat maps r_peak_times to its first output currently named tk, ecg_filtered to ecgFiltered, decg to decg, and decg_envelope to decgEnvelope.
+* Python should expose r_wave_times, ecg_filtered, decg, and decg_envelope using the canonical names.
 * Insufficient-data behavior remains unspecified in this draft.
 
 ## Conformance Cases
 
 | Case ID | File |
 | --- | --- |
-| `ecg.pantompkins.edr_signals_001` | [conformance/ecg/pantompkins/edr_signals_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/edr_signals_001.json) |
 | `ecg.pantompkins.invalid_ecg_matrix` | [conformance/ecg/pantompkins/invalid_ecg_matrix.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_ecg_matrix.json) |
 | `ecg.pantompkins.invalid_ecg_non_numeric` | [conformance/ecg/pantompkins/invalid_ecg_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_ecg_non_numeric.json) |
 | `ecg.pantompkins.invalid_sampling_frequency_non_numeric` | [conformance/ecg/pantompkins/invalid_sampling_frequency_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_sampling_frequency_non_numeric.json) |
 | `ecg.pantompkins.invalid_sampling_frequency_non_positive` | [conformance/ecg/pantompkins/invalid_sampling_frequency_non_positive.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_sampling_frequency_non_positive.json) |
 | `ecg.pantompkins.invalid_sampling_frequency_vector` | [conformance/ecg/pantompkins/invalid_sampling_frequency_vector.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_sampling_frequency_vector.json) |
+| `ecg.pantompkins.medicom_mtd_r_wave_times` | [conformance/ecg/pantompkins/medicom_mtd_r_wave_times.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/medicom_mtd_r_wave_times.json) |

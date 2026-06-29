@@ -6,7 +6,7 @@
   "inputs": [
     {
       "id": "dtk",
-      "fixture_id": "ecg.bsicos.ecg_tk_001",
+      "fixture_id": "ecg.medicom_mtd.r_wave_timing",
       "file_role": "beat_timing_table",
       "column": "dtk"
     }

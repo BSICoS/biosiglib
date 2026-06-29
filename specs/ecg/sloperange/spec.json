@@ -12,8 +12,7 @@
     "description": "The slope-range method summarizes beat-to-beat respiratory modulation by comparing the maximum upslope and minimum downslope of a derivative ECG signal in short windows around each R wave.",
     "notes": [
       "This first Biosiglib contract makes edr the only normative output.",
-      "Diagnostic arrays exposed by Biosigmat, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.",
-      "Biosigmat maps r_peak_times to its input currently named tk and sampling_frequency to fs.",
+      "Diagnostic arrays exposed by implementations, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.",
       "Implementation-specific array indexing conventions are not part of the Biosiglib contract."
     ],
     "keywords": [
@@ -52,7 +51,7 @@
         }
       },
       {
-        "id": "r_peak_times",
+        "id": "r_wave_times",
         "data_type": "real_vector",
         "shape": "vector",
         "unit": "s",
@@ -85,12 +84,16 @@
     ],
     "definitions": [
       {
-        "target": "r_wave_sample_positions",
-        "text": "Each R-wave time is mapped to the corresponding sample position on the derivative ECG sample grid using the sampling frequency. Implementations must evaluate the analysis windows around those sample positions while respecting their own array-indexing convention."
+        "target": "r_wave_times",
+        "text": "ECG R-wave occurrence times in seconds. Values must be finite, one-dimensional, strictly increasing, without repeats, and mappable onto the derivative ECG sample grid using sampling_frequency."
+      },
+      {
+        "target": "r_wave_samples",
+        "text": "Conceptual sample-grid positions derived from r_wave_times and sampling_frequency on the derivative ECG sample grid. Each value must lie within the decg sample grid. The contract does not specify implementation-specific array indexing conventions."
       },
       {
         "target": "analysis_windows",
-        "text": "Set shortWindow = round(sampling_frequency * 0.015), longWindow = round(sampling_frequency * 0.05), upslopeWindow = -longWindow + 1 through shortWindow, and downslopeWindow = -shortWindow through longWindow - 1."
+        "text": "Set short_window = round(sampling_frequency * 0.015) and long_window = round(sampling_frequency * 0.05). The upslope_window contains integer offsets greater than -long_window and less than or equal to short_window. The downslope_window contains integer offsets greater than or equal to -short_window and less than long_window."
       },
       {
         "target": "edr",
@@ -98,14 +101,14 @@
       },
       {
         "target": "boundary_edr",
-        "text": "For an R wave whose analysis windows extend outside the derivative ECG signal, preserve output alignment with r_peak_times and set the corresponding edr value to NaN."
+        "text": "For an R wave whose analysis windows extend outside the derivative ECG signal, preserve output alignment with r_wave_times and set the corresponding edr value to NaN."
       }
     ],
     "behavior": {
-      "nan_handling": "NaN and infinite values in decg, r_peak_times, or sampling_frequency are invalid inputs. NaN values may appear in edr only to mark R waves whose analysis windows are incomplete at signal boundaries.",
-      "empty_input": "Empty decg and empty r_peak_times inputs are invalid.",
-      "input_orientation": "Treat decg and r_peak_times as one-dimensional vectors regardless of row or column orientation. The edr output is a one-dimensional ordered vector aligned with r_peak_times.",
-      "insufficient_data": "If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the corresponding R-wave sample position is inside the signal. R-wave times that map outside the derivative ECG sample grid are invalid."
+      "nan_handling": "NaN and infinite values in decg, r_wave_times, or sampling_frequency are invalid inputs. NaN values may appear in edr only to mark R waves whose analysis windows are incomplete at signal boundaries.",
+      "empty_input": "Empty decg and empty r_wave_times inputs are invalid.",
+      "input_orientation": "Treat decg and r_wave_times as one-dimensional vectors regardless of row or column orientation. The edr output is a one-dimensional ordered vector aligned with r_wave_times.",
+      "insufficient_data": "If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the corresponding r_wave_samples value is inside the signal. R-wave times that map outside the derivative ECG sample grid are invalid."
     }
   }
 }

@@ -27,7 +27,7 @@ The input dtk is the interval series, in seconds, after beat or pulse detection,
 
 | ID | Relation | Note |
 | --- | --- | --- |
-| `task_force_hrv_1996` | metric_definition | Supports the conventional definitions and units of time-domain variability metrics; Biosiglib generalizes the timing input beyond ECG-only R-wave timing. |
+| `task_force_hrv_1996` | metric_definition | Supports the conventional definitions and units of time-domain variability metrics while allowing interval sequences derived from ECG, PPG, or other fiducial timing sources. |
 | `cajal_missing_data_hrv_2022` | preprocessing_guidance | Supports robust handling of missing or invalid intervals when computing HRV metrics from wearable or artifact-affected interval series. |
 
 ## Inputs

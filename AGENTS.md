@@ -19,6 +19,13 @@ This file provides persistent context for AI coding agents working in Biosiglib.
 4. Implementations may use idiomatic language-specific APIs, internal architectures, data structures, exceptions, and plotting tools. They must preserve the normative scientific and computational behavior defined by Biosiglib.
 
 Canonical Biosiglib IDs use snake_case. Python should generally use the canonical names directly. MATLAB may use idiomatic camelCase or name-value spelling, but conceptual mappings must be explicit and aligned.
+Normative Biosiglib specification identifiers, including input IDs, output IDs, parameter IDs, definition targets, and other canonical structured IDs, must use snake_case. Implementation-specific naming conventions such as MATLAB camelCase must not appear as normative Biosiglib identifiers.
+
+ECG R-wave timing identifiers must use `r_wave_*`, not `r_peak_*`. Use R-wave terminology in public Biosiglib contracts because a chosen fiducial point may not be a literal amplitude peak.
+
+Generic timing or interval algorithms, including `hrv.tdmetrics`, must remain modality-generic unless the contract explicitly narrows them. Describe `dtk`-style inputs as cleaned beat-to-beat or pulse-to-pulse intervals rather than ECG- or R-wave-specific timing.
+
+Shared conformance cases should focus on positive outputs, algorithmically meaningful edge behavior, and cross-language semantic decisions. Avoid adding separate shared cases for every trivial argument-validation variant when the specification already states the generic type, shape, or scalar-value constraint.
 
 5. Specifications will use JSON and will be validated using JSON Schema. Human-readable web documentation will be generated from the JSON specifications. Generated documentation is not the normative source.
 
@@ -52,9 +59,10 @@ Relative tolerances are not part of the initial design.
 - examples and workflows remain under examples/;
 - all current public functions are considered stable.
 
-16. Initial pilot specifications:
+16. Current pilot specifications:
 - hrv.tdmetrics;
-- ecg.pantompkins.
+- ecg.pantompkins;
+- ecg.sloperange.
 
 17. For hrv.tdmetrics:
 - the canonical input dtk is the cleaned beat-to-beat or pulse-to-pulse interval sequence in seconds;

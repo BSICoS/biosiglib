@@ -2,27 +2,30 @@
   "$schema": "../schemas/fixture-catalog.schema.json",
   "fixtures": [
     {
-      "id": "ecg.bsicos.ecg_tk_001",
+      "id": "ecg.medicom_mtd.r_wave_timing",
       "module": "ecg",
       "data_kind": "table",
       "source": {
-        "type": "self_recording",
-        "description": "ECG-derived beat timing file recorded by the Biosiglib maintainers. The file contains beat times and the corresponding NN interval series."
+        "type": "derived",
+        "description": "R-wave detections derived from the ECG channel of the Medicom MTD ECG and respiration recording.",
+        "parent_fixture_ids": [
+          "ecg.medicom_mtd.ecg_respiration"
+        ]
       },
       "files": [
         {
           "role": "beat_timing_table",
-          "path": "fixtures/data/ecg/ecg_tk.csv",
+          "path": "fixtures/data/ecg/medicom_mtd_r_wave_timing.csv",
           "format": "csv"
         }
       ],
       "channels": [
         {
-          "id": "tk",
+          "id": "r_wave_times",
           "unit": "s"
         },
         {
-          "id": "tkSamples",
+          "id": "r_wave_samples",
           "unit": "sample"
         },
         {
@@ -31,32 +34,36 @@
         }
       ],
       "processing": [
-        "tk contains beat times in seconds.",
-        "tkSamples contains corresponding sample positions.",
-        "dtk is a leading NaN followed by successive differences of tk.",
-        "The leading NaN preserves alignment between beat times and intervals.",
+        "r_wave_times contains ECG R-wave occurrence times derived from the parent ECG signal.",
+        "r_wave_samples contains the corresponding sample positions on the parent ECG sample grid.",
+        "dtk is derived from successive r_wave_times and remains generic interval data.",
+        "The leading NaN in dtk preserves alignment between R-wave times and intervals.",
         "Algorithms consuming dtk must apply their specified missing-value behavior."
       ]
     },
     {
-      "id": "ecg.bsicos.edr_signals_001",
+      "id": "ecg.medicom_mtd.ecg_respiration",
       "module": "ecg",
       "data_kind": "table",
       "source": {
         "type": "self_recording",
-        "description": "ECG signal used by the Biosigmat Pan-Tompkins regression test and related examples."
+        "description": "Simultaneous ECG and respiration recording acquired with a Medicom MTD system. ECG was recorded with electrodes and respiration was recorded with a chest belt."
       },
       "files": [
         {
           "role": "signal_table",
-          "path": "fixtures/data/ecg/edr_signals.csv",
+          "path": "fixtures/data/ecg/medicom_mtd_ecg_respiration.csv",
           "format": "csv"
         }
       ],
       "sampling_frequency_hz": 256,
+      "device": {
+        "manufacturer": "Medicom",
+        "model": "MTD"
+      },
       "channels": [
         {
-          "id": "t",
+          "id": "time",
           "unit": "s"
         },
         {
@@ -64,9 +71,12 @@
           "unit": "a.u."
         },
         {
-          "id": "resp",
+          "id": "respiration",
           "unit": "a.u."
         }
+      ],
+      "notes": [
+        "The simultaneous respiration channel can support future scientific validation of ECG-derived respiration, such as comparing dominant respiratory frequencies between EDR and reference respiration."
       ]
     },
     {
@@ -124,33 +134,6 @@
       "processing": [
         "positive_edr contains the analytical EDR sequence [5, 7, 6] for the small positive synthetic case.",
         "boundary_edr contains [NaN, 7, NaN] to preserve alignment when the first and last R-wave windows are incomplete."
-      ]
-    },
-    {
-      "id": "ecg.synthetic.sloperange_invalid_decg_inf_001",
-      "module": "ecg",
-      "data_kind": "signal",
-      "source": {
-        "type": "synthetic",
-        "description": "Synthetic derivative ECG sequence containing an Inf value for ecg.sloperange invalid-value conformance."
-      },
-      "files": [
-        {
-          "role": "derivative_signal",
-          "path": "fixtures/data/ecg/sloperange_invalid_decg_inf.csv",
-          "format": "csv"
-        }
-      ],
-      "sampling_frequency_hz": 100,
-      "channels": [
-        {
-          "id": "decg",
-          "unit": "a.u."
-        }
-      ],
-      "processing": [
-        "Contains a derivative ECG sequence with one Inf value.",
-        "The Inf value is invalid for ecg.sloperange and is retained to test rejection of non-finite derivative samples."
       ]
     }
   ]

@@ -50,7 +50,7 @@
       ]
     },
     {
-      "id": "r_peak_times",
+      "id": "r_wave_times",
       "value": [
         0.1,
         0.2,
@@ -75,7 +75,7 @@
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "With fs = 100 Hz, shortWindow = 2 and longWindow = 5. The three EDR values are calculated as 3 - (-2), 6 - (-1), and 2 - (-4).",
+    "description": "With fs = 100 Hz, short_window = 2 and long_window = 5. The three EDR values are calculated as 3 - (-2), 6 - (-1), and 2 - (-4).",
     "reference_ids": [
       "kontaxis_edr_af_2020"
     ]
