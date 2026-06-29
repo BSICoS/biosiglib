@@ -15,6 +15,10 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 
+SCIENTIFIC_NOTE_DIR = Path("docs") / "scientific"
+SCIENTIFIC_NOTE_SUPPORT_PAGES = {"index.md", "template.md"}
+
+
 def find_repository_root() -> Path:
     """Find the repository root from this script location."""
     for candidate in Path(__file__).resolve().parents:
@@ -52,6 +56,10 @@ def relative_name(path: Path, root: Path) -> str:
 
 def display_path(path: Path) -> str:
     return str(path)
+
+
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
 
 
 def report_schema_errors(
@@ -112,6 +120,136 @@ def collect_reference_ids(reference_catalog: Any) -> tuple[set[str], list[str]]:
             )
 
     return {reference_id for reference_id in ids if isinstance(reference_id, str)}, duplicate_errors
+
+
+def parse_markdown_front_matter(path: Path, root: Path) -> tuple[dict[str, str], list[str]]:
+    """Parse simple string-valued Markdown front matter without adding a YAML dependency."""
+    try:
+        lines = read_text(path).splitlines()
+    except OSError as exc:
+        return {}, [f"{relative_name(path, root)}: could not read Markdown file: {exc}"]
+
+    if not lines or lines[0].strip() != "---":
+        return {}, [f"{relative_name(path, root)}: missing Markdown front matter"]
+
+    closing_index = None
+    for index, line in enumerate(lines[1:], start=1):
+        if line.strip() == "---":
+            closing_index = index
+            break
+
+    if closing_index is None:
+        return {}, [f"{relative_name(path, root)}: unterminated Markdown front matter"]
+
+    front_matter: dict[str, str] = {}
+    errors = []
+    for line_number, line in enumerate(lines[1:closing_index], start=2):
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if ":" not in stripped:
+            errors.append(
+                f"{relative_name(path, root)}:{line_number}: front matter entries must use 'key: value'"
+            )
+            continue
+
+        key, value = stripped.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+        if not key:
+            errors.append(f"{relative_name(path, root)}:{line_number}: front matter key is empty")
+            continue
+        if (
+            len(value) >= 2
+            and value[0] == value[-1]
+            and value.startswith(("'", '"'))
+        ):
+            value = value[1:-1]
+        front_matter[key] = value
+
+    return front_matter, errors
+
+
+def scientific_note_paths(root: Path) -> list[Path]:
+    scientific_dir = root / SCIENTIFIC_NOTE_DIR
+    if not scientific_dir.is_dir():
+        return []
+
+    return [
+        path
+        for path in sorted(scientific_dir.rglob("*.md"))
+        if path.name not in SCIENTIFIC_NOTE_SUPPORT_PAGES
+    ]
+
+
+def is_scientific_note_discoverable(note_path: Path, root: Path) -> bool:
+    scientific_dir = root / SCIENTIFIC_NOTE_DIR
+    index_path = scientific_dir / "index.md"
+    mkdocs_path = root / "mkdocs.yml"
+    docs_relative = note_path.relative_to(root / "docs").as_posix()
+    scientific_relative = note_path.relative_to(scientific_dir).as_posix()
+    repository_relative = note_path.relative_to(root).as_posix()
+
+    search_targets = [
+        docs_relative,
+        scientific_relative,
+        repository_relative,
+    ]
+
+    for source_path in [index_path, mkdocs_path]:
+        if not source_path.is_file():
+            continue
+        try:
+            source_text = read_text(source_path)
+        except OSError:
+            continue
+        if any(target in source_text for target in search_targets):
+            return True
+
+    return False
+
+
+def validate_scientific_notes(
+    root: Path,
+    specs_by_id: dict[str, dict[str, Any]],
+) -> list[str]:
+    errors = []
+    scientific_dir = root / SCIENTIFIC_NOTE_DIR
+    index_path = scientific_dir / "index.md"
+    mkdocs_path = root / "mkdocs.yml"
+
+    if not scientific_dir.exists():
+        return errors
+
+    if not index_path.is_file():
+        errors.append(f"{relative_name(index_path, root)}: scientific-note index page is missing")
+
+    if mkdocs_path.is_file():
+        mkdocs_text = read_text(mkdocs_path)
+        if "scientific/index.md" not in mkdocs_text:
+            errors.append("mkdocs.yml: scientific-note index page is not listed in navigation")
+
+    for note_path in scientific_note_paths(root):
+        print(f"Validating {relative_name(note_path, root)}")
+        front_matter, front_matter_errors = parse_markdown_front_matter(note_path, root)
+        errors.extend(front_matter_errors)
+
+        spec_id = front_matter.get("spec_id")
+        if not spec_id:
+            errors.append(f"{relative_name(note_path, root)}: front matter is missing spec_id")
+        elif spec_id not in specs_by_id:
+            errors.append(
+                f"{relative_name(note_path, root)}: front matter spec_id "
+                f"'{spec_id}' does not match an existing specification"
+            )
+
+        if not is_scientific_note_discoverable(note_path, root):
+            errors.append(
+                f"{relative_name(note_path, root)}: scientific note is not discoverable from "
+                "docs/scientific/index.md or mkdocs.yml"
+            )
+
+    return errors
 
 
 def load_algorithm_specs(
@@ -725,6 +863,7 @@ def validate_repository(root: Path) -> tuple[list[str], dict[str, dict[str, Any]
             known_reference_ids,
         )
     )
+    errors.extend(validate_scientific_notes(root, specs_by_id))
 
     return errors, specs_by_id, validators
 

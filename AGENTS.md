@@ -75,3 +75,9 @@ Relative tolerances are not part of the initial design.
 22. Each implementation repository will contain a machine-readable conformance manifest validated against `schemas/implementation-manifest.schema.json`. The manifest must pin an exact Biosiglib commit. Its `specifications` field is an object keyed by canonical Biosiglib specification ID; each value contains the implementation status and optional implementation-specific metadata, and object keys guarantee one entry per specification ID. `conformant` may only be declared after all applicable conformance cases pass. Implementation versions remain independent from Biosiglib versions, and no per-algorithm version is used at this stage.
 
 23. Implementation manifests must be validated through Biosiglib's `tools/validate_specs.py --manifest PATH` command instead of duplicating schema-validation code in implementation repositories.
+
+24. Scientific notes under `docs/scientific/` are explanatory, not normative. They help researchers understand a method's purpose, rationale, assumptions, interpretation, and limitations, but they must not duplicate or replace the JSON specification.
+
+25. JSON specifications and conformance cases remain the source of truth for algorithm behavior, inputs, outputs, units, parameters, defaults, numerical definitions, missing-value behavior, edge cases, tolerances, and implementation conformance.
+
+26. Scientific notes must declare a `spec_id` in Markdown front matter, link to the corresponding normative specification, and avoid copying full input/output or parameter contracts from JSON specs. When a spec or note changes, AI agents and reviewers must check consistency between the explanatory note, the JSON specification, and relevant conformance cases.
