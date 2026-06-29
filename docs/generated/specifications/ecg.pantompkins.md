@@ -94,9 +94,9 @@ Unspecified in this draft.
 
 | Case ID | File |
 | --- | --- |
-| `ecg.pantompkins.edr_signals_001` | [conformance/ecg/pantompkins/edr_signals_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/edr_signals_001.json) |
 | `ecg.pantompkins.invalid_ecg_matrix` | [conformance/ecg/pantompkins/invalid_ecg_matrix.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_ecg_matrix.json) |
 | `ecg.pantompkins.invalid_ecg_non_numeric` | [conformance/ecg/pantompkins/invalid_ecg_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_ecg_non_numeric.json) |
 | `ecg.pantompkins.invalid_sampling_frequency_non_numeric` | [conformance/ecg/pantompkins/invalid_sampling_frequency_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_sampling_frequency_non_numeric.json) |
 | `ecg.pantompkins.invalid_sampling_frequency_non_positive` | [conformance/ecg/pantompkins/invalid_sampling_frequency_non_positive.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_sampling_frequency_non_positive.json) |
 | `ecg.pantompkins.invalid_sampling_frequency_vector` | [conformance/ecg/pantompkins/invalid_sampling_frequency_vector.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/invalid_sampling_frequency_vector.json) |
+| `ecg.pantompkins.medicom_mtd_r_wave_times` | [conformance/ecg/pantompkins/medicom_mtd_r_wave_times.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/pantompkins/medicom_mtd_r_wave_times.json) |

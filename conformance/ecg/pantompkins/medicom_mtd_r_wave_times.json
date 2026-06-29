@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ecg.pantompkins.edr_signals_001",
+  "id": "ecg.pantompkins.medicom_mtd_r_wave_times",
   "specification_id": "ecg.pantompkins",
   "description": "Detect R-wave occurrence times from the shared ECG signal using the default Pan-Tompkins-style parameters.",
   "inputs": [
