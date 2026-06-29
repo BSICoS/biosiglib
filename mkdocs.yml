@@ -35,8 +35,10 @@ nav:
       - Overview: specifications.md
       - hrv.tdmetrics: generated/specifications/hrv.tdmetrics.md
       - ecg.pantompkins: generated/specifications/ecg.pantompkins.md
+      - ecg.sloperange: generated/specifications/ecg.sloperange.md
   - Scientific Notes:
       - Overview: scientific/index.md
+      - ecg.sloperange: scientific/ecg.sloperange.md
       - Template: scientific/template.md
   - Conformance: conformance.md
   - Releases: releases.md

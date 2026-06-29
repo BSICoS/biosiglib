@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.sloperange.invalid_r_peak_time_out_of_bounds",
+  "specification_id": "ecg.sloperange",
+  "description": "Reject an R-wave time that maps outside the derivative ECG signal.",
+  "inputs": [
+    {
+      "id": "decg",
+      "value": [
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "r_peak_times",
+      "value": [
+        1.0
+      ]
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 100
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "R-wave sample positions must lie within the derivative ECG sample grid."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "With fs = 100 Hz, r_peak_times = [1.0] maps outside a 10-sample derivative ECG vector."
+  }
+}

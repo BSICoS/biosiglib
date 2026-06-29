@@ -94,6 +94,64 @@
         "Contains a positive interval sequence with one Inf value.",
         "The Inf value is invalid for hrv.tdmetrics and is retained to test rejection of non-finite intervals."
       ]
+    },
+    {
+      "id": "ecg.synthetic.sloperange_expected_edr_001",
+      "module": "ecg",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Small hand-calculated expected EDR outputs for ecg.sloperange conformance cases."
+      },
+      "files": [
+        {
+          "role": "expected_edr_table",
+          "path": "fixtures/data/ecg/sloperange_expected_edr.csv",
+          "format": "csv"
+        }
+      ],
+      "sampling_frequency_hz": 100,
+      "channels": [
+        {
+          "id": "positive_edr",
+          "unit": "a.u."
+        },
+        {
+          "id": "boundary_edr",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "positive_edr contains the analytical EDR sequence [5, 7, 6] for the small positive synthetic case.",
+        "boundary_edr contains [NaN, 7, NaN] to preserve alignment when the first and last R-wave windows are incomplete."
+      ]
+    },
+    {
+      "id": "ecg.synthetic.sloperange_invalid_decg_inf_001",
+      "module": "ecg",
+      "data_kind": "signal",
+      "source": {
+        "type": "synthetic",
+        "description": "Synthetic derivative ECG sequence containing an Inf value for ecg.sloperange invalid-value conformance."
+      },
+      "files": [
+        {
+          "role": "derivative_signal",
+          "path": "fixtures/data/ecg/sloperange_invalid_decg_inf.csv",
+          "format": "csv"
+        }
+      ],
+      "sampling_frequency_hz": 100,
+      "channels": [
+        {
+          "id": "decg",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Contains a derivative ECG sequence with one Inf value.",
+        "The Inf value is invalid for ecg.sloperange and is retained to test rejection of non-finite derivative samples."
+      ]
     }
   ]
 }

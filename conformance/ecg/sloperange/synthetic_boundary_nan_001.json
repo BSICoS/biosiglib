@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.sloperange.synthetic_boundary_nan_001",
+  "specification_id": "ecg.sloperange",
+  "description": "Preserve EDR alignment with NaN markers when the first and last R-wave windows are incomplete at signal boundaries.",
+  "inputs": [
+    {
+      "id": "decg",
+      "value": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        -2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "r_peak_times",
+      "value": [
+        0.01,
+        0.2,
+        0.36
+      ]
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 100
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "edr",
+      "fixture_id": "ecg.synthetic.sloperange_expected_edr_001",
+      "file_role": "expected_edr_table",
+      "column": "boundary_edr",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The first upslope window and last downslope window extend outside the signal, so their aligned EDR values are NaN. The middle beat gives 5 - (-2) = 7.",
+    "reference_ids": [
+      "kontaxis_edr_af_2020"
+    ]
+  }
+}
