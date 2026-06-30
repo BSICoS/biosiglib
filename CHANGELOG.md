@@ -6,12 +6,24 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v0.3.0 - 2026-06-30
+
 ### Added
 
 - Draft `ecg.sloperange` specification for slope-range ECG-derived respiration.
 - Kontaxis et al. 2020 and Varon et al. 2020 references for ECG-derived respiration.
-- Synthetic `ecg.sloperange` conformance cases covering positive EDR values, boundary `NaN` output alignment, invalid input types and shapes, non-finite values, invalid sampling frequency, and out-of-bounds R-wave times.
 - Scientific note for `ecg.sloperange`.
+- Focused shared `ecg.sloperange` conformance cases covering positive synthetic EDR output, boundary `NaN` alignment, R-wave time outside the derivative ECG sample grid, and non-strict or repeated `r_wave_times`.
+- Fixture metadata and derived-parent provenance for the R-wave timing table.
+- Validation for snake_case structured IDs and forbidden `r_peak` identifiers in specifications, conformance mappings, fixture IDs, file roles, and channel IDs.
+- Naming and conformance-case policy in `AGENTS.md`.
+
+### Changed
+
+- Renamed ECG timing contract identifiers from `r_peak_*` to `r_wave_*`.
+- Clarified `ecg.sloperange` timing semantics using `r_wave_times` and conceptual `r_wave_samples`.
+- Kept `hrv.tdmetrics` modality-generic with `dtk`.
+- Renamed Medicom MTD fixtures and CSV columns to canonical names.
 
 ## v0.2.1 - 2026-06-26
 
