@@ -17,14 +17,6 @@ Biosiglib defines the expected scientific and computational behavior of public a
 - Shared fixtures and conformance cases.
 - Tools for validation and generated documentation.
 
-The current pilot specifications are:
-
-- `hrv.tdmetrics`
-- `ecg.pantompkins`
-- `ecg.sloperange`
-
-Additional specifications will be incorporated progressively from the current Biosigmat public API.
-
 ## Documentation
 
 The generated documentation site is available at [https://bsicos.github.io/biosiglib/](https://bsicos.github.io/biosiglib/).
