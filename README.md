@@ -25,46 +25,11 @@ The website is generated from the JSON specifications. The JSON files remain the
 
 ## Local validation
 
-Create a repository-local virtual environment and run the validator from that environment.
-
-Windows PowerShell:
-
-```powershell
-py -m venv .venv
-.venv\Scripts\python.exe -m pip install --upgrade pip
-.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
-.venv\Scripts\python.exe tools\validate_specs.py
-```
-
-Linux/macOS:
-
-```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install --upgrade pip
-.venv/bin/python -m pip install -r requirements-dev.txt
-.venv/bin/python tools/validate_specs.py
-```
-
-Implementation repositories can validate their conformance manifests with:
-
-```bash
-.venv/bin/python tools/validate_specs.py --manifest ../biosigmat/conformance.json
-```
-
-Use the equivalent `.venv\Scripts\python.exe` command on Windows.
+See [docs/development.md](docs/development.md) for local setup and validation commands.
 
 ## Releases
 
-Biosiglib, Biosigmat, and Biosigpy use independent semantic versioning. A language-specific implementation declares which Biosiglib release and commit it conforms to instead of sharing the same version number.
-
-To create a Biosiglib release:
-
-1. Ensure the `Validate Biosiglib` workflow passes on `main`.
-2. Update `CHANGELOG.md` manually.
-3. Run the `Release Biosiglib` workflow from `main`.
-4. Enter a version such as `v0.1.0`.
-
-The release workflow validates the repository, creates the matching Git tag and GitHub Release, and dispatches propagation to Biosigmat and Biosigpy.
+See [docs/releases.md](docs/releases.md) for release semantics and propagation details.
 
 ## Project status
 
