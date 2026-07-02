@@ -2,6 +2,26 @@
 
 Development in Biosiglib should keep the machine-readable sources and the human-readable documentation aligned.
 
+## Local Setup
+
+Create a repository-local virtual environment and install the development dependencies before running the validation tools.
+
+Windows PowerShell:
+
+```powershell
+py -m venv .venv
+.venv\Scripts\python.exe -m pip install --upgrade pip
+.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+```
+
+Linux/macOS:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install -r requirements-dev.txt
+```
+
 ## Local Validation
 
 Use the repository-local `.venv` for local Python tooling. After creating and installing the development environment, the core validation commands are:
@@ -25,6 +45,14 @@ On Windows PowerShell, explicit `.venv` invocations look like:
 ```
 
 `mkdocs build --strict` treats warnings as build failures, which keeps broken links and configuration drift visible during review.
+
+Implementation repositories can validate their conformance manifests with:
+
+```bash
+.venv/bin/python tools/validate_specs.py --manifest ../biosigmat/conformance.json
+```
+
+Use the equivalent `.venv\Scripts\python.exe` command on Windows.
 
 ## Documentation Workflow
 
