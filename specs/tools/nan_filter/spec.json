@@ -9,8 +9,6 @@
     "summary": "Applies ordinary causal filtering while interpolating short NaN gaps and preserving long NaN gaps.",
     "description": "This tool defines NaN-aware causal filtering for one-dimensional signals. It is intended for filtering sampled signals that may contain missing runs marked by NaN values.",
     "notes": [
-      "MATLAB mapping: nanfilter(b, a, x, maxgap).",
-      "Canonical Biosigpy mapping should use tools.nan_filter with numerator_coefficients, denominator_coefficients, signal, and max_gap.",
       "Matrix and higher-dimensional inputs are outside this draft because the current Biosiglib schema has scalar and vector shapes only.",
       "With no NaN samples, the output is equivalent to ordinary causal filter(b, a, signal).",
       "Short gaps are linearly interpolated before filtering and are not restored to NaN.",
