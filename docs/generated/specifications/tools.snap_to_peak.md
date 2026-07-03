@@ -48,11 +48,9 @@ No scientific references are listed in this specification.
 
 | Target | Definition | Formula |
 | --- | --- | --- |
-| `one_based_sample_position` | A sample position is expressed on a one-based sample grid: the first ECG sample has position 1 and the last sample has position length(ecg). |  |
 | `effective_window_size` | window_size is rounded to the nearest integer number of samples before constructing search windows. |  |
 | `search_window` | For each detection d, search from max(1, d - effective_window_size) through min(length(ecg), d + effective_window_size), inclusive on the one-based sample grid. |  |
 | `refined_detection` | The refined detection is the one-based sample position of the first maximum-valued ECG sample inside the search_window for that detection. |  |
-| `refined_detections` | refined_detections is aligned one-for-one with detections and preserves the input detection order. |  |
 
 ## Behavior
 
@@ -74,10 +72,7 @@ Detection positions less than 1 or greater than length(ecg) are invalid. Search 
 
 ## Informative Notes
 
-* MATLAB mapping: snaptopeak(ecg, detections, 'WindowSize', window_size).
-* Canonical Biosigpy mapping should use tools.snap_to_peak with ecg, detections, and window_size.
 * Canonical detection positions are one-based sample positions, matching existing Biosiglib r_wave_samples fixtures and the public sample-coordinate convention.
-* Python implementations may convert to zero-based internal indexes, but public inputs and outputs for this specification use the one-based sample grid.
 * NaN samples in ecg are outside this draft contract pending maintainer review.
 
 ## Conformance Cases

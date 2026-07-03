@@ -77,8 +77,6 @@ Segments shorter than max(length(denominator_coefficients), length(numerator_coe
 
 ## Informative Notes
 
-* MATLAB mapping: nanfiltfilt(b, a, x, maxgap).
-* Canonical Biosigpy mapping should use tools.nan_filtfilt with numerator_coefficients, denominator_coefficients, signal, and max_gap.
 * Matrix and higher-dimensional inputs are outside this draft because the current Biosiglib schema has scalar and vector shapes only.
 * With no NaN samples, the output is equivalent to ordinary zero-phase filtfilt(b, a, signal).
 * Short gaps are linearly interpolated before zero-phase filtering and are not restored to NaN.

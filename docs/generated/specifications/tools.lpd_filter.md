@@ -76,8 +76,6 @@ Automatic order selection is pending review for shared conformance. Explicit-ord
 
 ## Informative Notes
 
-* MATLAB mapping: lpdfilter(fs, stopFreq, 'PassFreq', pass_frequency, 'Order', order).
-* Canonical Biosigpy mapping should use tools.lpd_filter with sampling_frequency, stop_frequency, pass_frequency, and order.
 * When pass_frequency is omitted, use stop_frequency - 0.2 Hz.
 * When order is supplied, round it upward to the next even integer before design.
 * Automatic order selection is not covered by a shared conformance case in this draft.

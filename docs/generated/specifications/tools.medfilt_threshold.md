@@ -75,8 +75,6 @@ If window is larger than the signal length, the effective window is shortened to
 
 ## Informative Notes
 
-* MATLAB mapping: medfiltThreshold(x, window, factor, maxthreshold).
-* Canonical Biosigpy mapping should use tools.medfilt_threshold and snake_case parameter names.
 * Row and column vectors are canonicalized to the same one-dimensional ordered sequence before processing.
 * The median-filter baseline uses reflected boundary padding and a median-filter length of window - 1; this makes requested even and odd window values observable and is covered by conformance cases.
 * NaN input behavior is not yet specified by shared conformance and remains pending review.
