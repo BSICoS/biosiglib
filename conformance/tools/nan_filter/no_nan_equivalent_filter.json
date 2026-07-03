@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "tools.nan_filter.no_nan_equivalent_filter_001",
+  "id": "tools.nan_filter.no_nan_equivalent_filter",
   "specification_id": "tools.nan_filter",
   "description": "With no NaN samples, nan_filter is equivalent to ordinary causal filtering.",
   "inputs": [

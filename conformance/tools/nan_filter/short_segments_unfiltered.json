@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "tools.nan_filter.short_segments_unfiltered_001",
+  "id": "tools.nan_filter.short_segments_unfiltered",
   "specification_id": "tools.nan_filter",
   "description": "Segments shorter than the coefficient-vector length are returned after interpolation rather than filtered.",
   "inputs": [

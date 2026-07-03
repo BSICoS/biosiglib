@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "hrv.tdmetrics.valid_dtk_001",
+  "id": "hrv.tdmetrics.valid_dtk",
   "specification_id": "hrv.tdmetrics",
   "description": "Compute time-domain HRV metrics from a cleaned beat-to-beat or pulse-to-pulse interval vector dtk.",
   "inputs": [

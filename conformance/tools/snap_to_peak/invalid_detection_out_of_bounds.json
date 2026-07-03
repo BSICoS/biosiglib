@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "tools.snap_to_peak.invalid_detection_out_of_bounds_001",
+  "id": "tools.snap_to_peak.invalid_detection_out_of_bounds",
   "specification_id": "tools.snap_to_peak",
   "description": "Reject detection positions outside the one-based ECG sample grid.",
   "inputs": [

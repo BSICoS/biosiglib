@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "tools.medfilt_threshold.window_larger_than_signal_001",
+  "id": "tools.medfilt_threshold.window_larger_than_signal",
   "specification_id": "tools.medfilt_threshold",
   "description": "When the requested window is larger than the signal, Biosigmat shortens the effective window to the signal length.",
   "inputs": [

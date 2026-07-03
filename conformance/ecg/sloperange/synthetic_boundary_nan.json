@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ecg.sloperange.synthetic_boundary_nan_001",
+  "id": "ecg.sloperange.synthetic_boundary_nan",
   "specification_id": "ecg.sloperange",
   "description": "Preserve EDR alignment with NaN markers when the first and last R-wave windows are incomplete at signal boundaries.",
   "inputs": [

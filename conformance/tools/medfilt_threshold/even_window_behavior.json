@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "tools.medfilt_threshold.even_window_behavior_001",
+  "id": "tools.medfilt_threshold.even_window_behavior",
   "specification_id": "tools.medfilt_threshold",
   "description": "Capture Biosigmat behavior for a requested even window, including its window - 1 median-filter call.",
   "inputs": [

@@ -86,8 +86,8 @@ Detection positions less than 1 or greater than length(ecg) are invalid. Search 
 
 | Case ID | File |
 | --- | --- |
-| `tools.snap_to_peak.boundary_clipping_001` | [conformance/tools/snap_to_peak/boundary_clipping_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/boundary_clipping_001.json) |
-| `tools.snap_to_peak.configurable_window_large_001` | [conformance/tools/snap_to_peak/configurable_window_large_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/configurable_window_large_001.json) |
-| `tools.snap_to_peak.configurable_window_small_001` | [conformance/tools/snap_to_peak/configurable_window_small_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/configurable_window_small_001.json) |
-| `tools.snap_to_peak.invalid_detection_out_of_bounds_001` | [conformance/tools/snap_to_peak/invalid_detection_out_of_bounds_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/invalid_detection_out_of_bounds_001.json) |
-| `tools.snap_to_peak.local_maxima_001` | [conformance/tools/snap_to_peak/local_maxima_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/local_maxima_001.json) |
+| `tools.snap_to_peak.boundary_clipping` | [conformance/tools/snap_to_peak/boundary_clipping.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/boundary_clipping.json) |
+| `tools.snap_to_peak.configurable_window_large` | [conformance/tools/snap_to_peak/configurable_window_large.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/configurable_window_large.json) |
+| `tools.snap_to_peak.configurable_window_small` | [conformance/tools/snap_to_peak/configurable_window_small.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/configurable_window_small.json) |
+| `tools.snap_to_peak.invalid_detection_out_of_bounds` | [conformance/tools/snap_to_peak/invalid_detection_out_of_bounds.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/invalid_detection_out_of_bounds.json) |
+| `tools.snap_to_peak.local_maxima` | [conformance/tools/snap_to_peak/local_maxima.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/local_maxima.json) |

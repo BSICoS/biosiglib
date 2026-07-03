@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "hrv.tdmetrics.valid_dtk_with_nan_001",
+  "id": "hrv.tdmetrics.valid_dtk_with_nan",
   "specification_id": "hrv.tdmetrics",
   "description": "Compute time-domain HRV metrics from an interval vector dtk containing NaN markers that are omitted from all calculations.",
   "inputs": [

@@ -91,8 +91,8 @@ Segments shorter than max(length(denominator_coefficients), length(numerator_coe
 
 | Case ID | File |
 | --- | --- |
-| `tools.nan_filtfilt.long_nan_gap_segmentation_001` | [conformance/tools/nan_filtfilt/long_nan_gap_segmentation_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/long_nan_gap_segmentation_001.json) |
-| `tools.nan_filtfilt.no_nan_equivalent_filtfilt_001` | [conformance/tools/nan_filtfilt/no_nan_equivalent_filtfilt_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/no_nan_equivalent_filtfilt_001.json) |
-| `tools.nan_filtfilt.row_vector_orientation_001` | [conformance/tools/nan_filtfilt/row_vector_orientation_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/row_vector_orientation_001.json) |
-| `tools.nan_filtfilt.short_nan_gap_interpolation_001` | [conformance/tools/nan_filtfilt/short_nan_gap_interpolation_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/short_nan_gap_interpolation_001.json) |
-| `tools.nan_filtfilt.short_segments_unfiltered_001` | [conformance/tools/nan_filtfilt/short_segments_unfiltered_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/short_segments_unfiltered_001.json) |
+| `tools.nan_filtfilt.long_nan_gap_segmentation` | [conformance/tools/nan_filtfilt/long_nan_gap_segmentation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/long_nan_gap_segmentation.json) |
+| `tools.nan_filtfilt.no_nan_equivalent_filtfilt` | [conformance/tools/nan_filtfilt/no_nan_equivalent_filtfilt.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/no_nan_equivalent_filtfilt.json) |
+| `tools.nan_filtfilt.row_vector_orientation` | [conformance/tools/nan_filtfilt/row_vector_orientation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/row_vector_orientation.json) |
+| `tools.nan_filtfilt.short_nan_gap_interpolation` | [conformance/tools/nan_filtfilt/short_nan_gap_interpolation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/short_nan_gap_interpolation.json) |
+| `tools.nan_filtfilt.short_segments_unfiltered` | [conformance/tools/nan_filtfilt/short_segments_unfiltered.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/short_segments_unfiltered.json) |

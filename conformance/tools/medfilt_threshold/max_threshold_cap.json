@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "tools.medfilt_threshold.max_threshold_cap_001",
+  "id": "tools.medfilt_threshold.max_threshold_cap",
   "specification_id": "tools.medfilt_threshold",
   "description": "Apply max_threshold as an upper cap after scaling the median-filtered baseline.",
   "inputs": [

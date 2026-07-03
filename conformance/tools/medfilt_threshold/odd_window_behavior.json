@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "tools.medfilt_threshold.odd_window_behavior_001",
+  "id": "tools.medfilt_threshold.odd_window_behavior",
   "specification_id": "tools.medfilt_threshold",
   "description": "Capture Biosigmat behavior for a requested odd window on the same signal used for the even-window case.",
   "inputs": [

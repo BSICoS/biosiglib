@@ -88,5 +88,5 @@ If decg is too short to support complete windows around a beat, the affected bou
 | --- | --- |
 | `ecg.sloperange.invalid_r_wave_time_out_of_bounds` | [conformance/ecg/sloperange/invalid_r_wave_time_out_of_bounds.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_r_wave_time_out_of_bounds.json) |
 | `ecg.sloperange.invalid_r_wave_times_not_strict` | [conformance/ecg/sloperange/invalid_r_wave_times_not_strict.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/invalid_r_wave_times_not_strict.json) |
-| `ecg.sloperange.synthetic_boundary_nan_001` | [conformance/ecg/sloperange/synthetic_boundary_nan_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/synthetic_boundary_nan_001.json) |
-| `ecg.sloperange.synthetic_positive_001` | [conformance/ecg/sloperange/synthetic_positive_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/synthetic_positive_001.json) |
+| `ecg.sloperange.synthetic_boundary_nan` | [conformance/ecg/sloperange/synthetic_boundary_nan.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/synthetic_boundary_nan.json) |
+| `ecg.sloperange.synthetic_positive` | [conformance/ecg/sloperange/synthetic_positive.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/sloperange/synthetic_positive.json) |

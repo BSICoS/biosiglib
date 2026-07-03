@@ -104,5 +104,5 @@ Unspecified for too few valid intervals to calculate mean, sample standard devia
 | `hrv.tdmetrics.invalid_dtk_negative` | [conformance/hrv/tdmetrics/invalid_dtk_negative.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/invalid_dtk_negative.json) |
 | `hrv.tdmetrics.invalid_dtk_non_numeric` | [conformance/hrv/tdmetrics/invalid_dtk_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/invalid_dtk_non_numeric.json) |
 | `hrv.tdmetrics.invalid_dtk_zero` | [conformance/hrv/tdmetrics/invalid_dtk_zero.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/invalid_dtk_zero.json) |
-| `hrv.tdmetrics.valid_dtk_001` | [conformance/hrv/tdmetrics/valid_dtk_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/valid_dtk_001.json) |
-| `hrv.tdmetrics.valid_dtk_with_nan_001` | [conformance/hrv/tdmetrics/valid_dtk_with_nan_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/valid_dtk_with_nan_001.json) |
+| `hrv.tdmetrics.valid_dtk` | [conformance/hrv/tdmetrics/valid_dtk.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/valid_dtk.json) |
+| `hrv.tdmetrics.valid_dtk_with_nan` | [conformance/hrv/tdmetrics/valid_dtk_with_nan.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/valid_dtk_with_nan.json) |

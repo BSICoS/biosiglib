@@ -88,9 +88,9 @@ If window is larger than the signal length, the effective window is shortened to
 
 | Case ID | File |
 | --- | --- |
-| `tools.medfilt_threshold.even_window_behavior_001` | [conformance/tools/medfilt_threshold/even_window_behavior_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/even_window_behavior_001.json) |
-| `tools.medfilt_threshold.max_threshold_cap_001` | [conformance/tools/medfilt_threshold/max_threshold_cap_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/max_threshold_cap_001.json) |
-| `tools.medfilt_threshold.normal_outlier_001` | [conformance/tools/medfilt_threshold/normal_outlier_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/normal_outlier_001.json) |
-| `tools.medfilt_threshold.odd_window_behavior_001` | [conformance/tools/medfilt_threshold/odd_window_behavior_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/odd_window_behavior_001.json) |
-| `tools.medfilt_threshold.row_vector_orientation_001` | [conformance/tools/medfilt_threshold/row_vector_orientation_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/row_vector_orientation_001.json) |
-| `tools.medfilt_threshold.window_larger_than_signal_001` | [conformance/tools/medfilt_threshold/window_larger_than_signal_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/window_larger_than_signal_001.json) |
+| `tools.medfilt_threshold.even_window_behavior` | [conformance/tools/medfilt_threshold/even_window_behavior.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/even_window_behavior.json) |
+| `tools.medfilt_threshold.max_threshold_cap` | [conformance/tools/medfilt_threshold/max_threshold_cap.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/max_threshold_cap.json) |
+| `tools.medfilt_threshold.normal_outlier` | [conformance/tools/medfilt_threshold/normal_outlier.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/normal_outlier.json) |
+| `tools.medfilt_threshold.odd_window_behavior` | [conformance/tools/medfilt_threshold/odd_window_behavior.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/odd_window_behavior.json) |
+| `tools.medfilt_threshold.row_vector_orientation` | [conformance/tools/medfilt_threshold/row_vector_orientation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/row_vector_orientation.json) |
+| `tools.medfilt_threshold.window_larger_than_signal` | [conformance/tools/medfilt_threshold/window_larger_than_signal.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/window_larger_than_signal.json) |
