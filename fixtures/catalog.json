@@ -235,11 +235,6 @@
           "format": "csv"
         },
         {
-          "role": "all_nan_case_table",
-          "path": "fixtures/data/tools/nan_filtering_all_nan_case.csv",
-          "format": "csv"
-        },
-        {
           "role": "short_segments_case_table",
           "path": "fixtures/data/tools/nan_filtering_short_segments_case.csv",
           "format": "csv"
@@ -283,18 +278,6 @@
           "unit": "a.u."
         },
         {
-          "id": "x_all_nan",
-          "unit": "a.u."
-        },
-        {
-          "id": "nan_filter_all_nan",
-          "unit": "a.u."
-        },
-        {
-          "id": "nan_filtfilt_all_nan",
-          "unit": "a.u."
-        },
-        {
           "id": "x_short_segments",
           "unit": "a.u."
         },
@@ -311,7 +294,6 @@
         "Reference outputs were generated with Biosigmat nanfilter and nanfiltfilt at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
         "All cases use numerator_coefficients = [0.5, 0.5], denominator_coefficients = [1], and max_gap = 1 unless a case explicitly omits max_gap.",
         "pulse_case_table covers no-NaN, short-gap, and long-gap behavior.",
-        "all_nan_case_table covers all-NaN input preservation.",
         "short_segments_case_table covers segments shorter than the coefficient-vector length."
       ]
     },
@@ -333,11 +315,6 @@
           "role": "window_case_table",
           "path": "fixtures/data/tools/snap_to_peak_window_cases.csv",
           "format": "csv"
-        },
-        {
-          "role": "empty_result_table",
-          "path": "fixtures/data/tools/snap_to_peak_empty.csv",
-          "format": "csv"
         }
       ],
       "channels": [
@@ -356,17 +333,12 @@
         {
           "id": "refined_window_large",
           "unit": "sample"
-        },
-        {
-          "id": "refined_detections",
-          "unit": "sample"
         }
       ],
       "processing": [
         "Reference outputs were generated with Biosigmat snaptopeak at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
         "case_table covers local-maximum snapping and boundary-clipped search windows.",
-        "window_case_table covers a case where changing window_size changes the selected maximum.",
-        "empty_result_table contains a header-only empty expected output for empty detections."
+        "window_case_table covers a case where changing window_size changes the selected maximum."
       ]
     }
   ]

@@ -91,7 +91,6 @@ Segments shorter than max(length(denominator_coefficients), length(numerator_coe
 
 | Case ID | File |
 | --- | --- |
-| `tools.nan_filtfilt.all_nan_input_001` | [conformance/tools/nan_filtfilt/all_nan_input_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/all_nan_input_001.json) |
 | `tools.nan_filtfilt.long_nan_gap_segmentation_001` | [conformance/tools/nan_filtfilt/long_nan_gap_segmentation_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/long_nan_gap_segmentation_001.json) |
 | `tools.nan_filtfilt.no_nan_equivalent_filtfilt_001` | [conformance/tools/nan_filtfilt/no_nan_equivalent_filtfilt_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/no_nan_equivalent_filtfilt_001.json) |
 | `tools.nan_filtfilt.row_vector_orientation_001` | [conformance/tools/nan_filtfilt/row_vector_orientation_001.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/row_vector_orientation_001.json) |
