@@ -26,6 +26,7 @@ ECG R-wave timing identifiers must use `r_wave_*`, not `r_peak_*`. Use R-wave te
 Generic timing or interval algorithms, including `hrv.tdmetrics`, must remain modality-generic unless the contract explicitly narrows them. Describe `dtk`-style inputs as cleaned beat-to-beat or pulse-to-pulse intervals rather than ECG- or R-wave-specific timing.
 
 Shared conformance cases should focus on positive outputs, algorithmically meaningful edge behavior, and cross-language semantic decisions. Avoid adding separate shared cases for every trivial argument-validation variant when the specification already states the generic type, shape, or scalar-value constraint.
+Do not create shared fixtures or conformance cases solely for trivial degenerate behavior such as empty inputs, empty outputs, all-NaN inputs, or all-NaN outputs when the behavior can be stated unambiguously in the specification. Define those behaviors in the normative specification text instead, unless the case exercises algorithmically meaningful processing, cross-language ambiguity, or a regression-prone semantic decision.
 
 5. Specifications will use JSON and will be validated using JSON Schema. Human-readable web documentation will be generated from the JSON specifications. Generated documentation is not the normative source.
 
