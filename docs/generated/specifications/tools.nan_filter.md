@@ -17,7 +17,7 @@
 
 Applies ordinary causal filtering while interpolating short NaN gaps and preserving long NaN gaps.
 
-This tool captures Biosigmat nanfilter behavior for one-dimensional signals. It is intended for filtering sampled signals that may contain missing runs marked by NaN values.
+This tool defines NaN-aware causal filtering for one-dimensional signals. It is intended for filtering sampled signals that may contain missing runs marked by NaN values.
 
 ## Keywords
 
@@ -70,7 +70,7 @@ Empty signal input returns an empty filtered_signal.
 
 ### Input orientation
 
-Row and column vectors represent the same canonical signal sequence. Biosigmat preserves row-vector orientation, while Biosiglib conformance compares the ordered vector values.
+Row and column vectors represent the same canonical signal sequence. filtered_signal is a one-dimensional ordered vector aligned with signal.
 
 ### Insufficient data
 
@@ -80,7 +80,7 @@ Segments shorter than max(length(denominator_coefficients), length(numerator_coe
 
 * MATLAB mapping: nanfilter(b, a, x, maxgap).
 * Canonical Biosigpy mapping should use tools.nan_filter with numerator_coefficients, denominator_coefficients, signal, and max_gap.
-* Biosigmat also accepts matrices and processes each column independently; this draft specifies vector behavior because the current Biosiglib schema has scalar and vector shapes only.
+* Matrix and higher-dimensional inputs are outside this draft because the current Biosiglib schema has scalar and vector shapes only.
 * With no NaN samples, the output is equivalent to ordinary causal filter(b, a, signal).
 * Short gaps are linearly interpolated before filtering and are not restored to NaN.
 * Long gaps split the signal into independently filtered segments and are restored to NaN in the output.

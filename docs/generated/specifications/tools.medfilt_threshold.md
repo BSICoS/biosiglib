@@ -15,13 +15,13 @@
 
 ## Summary
 
-Computes a capped adaptive threshold from a one-dimensional signal using Biosigmat-compatible median filtering.
+Computes a capped adaptive threshold from a one-dimensional signal using median-filter-based local baseline estimation.
 
-The threshold is intended for detecting unusually large samples relative to a local median baseline. The current draft captures the public Biosigmat medfiltThreshold behavior needed by Biosigpy examples while leaving NaN-specific behavior pending maintainer review.
+The threshold is intended for detecting unusually large samples relative to a local median baseline. This draft defines the public Biosiglib contract needed by Biosigpy examples while leaving NaN-specific behavior pending maintainer review.
 
 ## Keywords
 
-`median filter`, `adaptive threshold`, `outlier detection`, `Biosigmat`
+`median filter`, `adaptive threshold`, `outlier detection`
 
 ## Scientific References
 
@@ -61,7 +61,7 @@ No scientific references are listed in this specification.
 
 ### Nan handling
 
-NaN values in x are accepted by the current Biosigmat input parser, but shared NaN semantics are unspecified in this draft and require maintainer review before conformance cases are added. Inf and -Inf values are invalid.
+NaN values in x are accepted by this draft's input contract, but shared NaN semantics are unspecified and require maintainer review before conformance cases are added. Inf and -Inf values are invalid.
 
 ### Empty input
 
@@ -73,16 +73,16 @@ Row and column vectors represent the same canonical x sequence. The threshold ou
 
 ### Insufficient data
 
-If window is larger than the signal length, the effective window is shortened to length(x). The window = 1 edge currently produces all-NaN thresholds in Biosigmat and is pending review.
+If window is larger than the signal length, the effective window is shortened to length(x). The window = 1 edge currently produces all-NaN thresholds and is pending review.
 
 ## Informative Notes
 
 * MATLAB mapping: medfiltThreshold(x, window, factor, maxthreshold).
 * Canonical Biosigpy mapping should use tools.medfilt_threshold and snake_case parameter names.
-* Biosigmat converts row and column vectors to a column vector before processing.
-* Biosigmat currently calls medfilt1 with window - 1 after boundary padding; this makes requested even and odd window values observable and is covered by conformance cases.
+* Row and column vectors are canonicalized to the same one-dimensional ordered sequence before processing.
+* The median-filter baseline uses reflected boundary padding and a median-filter length of window - 1; this makes requested even and odd window values observable and is covered by conformance cases.
 * NaN input behavior is not yet specified by shared conformance and remains pending review.
-* The window = 1 edge currently returns all-NaN thresholds in Biosigmat and remains pending maintainer review.
+* The window = 1 edge currently produces all-NaN thresholds and remains pending maintainer review.
 
 ## Conformance Cases
 

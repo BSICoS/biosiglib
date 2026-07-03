@@ -17,7 +17,7 @@
 
 Refines detection sample positions by moving each detection to the maximum signal sample in a local search window.
 
-This tool formalizes the Biosigmat snaptopeak behavior used by ECG detection pipelines to refine approximate detections onto nearby R-wave maxima.
+This tool defines local-maximum snapping used by ECG detection pipelines to refine approximate detections onto nearby R-wave maxima.
 
 ## Keywords
 
@@ -78,7 +78,7 @@ Detection positions less than 1 or greater than length(ecg) are invalid. Search 
 
 * MATLAB mapping: snaptopeak(ecg, detections, 'WindowSize', window_size).
 * Canonical Biosigpy mapping should use tools.snap_to_peak with ecg, detections, and window_size.
-* Canonical detection positions are one-based sample positions, matching existing Biosiglib r_wave_samples fixtures and Biosigmat public behavior.
+* Canonical detection positions are one-based sample positions, matching existing Biosiglib r_wave_samples fixtures and the public sample-coordinate convention.
 * Python implementations may convert to zero-based internal indexes, but public inputs and outputs for this specification use the one-based sample grid.
 * NaN samples in ecg are outside this draft contract pending maintainer review.
 

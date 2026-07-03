@@ -17,7 +17,7 @@
 
 Designs a low-pass differentiating FIR filter and reports its linear-phase delay.
 
-This tool formalizes the Biosigmat lpdfilter behavior used in ECG processing pipelines. The draft specifies scalar frequency validation, the default pass-band frequency, explicit-order filter design, and returned delay. Automatic order selection remains pending shared review because it depends on MATLAB filter-design tooling.
+This tool defines low-pass differentiator filter design used in ECG processing pipelines. The draft specifies scalar frequency validation, the default pass-band frequency, explicit-order filter design, and returned delay. Automatic order selection remains pending shared review because it depends on filter-design tooling that may vary across implementations.
 
 ## Keywords
 
@@ -55,7 +55,7 @@ No scientific references are listed in this specification.
 | `pass_frequency` | If pass_frequency is omitted, set pass_frequency = stop_frequency - 0.2 Hz. |  |
 | `frequency_constraints` | pass_frequency must be strictly less than stop_frequency, and stop_frequency must be strictly less than sampling_frequency / 2. |  |
 | `effective_order` | For explicit order, use order + mod(order, 2), so odd explicit orders are rounded upward to the next even order. |  |
-| `filter_coefficients` | filter_coefficients are the numerator coefficients of the Biosigmat-compatible low-pass differentiating FIR design for the normalized pass and stop frequencies. |  |
+| `filter_coefficients` | filter_coefficients are the numerator coefficients of the canonical low-pass differentiating FIR design for the normalized pass and stop frequencies. |  |
 | `delay` | delay is effective_order / 2 samples. |  |
 
 ## Behavior
@@ -80,9 +80,9 @@ Automatic order selection is pending review for shared conformance. Explicit-ord
 
 * MATLAB mapping: lpdfilter(fs, stopFreq, 'PassFreq', pass_frequency, 'Order', order).
 * Canonical Biosigpy mapping should use tools.lpd_filter with sampling_frequency, stop_frequency, pass_frequency, and order.
-* When pass_frequency is omitted, Biosigmat uses stop_frequency - 0.2 Hz.
-* When order is supplied, Biosigmat rounds it upward to the next even integer before design.
-* Automatic order selection is available in Biosigmat but is not covered by a shared conformance case in this draft.
+* When pass_frequency is omitted, use stop_frequency - 0.2 Hz.
+* When order is supplied, round it upward to the next even integer before design.
+* Automatic order selection is not covered by a shared conformance case in this draft.
 * The filter is a linear-phase differentiator; delay is one half of the effective even order.
 
 ## Conformance Cases

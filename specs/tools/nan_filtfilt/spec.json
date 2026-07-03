@@ -9,11 +9,11 @@
   "informative": {
     "title": "Zero-phase filtering with NaN-aware gap handling",
     "summary": "Applies ordinary zero-phase filtering while interpolating short NaN gaps and preserving long NaN gaps.",
-    "description": "This tool captures Biosigmat nanfiltfilt behavior for one-dimensional signals. It is intended for zero-phase filtering of sampled signals that may contain missing runs marked by NaN values.",
+    "description": "This tool defines NaN-aware zero-phase filtering for one-dimensional signals. It is intended for zero-phase filtering of sampled signals that may contain missing runs marked by NaN values.",
     "notes": [
       "MATLAB mapping: nanfiltfilt(b, a, x, maxgap).",
       "Canonical Biosigpy mapping should use tools.nan_filtfilt with numerator_coefficients, denominator_coefficients, signal, and max_gap.",
-      "Biosigmat also accepts matrices and processes each column independently; this draft specifies vector behavior because the current Biosiglib schema has scalar and vector shapes only.",
+      "Matrix and higher-dimensional inputs are outside this draft because the current Biosiglib schema has scalar and vector shapes only.",
       "With no NaN samples, the output is equivalent to ordinary zero-phase filtfilt(b, a, signal).",
       "Short gaps are linearly interpolated before zero-phase filtering and are not restored to NaN.",
       "Long gaps split the signal into independently filtered segments and are restored to NaN in the output.",
@@ -115,7 +115,7 @@
     "behavior": {
       "nan_handling": "NaN samples in signal are classified into short and long gaps using max_gap. Short gaps are linearly interpolated and zero-phase filtered. Long gaps are restored as NaN after independent segment processing. All-NaN signal input returns all NaN with the same shape.",
       "empty_input": "Empty signal input returns an empty filtered_signal.",
-      "input_orientation": "Row and column vectors represent the same canonical signal sequence. Biosigmat preserves row-vector orientation, while Biosiglib conformance compares the ordered vector values.",
+      "input_orientation": "Row and column vectors represent the same canonical signal sequence. filtered_signal is a one-dimensional ordered vector aligned with signal.",
       "insufficient_data": "Segments shorter than max(length(denominator_coefficients), length(numerator_coefficients)) are returned after interpolation rather than filtered. Additional filtfilt-specific minimum-length failures are pending review."
     }
   }
