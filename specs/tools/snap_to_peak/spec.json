@@ -69,10 +69,6 @@
     ],
     "definitions": [
       {
-        "target": "one_based_sample_position",
-        "text": "A sample position is expressed on a one-based sample grid: the first ECG sample has position 1 and the last sample has position length(ecg)."
-      },
-      {
         "target": "effective_window_size",
         "text": "window_size is rounded to the nearest integer number of samples before constructing search windows."
       },
@@ -83,10 +79,6 @@
       {
         "target": "refined_detection",
         "text": "The refined detection is the one-based sample position of the first maximum-valued ECG sample inside the search_window for that detection."
-      },
-      {
-        "target": "refined_detections",
-        "text": "refined_detections is aligned one-for-one with detections and preserves the input detection order."
       }
     ],
     "behavior": {
