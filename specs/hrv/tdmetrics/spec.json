@@ -17,7 +17,6 @@
       "The function must not silently treat invalid intervals as physiological variability.",
       "Removing invalid intervals or marking them as NaN can both be correct choices for time-domain statistics over valid intervals.",
       "tdmetrics does not interpolate NaN values, gap-fill intervals, or reconstruct event times internally.",
-      "Canonical output IDs map directly in Python. In Biosigmat, pnn50 maps to pNN50 and the other output IDs map directly.",
       "Unresolved behavior: empty input.",
       "Unresolved behavior: one valid interval.",
       "Unresolved behavior: no valid successive intervals.",
