@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `tools.nan_filter` |
 | Module | `tools` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/tools/nan_filter/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/tools/nan_filter/spec.json) |
 
 ## Summary

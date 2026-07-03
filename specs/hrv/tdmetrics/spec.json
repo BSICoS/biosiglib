@@ -2,9 +2,7 @@
   "$schema": "../../../schemas/algorithm-spec.schema.json",
   "metadata": {
     "id": "hrv.tdmetrics",
-    "module": "hrv",
-    "algorithm_status": "stable",
-    "specification_status": "draft"
+    "module": "hrv"
   },
   "informative": {
     "title": "Time-domain beat or pulse variability metrics",

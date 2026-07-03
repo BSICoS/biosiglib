@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `tools.medfilt_threshold` |
 | Module | `tools` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/tools/medfilt_threshold/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/tools/medfilt_threshold/spec.json) |
 
 ## Summary

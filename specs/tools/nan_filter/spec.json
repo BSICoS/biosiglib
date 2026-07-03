@@ -2,9 +2,7 @@
   "$schema": "../../../schemas/algorithm-spec.schema.json",
   "metadata": {
     "id": "tools.nan_filter",
-    "module": "tools",
-    "algorithm_status": "stable",
-    "specification_status": "draft"
+    "module": "tools"
   },
   "informative": {
     "title": "Causal filtering with NaN-aware gap handling",

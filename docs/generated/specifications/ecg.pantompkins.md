@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `ecg.pantompkins` |
 | Module | `ecg` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/ecg/pantompkins/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/ecg/pantompkins/spec.json) |
 
 ## Summary

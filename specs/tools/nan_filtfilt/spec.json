@@ -2,9 +2,7 @@
   "$schema": "../../../schemas/algorithm-spec.schema.json",
   "metadata": {
     "id": "tools.nan_filtfilt",
-    "module": "tools",
-    "algorithm_status": "stable",
-    "specification_status": "draft"
+    "module": "tools"
   },
   "informative": {
     "title": "Zero-phase filtering with NaN-aware gap handling",

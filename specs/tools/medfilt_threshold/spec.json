@@ -2,9 +2,7 @@
   "$schema": "../../../schemas/algorithm-spec.schema.json",
   "metadata": {
     "id": "tools.medfilt_threshold",
-    "module": "tools",
-    "algorithm_status": "stable",
-    "specification_status": "draft"
+    "module": "tools"
   },
   "informative": {
     "title": "Median-filtered adaptive threshold",

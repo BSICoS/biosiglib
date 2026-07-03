@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `ecg.sloperange` |
 | Module | `ecg` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/ecg/sloperange/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/ecg/sloperange/spec.json) |
 
 ## Summary

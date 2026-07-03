@@ -2,9 +2,7 @@
   "$schema": "../../../schemas/algorithm-spec.schema.json",
   "metadata": {
     "id": "tools.snap_to_peak",
-    "module": "tools",
-    "algorithm_status": "stable",
-    "specification_status": "draft"
+    "module": "tools"
   },
   "informative": {
     "title": "Snap detections to local maxima",

@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `tools.snap_to_peak` |
 | Module | `tools` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/tools/snap_to_peak/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/tools/snap_to_peak/spec.json) |
 
 ## Summary

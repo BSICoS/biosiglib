@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `tools.nan_filtfilt` |
 | Module | `tools` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/tools/nan_filtfilt/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/tools/nan_filtfilt/spec.json) |
 
 ## Summary

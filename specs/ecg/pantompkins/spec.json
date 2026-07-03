@@ -2,9 +2,7 @@
   "$schema": "../../../schemas/algorithm-spec.schema.json",
   "metadata": {
     "id": "ecg.pantompkins",
-    "module": "ecg",
-    "algorithm_status": "stable",
-    "specification_status": "draft"
+    "module": "ecg"
   },
   "informative": {
     "title": "Pan-Tompkins-style ECG R-wave detection",

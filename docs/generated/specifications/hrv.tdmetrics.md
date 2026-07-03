@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `hrv.tdmetrics` |
 | Module | `hrv` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/hrv/tdmetrics/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/hrv/tdmetrics/spec.json) |
 
 ## Summary

@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `tools.lpd_filter` |
 | Module | `tools` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/tools/lpd_filter/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/tools/lpd_filter/spec.json) |
 
 ## Summary
