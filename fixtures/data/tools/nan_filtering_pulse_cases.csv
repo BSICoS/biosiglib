@@ -1,0 +1,11 @@
+x_no_nan,x_short_gap,x_long_gap,nan_filter_no_nan,nan_filter_short_gap,nan_filter_long_gap,nan_filtfilt_no_nan,nan_filtfilt_short_gap,nan_filtfilt_long_gap
+0,0,0,0,0,0,0,0,0
+0,0,1,0,0,0.5,0.25,0,0.5
+1,NaN,0,0.5,0,0.5,0.5,0,0
+0,0,NaN,0.5,0,NaN,0.25,0,NaN
+0,0,NaN,0,0,NaN,0,0,NaN
+0,0,NaN,0,0,NaN,0.5,0.5,NaN
+2,2,0,1,1,0,1,1,0
+0,0,2,1,1,1,0.5,0.5,1
+0,0,0,0,0,1,0,0,0.5
+0,0,0,0,0,0,0,0,0

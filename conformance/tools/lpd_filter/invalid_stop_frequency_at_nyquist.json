@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.lpd_filter.invalid_stop_frequency_at_nyquist",
+  "specification_id": "tools.lpd_filter",
+  "description": "Reject stop_frequency values at the Nyquist frequency.",
+  "inputs": [
+    {
+      "id": "sampling_frequency",
+      "value": 256
+    },
+    {
+      "id": "stop_frequency",
+      "value": 128
+    }
+  ],
+  "parameters": {
+    "order": 4
+  },
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "stop_frequency must be strictly less than sampling_frequency / 2."
+  },
+  "oracle": {
+    "type": "biosigmat",
+    "description": "Biosigmat lpdfilter raises lpdfilter:invalidStopFreq for stop_frequency >= fs / 2.",
+    "commit": "04365c8ac02c886c4839412a319cac60221ab1ef"
+  }
+}

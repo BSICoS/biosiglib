@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.snap_to_peak.empty_detections_001",
+  "specification_id": "tools.snap_to_peak",
+  "description": "Return an empty refined_detections vector when detections is empty.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "value": [
+        0,
+        1,
+        3,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "detections",
+      "value": []
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "refined_detections",
+      "fixture_id": "tools.synthetic.snap_to_peak_cases",
+      "file_role": "empty_result_table",
+      "column": "refined_detections",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "Biosigmat snaptopeak returns an empty array for empty detections.",
+    "commit": "04365c8ac02c886c4839412a319cac60221ab1ef"
+  }
+}

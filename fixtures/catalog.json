@@ -135,6 +135,239 @@
         "positive_edr contains the analytical EDR sequence [5, 7, 6] for the small positive synthetic case.",
         "boundary_edr contains [NaN, 7, NaN] to preserve alignment when the first and last R-wave windows are incomplete."
       ]
+    },
+    {
+      "id": "tools.synthetic.medfilt_threshold_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "derived",
+        "description": "Small synthetic medfilt_threshold input and expected-output columns generated from the current Biosigmat medfiltThreshold implementation."
+      },
+      "files": [
+        {
+          "role": "case_table",
+          "path": "fixtures/data/tools/medfilt_threshold_cases.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "x_normal",
+          "unit": "a.u."
+        },
+        {
+          "id": "threshold_normal",
+          "unit": "a.u."
+        },
+        {
+          "id": "threshold_window_larger",
+          "unit": "a.u."
+        },
+        {
+          "id": "x_odd_even",
+          "unit": "a.u."
+        },
+        {
+          "id": "threshold_window_4",
+          "unit": "a.u."
+        },
+        {
+          "id": "threshold_window_5",
+          "unit": "a.u."
+        },
+        {
+          "id": "threshold_cap",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Reference outputs were generated with Biosigmat medfiltThreshold at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
+        "threshold_normal uses window = 3, factor = 2, max_threshold = 5 for x_normal.",
+        "threshold_window_larger uses window = 99, factor = 2, max_threshold = 100 for x_normal.",
+        "threshold_window_4 and threshold_window_5 use x_odd_even with factor = 1 and max_threshold = 1000.",
+        "threshold_cap uses x_normal with window = 3, factor = 10, max_threshold = 4."
+      ]
+    },
+    {
+      "id": "tools.synthetic.lpd_filter_coefficients",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "derived",
+        "description": "Small lpd_filter coefficient reference columns generated from the current Biosigmat lpdfilter implementation."
+      },
+      "files": [
+        {
+          "role": "coefficient_table",
+          "path": "fixtures/data/tools/lpd_filter_coefficients.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "coefficient_default_order_4",
+          "unit": "1/s"
+        },
+        {
+          "id": "coefficient_pass10_order_4",
+          "unit": "1/s"
+        }
+      ],
+      "processing": [
+        "Reference outputs were generated with Biosigmat lpdfilter at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
+        "coefficient_default_order_4 uses sampling_frequency = 256 Hz, stop_frequency = 12 Hz, omitted pass_frequency, and order = 4.",
+        "coefficient_pass10_order_4 uses sampling_frequency = 256 Hz, stop_frequency = 12 Hz, pass_frequency = 10 Hz, and order = 4."
+      ]
+    },
+    {
+      "id": "tools.synthetic.nan_filtering_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "derived",
+        "description": "Small synthetic NaN-filtering inputs and expected outputs generated from the current Biosigmat nanfilter and nanfiltfilt implementations."
+      },
+      "files": [
+        {
+          "role": "pulse_case_table",
+          "path": "fixtures/data/tools/nan_filtering_pulse_cases.csv",
+          "format": "csv"
+        },
+        {
+          "role": "all_nan_case_table",
+          "path": "fixtures/data/tools/nan_filtering_all_nan_case.csv",
+          "format": "csv"
+        },
+        {
+          "role": "short_segments_case_table",
+          "path": "fixtures/data/tools/nan_filtering_short_segments_case.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "x_no_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "x_short_gap",
+          "unit": "a.u."
+        },
+        {
+          "id": "x_long_gap",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filter_no_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filter_short_gap",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filter_long_gap",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filtfilt_no_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filtfilt_short_gap",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filtfilt_long_gap",
+          "unit": "a.u."
+        },
+        {
+          "id": "x_all_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filter_all_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filtfilt_all_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "x_short_segments",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filter_short_segments",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filtfilt_short_segments",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Reference outputs were generated with Biosigmat nanfilter and nanfiltfilt at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
+        "All cases use numerator_coefficients = [0.5, 0.5], denominator_coefficients = [1], and max_gap = 1 unless a case explicitly omits max_gap.",
+        "pulse_case_table covers no-NaN, short-gap, and long-gap behavior.",
+        "all_nan_case_table covers all-NaN input preservation.",
+        "short_segments_case_table covers segments shorter than the coefficient-vector length."
+      ]
+    },
+    {
+      "id": "tools.synthetic.snap_to_peak_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "derived",
+        "description": "Small synthetic snap_to_peak expected-output columns generated from the current Biosigmat snaptopeak implementation."
+      },
+      "files": [
+        {
+          "role": "case_table",
+          "path": "fixtures/data/tools/snap_to_peak_cases.csv",
+          "format": "csv"
+        },
+        {
+          "role": "window_case_table",
+          "path": "fixtures/data/tools/snap_to_peak_window_cases.csv",
+          "format": "csv"
+        },
+        {
+          "role": "empty_result_table",
+          "path": "fixtures/data/tools/snap_to_peak_empty.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "refined_local",
+          "unit": "sample"
+        },
+        {
+          "id": "refined_boundary",
+          "unit": "sample"
+        },
+        {
+          "id": "refined_window_small",
+          "unit": "sample"
+        },
+        {
+          "id": "refined_window_large",
+          "unit": "sample"
+        },
+        {
+          "id": "refined_detections",
+          "unit": "sample"
+        }
+      ],
+      "processing": [
+        "Reference outputs were generated with Biosigmat snaptopeak at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
+        "case_table covers local-maximum snapping and boundary-clipped search windows.",
+        "window_case_table covers a case where changing window_size changes the selected maximum.",
+        "empty_result_table contains a header-only empty expected output for empty detections."
+      ]
     }
   ]
 }

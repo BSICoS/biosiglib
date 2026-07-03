@@ -1,0 +1,111 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.medfilt_threshold",
+    "module": "tools",
+    "algorithm_status": "stable",
+    "specification_status": "draft"
+  },
+  "informative": {
+    "title": "Median-filtered adaptive threshold",
+    "summary": "Computes a capped adaptive threshold from a one-dimensional signal using Biosigmat-compatible median filtering.",
+    "description": "The threshold is intended for detecting unusually large samples relative to a local median baseline. The current draft captures the public Biosigmat medfiltThreshold behavior needed by Biosigpy examples while leaving NaN-specific behavior pending maintainer review.",
+    "notes": [
+      "MATLAB mapping: medfiltThreshold(x, window, factor, maxthreshold).",
+      "Canonical Biosigpy mapping should use tools.medfilt_threshold and snake_case parameter names.",
+      "Biosigmat converts row and column vectors to a column vector before processing.",
+      "Biosigmat currently calls medfilt1 with window - 1 after boundary padding; this makes requested even and odd window values observable and is covered by conformance cases.",
+      "NaN input behavior is not yet specified by shared conformance and remains pending review.",
+      "The window = 1 edge currently returns all-NaN thresholds in Biosigmat and remains pending maintainer review."
+    ],
+    "keywords": [
+      "median filter",
+      "adaptive threshold",
+      "outlier detection",
+      "Biosigmat"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "x",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "window",
+        "data_type": "integer_scalar",
+        "default": null,
+        "unit": "sample",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "factor",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "1",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "max_threshold",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "a.u.",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "threshold",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      }
+    ],
+    "definitions": [
+      {
+        "target": "x",
+        "text": "x is the ordered one-dimensional signal or interval sequence from which a local adaptive threshold is computed."
+      },
+      {
+        "target": "effective_window",
+        "text": "If window is larger than the length of x, use length(x) as the effective window. Otherwise use the supplied positive integer window."
+      },
+      {
+        "target": "boundary_padding",
+        "text": "Let half_window = floor(effective_window / 2). Pad x by prepending the first half_window samples in reverse order and appending the last half_window samples in reverse order."
+      },
+      {
+        "target": "median_filtered_baseline",
+        "text": "Apply a median filter with length effective_window - 1 to the padded sequence, then remove the half_window padded samples from each end to recover an output aligned with x."
+      },
+      {
+        "target": "threshold",
+        "text": "threshold is factor times the median_filtered_baseline, with any value greater than max_threshold replaced by max_threshold."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaN values in x are accepted by the current Biosigmat input parser, but shared NaN semantics are unspecified in this draft and require maintainer review before conformance cases are added. Inf and -Inf values are invalid.",
+      "empty_input": "Empty x input is invalid.",
+      "input_orientation": "Row and column vectors represent the same canonical x sequence. The threshold output is a one-dimensional ordered vector aligned sample-by-sample with x.",
+      "insufficient_data": "If window is larger than the signal length, the effective window is shortened to length(x). The window = 1 edge currently produces all-NaN thresholds in Biosigmat and is pending review."
+    }
+  }
+}

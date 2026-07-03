@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.lpd_filter.invalid_pass_frequency_not_less_than_stop",
+  "specification_id": "tools.lpd_filter",
+  "description": "Reject pass_frequency values that are not strictly less than stop_frequency.",
+  "inputs": [
+    {
+      "id": "sampling_frequency",
+      "value": 256
+    },
+    {
+      "id": "stop_frequency",
+      "value": 12
+    }
+  ],
+  "parameters": {
+    "pass_frequency": 12,
+    "order": 4
+  },
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "pass_frequency must be strictly less than stop_frequency."
+  },
+  "oracle": {
+    "type": "biosigmat",
+    "description": "Biosigmat lpdfilter raises lpdfilter:invalidFrequencies for pass_frequency >= stop_frequency.",
+    "commit": "04365c8ac02c886c4839412a319cac60221ab1ef"
+  }
+}
