@@ -12,7 +12,7 @@
       "Row and column vectors are canonicalized to the same one-dimensional ordered sequence before processing.",
       "The median-filter baseline uses reflected boundary padding and a median-filter length of window - 1; this makes requested even and odd window values observable and is covered by conformance cases.",
       "NaN input samples use include-NaN median semantics.",
-      "window must be an integer greater than or equal to 2."
+      "x must contain at least two samples, and window must be an integer greater than or equal to 2."
     ],
     "keywords": [
       "median filter",
@@ -33,7 +33,7 @@
         "allow_nan": true,
         "allow_inf": false,
         "constraints": {
-          "minimum_length": 1
+          "minimum_length": 2
         }
       }
     ],
@@ -81,7 +81,7 @@
       },
       {
         "target": "effective_window",
-        "text": "If window is larger than the length of x, use length(x) as the effective window. Otherwise use the supplied positive integer window."
+        "text": "If window is larger than the length of x, use length(x) as the effective window. Otherwise use the supplied positive integer window. This preserves effective_window >= 2 because x has minimum_length = 2 and window must be >= 2."
       },
       {
         "target": "boundary_padding",
@@ -102,9 +102,9 @@
     ],
     "behavior": {
       "nan_handling": "NaN values in x are accepted and use include-NaN median semantics: any median-filter window containing one or more NaN samples produces NaN for the aligned threshold sample. Inf and -Inf values are invalid.",
-      "empty_input": "Empty x input is invalid.",
+      "empty_input": "Empty and single-sample x inputs are invalid.",
       "input_orientation": "Row and column vectors represent the same canonical x sequence. The threshold output is a one-dimensional ordered vector aligned sample-by-sample with x.",
-      "insufficient_data": "window = 1 is invalid. If window is larger than the signal length, the effective window is shortened to length(x)."
+      "insufficient_data": "x must contain at least two samples and window = 1 is invalid. If window is larger than the signal length, the effective window is shortened to length(x), which remains valid because x has minimum_length = 2."
     }
   }
 }

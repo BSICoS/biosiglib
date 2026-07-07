@@ -15,7 +15,7 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 - Clarified `tools.lpd_filter` explicit-order conformance requirements and optional automatic-order support.
 - Clarified `tools.nan_filter` and `tools.nan_filtfilt` boundary-NaN handling and too-short segment behavior.
-- Clarified `tools.medfilt_threshold` include-NaN median behavior and `window >= 2` constraint.
+- Clarified `tools.medfilt_threshold` include-NaN median behavior, `x` minimum length, and `window >= 2` constraint.
 - Clarified `tools.snap_to_peak` finite-value requirements for both `ecg` and `detections`.
 
 ## v0.5.0 - 2026-07-07

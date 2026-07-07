@@ -29,7 +29,7 @@ No scientific references are listed in this specification.
 
 | id | data_type | shape | unit | allow_nan | allow_inf | constraints |
 | --- | --- | --- | --- | --- | --- | --- |
-| `x` | real_vector | vector | a.u. | true | false | minimum_length=1 |
+| `x` | real_vector | vector | a.u. | true | false | minimum_length=2 |
 
 ## Parameters
 
@@ -50,7 +50,7 @@ No scientific references are listed in this specification.
 | Target | Definition | Formula |
 | --- | --- | --- |
 | `x` | x is the ordered one-dimensional signal or interval sequence from which a local adaptive threshold is computed. |  |
-| `effective_window` | If window is larger than the length of x, use length(x) as the effective window. Otherwise use the supplied positive integer window. |  |
+| `effective_window` | If window is larger than the length of x, use length(x) as the effective window. Otherwise use the supplied positive integer window. This preserves effective_window >= 2 because x has minimum_length = 2 and window must be >= 2. |  |
 | `boundary_padding` | Let half_window = floor(effective_window / 2). Pad x by prepending the first half_window samples in reverse order and appending the last half_window samples in reverse order. |  |
 | `median_filtered_baseline` | Apply a median filter with length effective_window - 1 to the padded sequence, then remove the half_window padded samples from each end to recover an output aligned with x. |  |
 | `include_nan_median` | Use include-NaN median semantics: if any NaN appears in the median-filter window used for an aligned output sample, the corresponding median_filtered_baseline and threshold samples are NaN. |  |
@@ -64,7 +64,7 @@ NaN values in x are accepted and use include-NaN median semantics: any median-fi
 
 ### Empty input
 
-Empty x input is invalid.
+Empty and single-sample x inputs are invalid.
 
 ### Input orientation
 
@@ -72,14 +72,14 @@ Row and column vectors represent the same canonical x sequence. The threshold ou
 
 ### Insufficient data
 
-window = 1 is invalid. If window is larger than the signal length, the effective window is shortened to length(x).
+x must contain at least two samples and window = 1 is invalid. If window is larger than the signal length, the effective window is shortened to length(x), which remains valid because x has minimum_length = 2.
 
 ## Informative Notes
 
 * Row and column vectors are canonicalized to the same one-dimensional ordered sequence before processing.
 * The median-filter baseline uses reflected boundary padding and a median-filter length of window - 1; this makes requested even and odd window values observable and is covered by conformance cases.
 * NaN input samples use include-NaN median semantics.
-* window must be an integer greater than or equal to 2.
+* x must contain at least two samples, and window must be an integer greater than or equal to 2.
 
 ## Conformance Cases
 
@@ -87,6 +87,7 @@ window = 1 is invalid. If window is larger than the signal length, the effective
 | --- | --- |
 | `tools.medfilt_threshold.even_window_behavior` | [conformance/tools/medfilt_threshold/even_window_behavior.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/even_window_behavior.json) |
 | `tools.medfilt_threshold.include_nan_window` | [conformance/tools/medfilt_threshold/include_nan_window.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/include_nan_window.json) |
+| `tools.medfilt_threshold.invalid_single_sample` | [conformance/tools/medfilt_threshold/invalid_single_sample.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/invalid_single_sample.json) |
 | `tools.medfilt_threshold.invalid_window_one` | [conformance/tools/medfilt_threshold/invalid_window_one.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/invalid_window_one.json) |
 | `tools.medfilt_threshold.max_threshold_cap` | [conformance/tools/medfilt_threshold/max_threshold_cap.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/max_threshold_cap.json) |
 | `tools.medfilt_threshold.normal_outlier` | [conformance/tools/medfilt_threshold/normal_outlier.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/medfilt_threshold/normal_outlier.json) |
