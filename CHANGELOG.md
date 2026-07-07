@@ -6,6 +6,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+### Changed
+
+- Renamed the normative `ecg.pantompkins` intermediate output from `decg` to `decg_squared` to reflect that it is the squared derivative signal.
+
 ## v0.3.0 - 2026-06-30
 
 ### Added
@@ -102,6 +106,6 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Fixture-column references for ordered vector expected outputs in conformance cases.
 - ECG signal fixture copied from the existing Biosigmat regression data.
 - First `ecg.pantompkins` conformance case.
-- Normative `ecg_filtered`, `decg`, and `decg_envelope` outputs for `ecg.pantompkins`.
+- Normative `ecg_filtered`, `decg_squared`, and `decg_envelope` outputs for `ecg.pantompkins`.
 - Expected-error conformance cases with language-independent error categories and literal inputs.
 - Initial invalid-type, invalid-shape, and invalid-value cases for both pilot specifications.
