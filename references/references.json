@@ -37,6 +37,40 @@
       "journal": "IEEE Transactions on Biomedical Engineering"
     },
     {
+      "id": "lazaro_prv_sleep_apnea_ppg_2014",
+      "type": "journal_article",
+      "title": "Pulse rate variability analysis for discrimination of sleep-apnea-related decreases in the amplitude fluctuations of pulse photoplethysmographic signal in children",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Gil",
+          "given_names": "Eduardo"
+        },
+        {
+          "type": "person",
+          "family_name": "Vergara",
+          "given_names": "Jos\u00e9 Mar\u00eda"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        }
+      ],
+      "year": 2014,
+      "journal": "IEEE Journal of Biomedical and Health Informatics",
+      "volume": "18",
+      "issue": "1",
+      "pages": "240-246",
+      "doi": "10.1109/JBHI.2013.2267096",
+      "pmid": "24403422"
+    },
+    {
       "id": "cajal_missing_data_hrv_2022",
       "type": "journal_article",
       "title": "Effects of Missing Data on Heart Rate Variability Metrics",

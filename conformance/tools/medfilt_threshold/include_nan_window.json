@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.medfilt_threshold.include_nan_window",
+  "specification_id": "tools.medfilt_threshold",
+  "description": "Use include-NaN median semantics so any median-filter window containing NaN produces a NaN threshold sample.",
+  "inputs": [
+    {
+      "id": "x",
+      "fixture_id": "tools.synthetic.medfilt_threshold_cases",
+      "file_role": "case_table",
+      "column": "x_with_nan"
+    }
+  ],
+  "parameters": {
+    "window": 2,
+    "factor": 2,
+    "max_threshold": 100
+  },
+  "expected_outputs": [
+    {
+      "id": "threshold",
+      "fixture_id": "tools.synthetic.medfilt_threshold_cases",
+      "file_role": "case_table",
+      "column": "threshold_include_nan_window",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "With window = 2, the median-filter length is one sample; the threshold is 2 * x except where the aligned sample is NaN."
+  }
+}

@@ -15,7 +15,7 @@
 
 Applies ordinary zero-phase filtering while interpolating short NaN gaps and preserving long NaN gaps.
 
-This tool defines NaN-aware zero-phase filtering for one-dimensional signals. It is intended for zero-phase filtering of sampled signals that may contain missing runs marked by NaN values.
+This tool defines NaN-aware zero-phase filtering for one-dimensional vector signals. Matrix and higher-dimensional support may exist as an implementation-specific extension, but it is not required for conformance.
 
 ## Keywords
 
@@ -50,18 +50,20 @@ No scientific references are listed in this specification.
 | Target | Definition | Formula |
 | --- | --- | --- |
 | `zero_phase_filtering` | For each processed segment, apply ordinary forward-backward zero-phase filtering equivalent to filtfilt with the supplied numerator and denominator coefficients. |  |
-| `short_nan_gap` | A contiguous run of NaN samples whose length is less than or equal to max_gap. |  |
-| `long_nan_gap` | A contiguous run of NaN samples whose length is greater than max_gap. |  |
-| `short_gap_interpolation` | Short NaN gaps inside a valid segment are filled by linear interpolation before zero-phase filtering. |  |
-| `segment_filtering` | If long NaN gaps are present, zero-phase filter each non-long-gap segment independently after short-gap interpolation. |  |
-| `segment_too_short` | If a segment length is shorter than max(length(denominator_coefficients), length(numerator_coefficients)), return the linearly filled segment without applying the zero-phase filter. |  |
-| `filtered_signal` | filtered_signal is aligned sample-by-sample with signal; long NaN gaps are restored to NaN and short NaN gaps are represented by zero-phase filtered interpolated values. |  |
+| `boundary_nan_gap` | A contiguous run of NaN samples touching the first or last sample of the current processed signal or segment. Boundary NaN gaps are always preserved as NaN and must never be linearly extrapolated. |  |
+| `internal_short_nan_gap` | A contiguous run of NaN samples fully bounded by finite samples whose length is less than or equal to max_gap. |  |
+| `preserved_nan_gap` | A long internal NaN gap or any boundary NaN gap. Preserved NaN gaps remain NaN in filtered_signal and split signal into candidate finite segments. |  |
+| `short_gap_interpolation` | Internal short NaN gaps are filled by linear interpolation before zero-phase filtering. |  |
+| `minimum_filterable_length` | Let filter_order = max(length(numerator_coefficients) - 1, length(denominator_coefficients) - 1). A candidate finite segment is filterable only if length(segment) > 3 * filter_order, equivalently length(segment) >= 3 * filter_order + 1. |  |
+| `segment_filtering` | Zero-phase filter each filterable candidate finite segment independently after internal short-gap interpolation. |  |
+| `segment_too_short` | If a candidate finite segment is not longer than 3 * filter_order, set filtered_signal to NaN over that segment. |  |
+| `filtered_signal` | filtered_signal is aligned sample-by-sample with signal; preserved NaN gaps and too-short candidate segments are NaN, while internal short NaN gaps in filterable segments are represented by zero-phase filtered interpolated values. |  |
 
 ## Behavior
 
 ### Nan handling
 
-NaN samples in signal are classified into short and long gaps using max_gap. Short gaps are linearly interpolated and zero-phase filtered. Long gaps are restored as NaN after independent segment processing. All-NaN signal input returns all NaN with the same shape.
+NaN samples in signal are classified as boundary gaps, internal short gaps, or preserved internal long gaps using max_gap. Boundary gaps are always preserved as NaN and never extrapolated. Internal short gaps are linearly interpolated before zero-phase filtering. Preserved gaps and too-short candidate finite segments are NaN in the output.
 
 ### Empty input
 
@@ -69,26 +71,28 @@ Empty signal input returns an empty filtered_signal.
 
 ### Input orientation
 
-Row and column vectors represent the same canonical signal sequence. filtered_signal is a one-dimensional ordered vector aligned with signal.
+Row and column vectors represent the same canonical one-dimensional signal sequence. Matrix and higher-dimensional inputs are outside the normative conformance contract. filtered_signal is a one-dimensional ordered vector aligned with signal.
 
 ### Insufficient data
 
-Segments shorter than max(length(denominator_coefficients), length(numerator_coefficients)) are returned after interpolation rather than filtered. Additional filtfilt-specific minimum-length failures are pending review.
+Candidate finite segments with length(segment) <= 3 * max(length(numerator_coefficients) - 1, length(denominator_coefficients) - 1) produce NaN output over that segment.
 
 ## Informative Notes
 
-* Matrix and higher-dimensional inputs are outside this draft because the current Biosiglib schema has scalar and vector shapes only.
+* The normative conformance contract is one-dimensional vector input.
+* Matrix and higher-dimensional inputs are optional implementation-specific extensions and are not required for conformance.
 * With no NaN samples, the output is equivalent to ordinary zero-phase filtfilt(b, a, signal).
-* Short gaps are linearly interpolated before zero-phase filtering and are not restored to NaN.
-* Long gaps split the signal into independently filtered segments and are restored to NaN in the output.
-* filtfilt-specific minimum-length behavior beyond the shared segment_too_short rule remains pending review.
+* Only internal short gaps fully bounded by finite samples are linearly interpolated before zero-phase filtering.
+* Boundary gaps and long internal gaps are preserved as NaN and split the signal into candidate finite segments.
+* Candidate finite segments that are too short for MATLAB-style filtfilt produce NaN output over that segment.
 
 ## Conformance Cases
 
 | Case ID | File |
 | --- | --- |
+| `tools.nan_filtfilt.boundary_nan_preserved` | [conformance/tools/nan_filtfilt/boundary_nan_preserved.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/boundary_nan_preserved.json) |
 | `tools.nan_filtfilt.long_nan_gap_segmentation` | [conformance/tools/nan_filtfilt/long_nan_gap_segmentation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/long_nan_gap_segmentation.json) |
 | `tools.nan_filtfilt.no_nan_equivalent_filtfilt` | [conformance/tools/nan_filtfilt/no_nan_equivalent_filtfilt.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/no_nan_equivalent_filtfilt.json) |
 | `tools.nan_filtfilt.row_vector_orientation` | [conformance/tools/nan_filtfilt/row_vector_orientation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/row_vector_orientation.json) |
 | `tools.nan_filtfilt.short_nan_gap_interpolation` | [conformance/tools/nan_filtfilt/short_nan_gap_interpolation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/short_nan_gap_interpolation.json) |
-| `tools.nan_filtfilt.short_segments_unfiltered` | [conformance/tools/nan_filtfilt/short_segments_unfiltered.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/short_segments_unfiltered.json) |
+| `tools.nan_filtfilt.too_short_segments_nan` | [conformance/tools/nan_filtfilt/too_short_segments_nan.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/nan_filtfilt/too_short_segments_nan.json) |

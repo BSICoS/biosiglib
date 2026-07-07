@@ -10,7 +10,7 @@
     "description": "This tool defines local-maximum snapping used by ECG detection pipelines to refine approximate detections onto nearby R-wave maxima.",
     "notes": [
       "Canonical detection positions are one-based sample positions, matching existing Biosiglib r_wave_samples fixtures and the public sample-coordinate convention.",
-      "NaN samples in ecg are outside this draft contract pending maintainer review."
+      "Any NaN, Inf, or -Inf value in ecg or detections is invalid."
     ],
     "keywords": [
       "peak refinement",
@@ -82,7 +82,7 @@
       }
     ],
     "behavior": {
-      "nan_handling": "NaN, Inf, and -Inf values in ecg or detections are invalid in this draft.",
+      "nan_handling": "Any NaN, Inf, or -Inf value in either ecg or detections is invalid.",
       "empty_input": "Empty ecg input is invalid. Empty detections input returns an empty refined_detections vector.",
       "input_orientation": "Row and column vectors represent the same canonical ecg and detections sequences. refined_detections is a one-dimensional ordered vector aligned with detections.",
       "insufficient_data": "Detection positions less than 1 or greater than length(ecg) are invalid. Search windows near signal boundaries are clipped to valid ECG sample positions."

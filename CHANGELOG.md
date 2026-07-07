@@ -6,6 +6,18 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+### Added
+
+- Lazaro et al. 2014 reference for low-pass differentiator filter provenance.
+- Shared tool conformance cases for filtering boundary-NaN preservation, too-short filtering segments, include-NaN median behavior, `medfilt_threshold` `window = 1` rejection, and `snap_to_peak` NaN rejection.
+
+### Changed
+
+- Clarified `tools.lpd_filter` explicit-order conformance requirements and optional automatic-order support.
+- Clarified `tools.nan_filter` and `tools.nan_filtfilt` boundary-NaN handling and too-short segment behavior.
+- Clarified `tools.medfilt_threshold` include-NaN median behavior and `window >= 2` constraint.
+- Clarified `tools.snap_to_peak` finite-value requirements for both `ecg` and `detections`.
+
 ## v0.5.0 - 2026-07-07
 
 ### Breaking changes

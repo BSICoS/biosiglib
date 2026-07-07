@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nan_filter.too_short_segments_nan",
+  "specification_id": "tools.nan_filter",
+  "description": "Candidate finite segments shorter than the causal filtering minimum length produce NaN output over those segments.",
+  "inputs": [
+    {
+      "id": "numerator_coefficients",
+      "value": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "denominator_coefficients",
+      "value": [
+        1
+      ]
+    },
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "short_segments_case_table",
+      "column": "x_short_segments"
+    }
+  ],
+  "parameters": {
+    "max_gap": 1
+  },
+  "expected_outputs": [
+    {
+      "id": "filtered_signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "short_segments_case_table",
+      "column": "nan_filter_too_short_segments",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The finite segments have length one, which is shorter than max(length([0.5, 0.5]), length([1])) = 2, so the full output is NaN."
+  }
+}
