@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v0.4.0 - 2026-07-07
+
 ### Changed
 
 - Renamed the normative `ecg.pantompkins` intermediate output from `decg` to `decg_squared` to reflect that it is the squared derivative signal.
