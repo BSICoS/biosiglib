@@ -6,6 +6,30 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v0.5.0 - 2026-07-07
+
+### Breaking changes
+
+- Removed `algorithm_status` and `specification_status` from algorithm specification metadata and from the algorithm-spec schema.
+- Renamed existing shared conformance case files and IDs to remove unnecessary `_001` suffixes.
+
+### Added
+
+- Draft tool specifications for `tools.medfilt_threshold`, `tools.lpd_filter`, `tools.nan_filter`, `tools.nan_filtfilt`, and `tools.snap_to_peak`.
+- Shared tool fixtures and conformance cases covering reference outputs, meaningful edge behavior, orientation handling, invalid values, and NaN-aware filtering semantics.
+
+### Changed
+
+- Regenerated specification documentation for the updated schemas, renamed conformance cases, and new tool specifications.
+- Clarified insufficient-data behavior for ECG signal specifications.
+- Documented agent policy to avoid trivial all-NaN or empty fixtures and to avoid serial suffixes in descriptive conformance case names.
+- Removed implementation-specific MATLAB and Python mapping notes from tool specifications so Biosiglib remains the normative source of truth.
+
+### Removed
+
+- Trivial tool conformance fixtures for empty outputs and all-NaN inputs where the behavior is fully specified in text.
+- Biosigmat-derived wording from tool specifications while retaining fixture/reference provenance where applicable.
+
 ## v0.4.0 - 2026-07-07
 
 ### Changed

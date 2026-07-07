@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.snap_to_peak.invalid_detection_out_of_bounds",
+  "specification_id": "tools.snap_to_peak",
+  "description": "Reject detection positions outside the one-based ECG sample grid.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "value": [
+        0,
+        1,
+        3,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "detections",
+      "value": [
+        0
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "Detection positions must be between 1 and length(ecg), inclusive."
+  },
+  "oracle": {
+    "type": "biosigmat",
+    "description": "Biosigmat snaptopeak rejects detections less than 1 or greater than the ECG length.",
+    "commit": "04365c8ac02c886c4839412a319cac60221ab1ef"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ecg.sloperange.synthetic_positive_001",
+  "id": "ecg.sloperange.synthetic_positive",
   "specification_id": "ecg.sloperange",
   "description": "Compute EDR from a small synthetic derivative ECG where each slope range can be inspected manually.",
   "inputs": [

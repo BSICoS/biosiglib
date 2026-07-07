@@ -9,8 +9,6 @@
 | --- | --- |
 | Canonical specification ID | `ecg.pantompkins` |
 | Module | `ecg` |
-| Algorithm status | stable |
-| Specification status | draft |
 | Source JSON | [specs/ecg/pantompkins/spec.json](https://github.com/BSICoS/biosiglib/blob/main/specs/ecg/pantompkins/spec.json) |
 
 ## Summary
@@ -80,15 +78,14 @@ Treat ECG input as a one-dimensional vector regardless of row or column orientat
 
 ### Insufficient data
 
-Unspecified in this draft.
+An ECG signal with duration less than 3 seconds is insufficient data. Signal duration is defined as length(ecg) / sampling_frequency. A duration of exactly 3 seconds is sufficient.
 
 ## Informative Notes
 
 * The primary detection target is the ECG R wave.
 * Intermediate outputs are part of the public contract because they are used for plotting and debugging detections.
 * Exact cross-language numerical equality of intermediate signals is not required by the first positive conformance case.
-* Python should expose r_wave_times, ecg_filtered, decg_squared, and decg_envelope using the canonical names.
-* Insufficient-data behavior remains unspecified in this draft.
+* ECG signals shorter than 3 seconds are insufficient data.
 
 ## Conformance Cases
 

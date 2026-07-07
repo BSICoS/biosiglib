@@ -1,0 +1,91 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.snap_to_peak",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Snap detections to local maxima",
+    "summary": "Refines detection sample positions by moving each detection to the maximum signal sample in a local search window.",
+    "description": "This tool defines local-maximum snapping used by ECG detection pipelines to refine approximate detections onto nearby R-wave maxima.",
+    "notes": [
+      "Canonical detection positions are one-based sample positions, matching existing Biosiglib r_wave_samples fixtures and the public sample-coordinate convention.",
+      "NaN samples in ecg are outside this draft contract pending maintainer review."
+    ],
+    "keywords": [
+      "peak refinement",
+      "sample position",
+      "ECG",
+      "R wave",
+      "local maximum"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "ecg",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 2
+        }
+      },
+      {
+        "id": "detections",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "sample",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "window_size",
+        "data_type": "real_scalar",
+        "default": 20,
+        "unit": "sample",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "refined_detections",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "sample"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "effective_window_size",
+        "text": "window_size is rounded to the nearest integer number of samples before constructing search windows."
+      },
+      {
+        "target": "search_window",
+        "text": "For each detection d, search from max(1, d - effective_window_size) through min(length(ecg), d + effective_window_size), inclusive on the one-based sample grid."
+      },
+      {
+        "target": "refined_detection",
+        "text": "The refined detection is the one-based sample position of the first maximum-valued ECG sample inside the search_window for that detection."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaN, Inf, and -Inf values in ecg or detections are invalid in this draft.",
+      "empty_input": "Empty ecg input is invalid. Empty detections input returns an empty refined_detections vector.",
+      "input_orientation": "Row and column vectors represent the same canonical ecg and detections sequences. refined_detections is a one-dimensional ordered vector aligned with detections.",
+      "insufficient_data": "Detection positions less than 1 or greater than length(ecg) are invalid. Search windows near signal boundaries are clipped to valid ECG sample positions."
+    }
+  }
+}

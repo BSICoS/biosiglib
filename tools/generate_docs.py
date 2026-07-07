@@ -163,8 +163,6 @@ def render_spec_page(root: Path, spec_path: Path, spec: dict[str, Any]) -> str:
             [
                 ["Canonical specification ID", inline_code(specification_id)],
                 ["Module", inline_code(module)],
-                ["Algorithm status", json_scalar(metadata.get("algorithm_status"))],
-                ["Specification status", json_scalar(metadata.get("specification_status"))],
                 [
                     "Source JSON",
                     f"[{relative_path(spec_path, root)}]({github_blob_url(root, spec_path)})",

@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nan_filtfilt.row_vector_orientation",
+  "specification_id": "tools.nan_filtfilt",
+  "description": "Treat a row-vector signal as the same ordered samples as the canonical vector case.",
+  "inputs": [
+    {
+      "id": "numerator_coefficients",
+      "value": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "denominator_coefficients",
+      "value": [
+        1
+      ]
+    },
+    {
+      "id": "signal",
+      "value": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "filtered_signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "pulse_case_table",
+      "column": "nan_filtfilt_no_nan",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "Biosigmat nanfiltfilt transposes row vectors internally and restores row-vector orientation after processing; conformance compares ordered values.",
+    "commit": "04365c8ac02c886c4839412a319cac60221ab1ef"
+  }
+}

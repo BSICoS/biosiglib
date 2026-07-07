@@ -20,9 +20,7 @@
       "additionalProperties": false,
       "required": [
         "id",
-        "module",
-        "algorithm_status",
-        "specification_status"
+        "module"
       ],
       "properties": {
         "id": {
@@ -37,22 +35,6 @@
             "respiration",
             "hrv",
             "tools"
-          ]
-        },
-        "algorithm_status": {
-          "type": "string",
-          "enum": [
-            "stable",
-            "experimental",
-            "deprecated"
-          ]
-        },
-        "specification_status": {
-          "type": "string",
-          "enum": [
-            "draft",
-            "stable",
-            "deprecated"
           ]
         }
       }
