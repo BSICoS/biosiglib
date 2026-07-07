@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v0.5.0 - 2026-07-07
+
 ### Breaking changes
 
 - Removed `algorithm_status` and `specification_status` from algorithm specification metadata and from the algorithm-spec schema.
