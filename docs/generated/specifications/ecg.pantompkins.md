@@ -49,7 +49,7 @@ This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filt
 | --- | --- | --- | --- |
 | `r_wave_times` | real_vector | vector | s |
 | `ecg_filtered` | real_vector | vector | a.u. |
-| `decg` | real_vector | vector | a.u. |
+| `decg_squared` | real_vector | vector | a.u.^2 |
 | `decg_envelope` | real_vector | vector | a.u.^2 |
 
 ## Normative Definitions
@@ -59,7 +59,7 @@ This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filt
 | `detection_chain` | Apply bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement to the ECG signal. |  |
 | `r_wave_times` | Detected ECG R-wave occurrence times in seconds, sorted in ascending order. |  |
 | `ecg_filtered` | Bandpass-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
-| `decg` | Derivative-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
+| `decg_squared` | Squared derivative-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
 | `decg_envelope` | Squared and moving-window integrated detection envelope, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
 
 ## Behavior

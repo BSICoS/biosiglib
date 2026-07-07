@@ -28,6 +28,12 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Trivial tool conformance fixtures for empty outputs and all-NaN inputs where the behavior is fully specified in text.
 - Biosigmat-derived wording from tool specifications while retaining fixture/reference provenance where applicable.
 
+## v0.4.0 - 2026-07-07
+
+### Changed
+
+- Renamed the normative `ecg.pantompkins` intermediate output from `decg` to `decg_squared` to reflect that it is the squared derivative signal.
+
 ## v0.3.0 - 2026-06-30
 
 ### Added
@@ -124,6 +130,6 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Fixture-column references for ordered vector expected outputs in conformance cases.
 - ECG signal fixture copied from the existing Biosigmat regression data.
 - First `ecg.pantompkins` conformance case.
-- Normative `ecg_filtered`, `decg`, and `decg_envelope` outputs for `ecg.pantompkins`.
+- Normative `ecg_filtered`, `decg_squared`, and `decg_envelope` outputs for `ecg.pantompkins`.
 - Expected-error conformance cases with language-independent error categories and literal inputs.
 - Initial invalid-type, invalid-shape, and invalid-value cases for both pilot specifications.

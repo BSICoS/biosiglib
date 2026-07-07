@@ -109,10 +109,10 @@
         "unit": "a.u."
       },
       {
-        "id": "decg",
+        "id": "decg_squared",
         "data_type": "real_vector",
         "shape": "vector",
-        "unit": "a.u."
+        "unit": "a.u.^2"
       },
       {
         "id": "decg_envelope",
@@ -135,8 +135,8 @@
         "text": "Bandpass-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG."
       },
       {
-        "target": "decg",
-        "text": "Derivative-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG."
+        "target": "decg_squared",
+        "text": "Squared derivative-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG."
       },
       {
         "target": "decg_envelope",
