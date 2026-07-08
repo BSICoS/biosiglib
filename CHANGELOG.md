@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v0.5.1 - 2026-07-08
+
 ### Added
 
 - Lazaro et al. 2014 reference for low-pass differentiator filter provenance.
