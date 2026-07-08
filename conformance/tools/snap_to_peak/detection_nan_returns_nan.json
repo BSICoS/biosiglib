@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.snap_to_peak.detection_nan_returns_nan",
+  "specification_id": "tools.snap_to_peak",
+  "description": "Preserve alignment by returning NaN for a NaN detection while refining finite detections normally.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "value": [
+        0,
+        1,
+        4,
+        1,
+        0,
+        0,
+        3,
+        5,
+        2
+      ]
+    },
+    {
+      "id": "detections",
+      "fixture_id": "tools.synthetic.snap_to_peak_cases",
+      "file_role": "detection_nan_table",
+      "column": "detections"
+    }
+  ],
+  "parameters": {
+    "window_size": 2
+  },
+  "expected_outputs": [
+    {
+      "id": "refined_detections",
+      "fixture_id": "tools.synthetic.snap_to_peak_cases",
+      "file_role": "detection_nan_table",
+      "column": "refined_detections",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The NaN detection maps to NaN, and the finite detection at sample 7 searches samples 5 through 9 and snaps to the first maximum at sample 8."
+  }
+}

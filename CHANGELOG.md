@@ -6,6 +6,18 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+### Changed
+
+- Updated `tools.snap_to_peak` to allow NaN values as detection markers and ECG segment gaps while continuing to reject Inf and -Inf values.
+
+### Added
+
+- Shared `tools.snap_to_peak` conformance cases for NaN ECG segment boundaries, NaN detections returning NaN, and finite detections that fall on NaN ECG samples.
+
+### Removed
+
+- Obsolete `tools.snap_to_peak` expected-error conformance cases for NaN values in `ecg` and `detections`.
+
 ## v0.5.4 - 2026-07-08
 
 ### Fixed

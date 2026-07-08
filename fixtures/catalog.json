@@ -334,7 +334,7 @@
       "data_kind": "table",
       "source": {
         "type": "derived",
-        "description": "Small synthetic snap_to_peak expected-output columns generated from the current Biosigmat snaptopeak implementation, plus analytical invalid-value inputs."
+        "description": "Small synthetic snap_to_peak expected-output columns generated from the current Biosigmat snaptopeak implementation, plus analytical NaN-aware segment-boundary cases."
       },
       "files": [
         {
@@ -348,23 +348,38 @@
           "format": "csv"
         },
         {
-          "role": "invalid_ecg_nan_table",
-          "path": "fixtures/data/tools/snap_to_peak_invalid_ecg_nan.csv",
+          "role": "nan_segment_boundary_ecg_table",
+          "path": "fixtures/data/tools/snap_to_peak_nan_segment_boundary_ecg.csv",
           "format": "csv"
         },
         {
-          "role": "invalid_detections_nan_table",
-          "path": "fixtures/data/tools/snap_to_peak_invalid_detections_nan.csv",
+          "role": "nan_segment_boundary_expected_table",
+          "path": "fixtures/data/tools/snap_to_peak_nan_segment_boundary_expected.csv",
+          "format": "csv"
+        },
+        {
+          "role": "detection_nan_table",
+          "path": "fixtures/data/tools/snap_to_peak_detection_nan.csv",
+          "format": "csv"
+        },
+        {
+          "role": "detection_on_nan_ecg_signal_table",
+          "path": "fixtures/data/tools/snap_to_peak_detection_on_nan_ecg_signal.csv",
+          "format": "csv"
+        },
+        {
+          "role": "detection_on_nan_ecg_expected_table",
+          "path": "fixtures/data/tools/snap_to_peak_detection_on_nan_ecg_expected.csv",
           "format": "csv"
         }
       ],
       "channels": [
         {
-          "id": "ecg_with_nan",
+          "id": "ecg",
           "unit": "a.u."
         },
         {
-          "id": "detections_with_nan",
+          "id": "detections",
           "unit": "sample"
         },
         {
@@ -382,13 +397,19 @@
         {
           "id": "refined_window_large",
           "unit": "sample"
+        },
+        {
+          "id": "refined_detections",
+          "unit": "sample"
         }
       ],
       "processing": [
         "Reference outputs were generated with Biosigmat snaptopeak at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
         "case_table covers local-maximum snapping and boundary-clipped search windows.",
         "window_case_table covers a case where changing window_size changes the selected maximum.",
-        "invalid_ecg_nan_table and invalid_detections_nan_table contain analytical invalid-value inputs for NaN rejection."
+        "nan_segment_boundary_ecg_table and nan_segment_boundary_expected_table analytically cover clipping a search window at a NaN ECG gap.",
+        "detection_nan_table analytically covers NaN detections returning NaN while finite detections are refined normally.",
+        "detection_on_nan_ecg_signal_table and detection_on_nan_ecg_expected_table analytically cover finite detections that point to NaN ECG samples."
       ]
     }
   ]

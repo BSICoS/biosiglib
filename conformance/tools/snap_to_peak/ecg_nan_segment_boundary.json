@@ -1,0 +1,37 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.snap_to_peak.ecg_nan_segment_boundary",
+  "specification_id": "tools.snap_to_peak",
+  "description": "Treat a NaN ECG sample as a hard segment boundary so snapping does not cross the gap.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "fixture_id": "tools.synthetic.snap_to_peak_cases",
+      "file_role": "nan_segment_boundary_ecg_table",
+      "column": "ecg"
+    },
+    {
+      "id": "detections",
+      "value": [
+        5
+      ]
+    }
+  ],
+  "parameters": {
+    "window_size": 4
+  },
+  "expected_outputs": [
+    {
+      "id": "refined_detections",
+      "fixture_id": "tools.synthetic.snap_to_peak_cases",
+      "file_role": "nan_segment_boundary_expected_table",
+      "column": "refined_detections",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The nominal window around detection 5 reaches sample 7, but the NaN at sample 6 clips the search to samples 1 through 5, whose first maximum is sample 3."
+  }
+}
