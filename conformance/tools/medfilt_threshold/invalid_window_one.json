@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.medfilt_threshold.invalid_window_one",
+  "specification_id": "tools.medfilt_threshold",
+  "description": "Reject window = 1 because medfilt_threshold requires window >= 2.",
+  "inputs": [
+    {
+      "id": "x",
+      "value": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "parameters": {
+    "window": 1,
+    "factor": 2,
+    "max_threshold": 100
+  },
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "window must be an integer greater than or equal to 2."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative window constraint."
+  }
+}

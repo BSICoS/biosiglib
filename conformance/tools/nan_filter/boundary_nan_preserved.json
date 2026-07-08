@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nan_filter.boundary_nan_preserved",
+  "specification_id": "tools.nan_filter",
+  "description": "Preserve boundary NaN gaps as NaN and do not linearly extrapolate them.",
+  "inputs": [
+    {
+      "id": "numerator_coefficients",
+      "value": [
+        1
+      ]
+    },
+    {
+      "id": "denominator_coefficients",
+      "value": [
+        1
+      ]
+    },
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "pulse_case_table",
+      "column": "x_boundary_nan"
+    }
+  ],
+  "parameters": {
+    "max_gap": 1
+  },
+  "expected_outputs": [
+    {
+      "id": "filtered_signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "pulse_case_table",
+      "column": "nan_filter_boundary_nan",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The identity filter preserves finite samples, and boundary NaN gaps are preserved by definition."
+  }
+}

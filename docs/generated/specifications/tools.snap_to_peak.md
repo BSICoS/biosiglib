@@ -56,7 +56,7 @@ No scientific references are listed in this specification.
 
 ### Nan handling
 
-NaN, Inf, and -Inf values in ecg or detections are invalid in this draft.
+Any NaN, Inf, or -Inf value in either ecg or detections is invalid.
 
 ### Empty input
 
@@ -73,7 +73,7 @@ Detection positions less than 1 or greater than length(ecg) are invalid. Search 
 ## Informative Notes
 
 * Canonical detection positions are one-based sample positions, matching existing Biosiglib r_wave_samples fixtures and the public sample-coordinate convention.
-* NaN samples in ecg are outside this draft contract pending maintainer review.
+* Any NaN, Inf, or -Inf value in ecg or detections is invalid.
 
 ## Conformance Cases
 
@@ -83,4 +83,6 @@ Detection positions less than 1 or greater than length(ecg) are invalid. Search 
 | `tools.snap_to_peak.configurable_window_large` | [conformance/tools/snap_to_peak/configurable_window_large.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/configurable_window_large.json) |
 | `tools.snap_to_peak.configurable_window_small` | [conformance/tools/snap_to_peak/configurable_window_small.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/configurable_window_small.json) |
 | `tools.snap_to_peak.invalid_detection_out_of_bounds` | [conformance/tools/snap_to_peak/invalid_detection_out_of_bounds.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/invalid_detection_out_of_bounds.json) |
+| `tools.snap_to_peak.invalid_detections_nan` | [conformance/tools/snap_to_peak/invalid_detections_nan.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/invalid_detections_nan.json) |
+| `tools.snap_to_peak.invalid_ecg_nan` | [conformance/tools/snap_to_peak/invalid_ecg_nan.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/invalid_ecg_nan.json) |
 | `tools.snap_to_peak.local_maxima` | [conformance/tools/snap_to_peak/local_maxima.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/tools/snap_to_peak/local_maxima.json) |

@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.snap_to_peak.invalid_ecg_nan",
+  "specification_id": "tools.snap_to_peak",
+  "description": "Reject NaN values in the ECG signal.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "fixture_id": "tools.synthetic.snap_to_peak_cases",
+      "file_role": "invalid_ecg_nan_table",
+      "column": "ecg_with_nan"
+    },
+    {
+      "id": "detections",
+      "value": [
+        2
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "Any NaN value in ecg is invalid."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative finite-value constraint for ecg."
+  }
+}

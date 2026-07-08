@@ -142,7 +142,7 @@
       "data_kind": "table",
       "source": {
         "type": "derived",
-        "description": "Small synthetic medfilt_threshold input and expected-output columns generated from the current Biosigmat medfiltThreshold implementation."
+        "description": "Small synthetic medfilt_threshold input and expected-output columns generated from the current Biosigmat medfiltThreshold implementation or derived analytically from the normative contract."
       },
       "files": [
         {
@@ -179,6 +179,14 @@
         {
           "id": "threshold_cap",
           "unit": "a.u."
+        },
+        {
+          "id": "x_with_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "threshold_include_nan_window",
+          "unit": "a.u."
         }
       ],
       "processing": [
@@ -186,7 +194,8 @@
         "threshold_normal uses window = 3, factor = 2, max_threshold = 5 for x_normal.",
         "threshold_window_larger uses window = 99, factor = 2, max_threshold = 100 for x_normal.",
         "threshold_window_4 and threshold_window_5 use x_odd_even with factor = 1 and max_threshold = 1000.",
-        "threshold_cap uses x_normal with window = 3, factor = 10, max_threshold = 4."
+        "threshold_cap uses x_normal with window = 3, factor = 10, max_threshold = 4.",
+        "threshold_include_nan_window is an analytical expected output for include-NaN median semantics with window = 2, factor = 2, and max_threshold = 100."
       ]
     },
     {
@@ -226,7 +235,7 @@
       "data_kind": "table",
       "source": {
         "type": "derived",
-        "description": "Small synthetic NaN-filtering inputs and expected outputs generated from the current Biosigmat nanfilter and nanfiltfilt implementations."
+        "description": "Small synthetic NaN-filtering inputs and expected outputs generated from the current Biosigmat nanfilter and nanfiltfilt implementations or derived analytically from the normative contract."
       },
       "files": [
         {
@@ -278,15 +287,27 @@
           "unit": "a.u."
         },
         {
+          "id": "x_boundary_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filter_boundary_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filtfilt_boundary_nan",
+          "unit": "a.u."
+        },
+        {
           "id": "x_short_segments",
           "unit": "a.u."
         },
         {
-          "id": "nan_filter_short_segments",
+          "id": "nan_filter_too_short_segments",
           "unit": "a.u."
         },
         {
-          "id": "nan_filtfilt_short_segments",
+          "id": "nan_filtfilt_too_short_segments",
           "unit": "a.u."
         }
       ],
@@ -294,7 +315,8 @@
         "Reference outputs were generated with Biosigmat nanfilter and nanfiltfilt at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
         "All cases use numerator_coefficients = [0.5, 0.5], denominator_coefficients = [1], and max_gap = 1 unless a case explicitly omits max_gap.",
         "pulse_case_table covers no-NaN, short-gap, and long-gap behavior.",
-        "short_segments_case_table covers segments shorter than the coefficient-vector length."
+        "nan_filter_boundary_nan and nan_filtfilt_boundary_nan are analytical identity-filter expected outputs for boundary-NaN preservation.",
+        "short_segments_case_table covers candidate finite segments too short for the selected filtering operation; the expected outputs are analytical all-NaN results under the current contract."
       ]
     },
     {
@@ -303,7 +325,7 @@
       "data_kind": "table",
       "source": {
         "type": "derived",
-        "description": "Small synthetic snap_to_peak expected-output columns generated from the current Biosigmat snaptopeak implementation."
+        "description": "Small synthetic snap_to_peak expected-output columns generated from the current Biosigmat snaptopeak implementation, plus analytical invalid-value inputs."
       },
       "files": [
         {
@@ -315,9 +337,27 @@
           "role": "window_case_table",
           "path": "fixtures/data/tools/snap_to_peak_window_cases.csv",
           "format": "csv"
+        },
+        {
+          "role": "invalid_ecg_nan_table",
+          "path": "fixtures/data/tools/snap_to_peak_invalid_ecg_nan.csv",
+          "format": "csv"
+        },
+        {
+          "role": "invalid_detections_nan_table",
+          "path": "fixtures/data/tools/snap_to_peak_invalid_detections_nan.csv",
+          "format": "csv"
         }
       ],
       "channels": [
+        {
+          "id": "ecg_with_nan",
+          "unit": "a.u."
+        },
+        {
+          "id": "detections_with_nan",
+          "unit": "sample"
+        },
         {
           "id": "refined_local",
           "unit": "sample"
@@ -338,7 +378,8 @@
       "processing": [
         "Reference outputs were generated with Biosigmat snaptopeak at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
         "case_table covers local-maximum snapping and boundary-clipped search windows.",
-        "window_case_table covers a case where changing window_size changes the selected maximum."
+        "window_case_table covers a case where changing window_size changes the selected maximum.",
+        "invalid_ecg_nan_table and invalid_detections_nan_table contain analytical invalid-value inputs for NaN rejection."
       ]
     }
   ]

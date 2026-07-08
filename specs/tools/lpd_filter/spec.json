@@ -7,12 +7,13 @@
   "informative": {
     "title": "Low-pass differentiator filter design",
     "summary": "Designs a low-pass differentiating FIR filter and reports its linear-phase delay.",
-    "description": "This tool defines low-pass differentiator filter design used in ECG processing pipelines. The draft specifies scalar frequency validation, the default pass-band frequency, explicit-order filter design, and returned delay. Automatic order selection remains pending shared review because it depends on filter-design tooling that may vary across implementations.",
+    "description": "This tool defines low-pass differentiator FIR filter design used in ECG and pulse-processing pipelines. Explicit-order behavior is required for conformance. Automatic-order behavior is preferred when an implementation has a reliable FIR order estimator, but implementations without one may reject omitted order with an unsupported-configuration error while still conforming to the explicit-order profile.",
     "notes": [
       "When pass_frequency is omitted, use stop_frequency - 0.2 Hz.",
+      "Explicit-order behavior is required for conformance; automatic-order behavior is preferred when supported.",
       "When order is supplied, round it upward to the next even integer before design.",
-      "Automatic order selection is not covered by a shared conformance case in this draft.",
-      "The filter is a linear-phase differentiator; delay is one half of the effective even order."
+      "When order is omitted, implementations may either estimate the automatic order as specified here or reject the configuration as unsupported.",
+      "The filter is a linear-phase low-pass differentiator; delay is one half of the effective even order."
     ],
     "keywords": [
       "FIR",
@@ -23,7 +24,13 @@
     ]
   },
   "provenance": {
-    "references": []
+    "references": [
+      {
+        "id": "lazaro_prv_sleep_apnea_ppg_2014",
+        "relation": "original_method",
+        "note": "Method provenance for the low-pass differentiator filter used in pulse-rate variability processing."
+      }
+    ]
   },
   "normative": {
     "inputs": [
@@ -94,12 +101,20 @@
         "text": "pass_frequency must be strictly less than stop_frequency, and stop_frequency must be strictly less than sampling_frequency / 2."
       },
       {
-        "target": "effective_order",
-        "text": "For explicit order, use order + mod(order, 2), so odd explicit orders are rounded upward to the next even order."
+        "target": "normalized_frequencies",
+        "text": "Let wPass = pass_frequency / (sampling_frequency / 2) and wStop = stop_frequency / (sampling_frequency / 2)."
+      },
+      {
+        "target": "explicit_effective_order",
+        "text": "For explicit order, use effective_order = order + mod(order, 2), so odd explicit orders are rounded upward to the next even order."
+      },
+      {
+        "target": "automatic_effective_order",
+        "text": "For omitted order, automatic-order implementations estimate estimated_order using firpmord([wPass, wStop], [1, 0], [0.01, 0.1]), then use effective_order = estimated_order + mod(estimated_order, 2). Implementations without a reliable automatic FIR order estimator may reject omitted order as an unsupported configuration."
       },
       {
         "target": "filter_coefficients",
-        "text": "filter_coefficients are the numerator coefficients of the canonical low-pass differentiating FIR design for the normalized pass and stop frequencies."
+        "text": "filter_coefficients are the numerator coefficients of the canonical linear-phase low-pass differentiating FIR design equivalent to MATLAB fdesign.differentiator('n,fp,fst', effective_order, wPass, wStop) followed by design(..., 'firls'), scaled by sampling_frequency / (2*pi)."
       },
       {
         "target": "delay",
@@ -107,10 +122,10 @@
       }
     ],
     "behavior": {
-      "nan_handling": "NaN, Inf, and -Inf scalar frequencies are invalid. NaN or Inf behavior inside automatic filter-design internals is outside this draft.",
+      "nan_handling": "NaN, Inf, and -Inf scalar frequencies are invalid.",
       "empty_input": "Empty scalar frequency inputs are invalid.",
       "input_orientation": "All inputs are scalars. filter_coefficients is a one-dimensional ordered vector.",
-      "insufficient_data": "Automatic order selection is pending review for shared conformance. Explicit-order behavior is specified for positive scalar order values."
+      "insufficient_data": "Explicit-order behavior is required for conformance. Omitted-order automatic behavior is preferred when a reliable FIR order estimator is available; otherwise omitted order may be rejected with an unsupported-configuration error."
     }
   }
 }

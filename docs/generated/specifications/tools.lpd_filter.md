@@ -15,7 +15,7 @@
 
 Designs a low-pass differentiating FIR filter and reports its linear-phase delay.
 
-This tool defines low-pass differentiator filter design used in ECG processing pipelines. The draft specifies scalar frequency validation, the default pass-band frequency, explicit-order filter design, and returned delay. Automatic order selection remains pending shared review because it depends on filter-design tooling that may vary across implementations.
+This tool defines low-pass differentiator FIR filter design used in ECG and pulse-processing pipelines. Explicit-order behavior is required for conformance. Automatic-order behavior is preferred when an implementation has a reliable FIR order estimator, but implementations without one may reject omitted order with an unsupported-configuration error while still conforming to the explicit-order profile.
 
 ## Keywords
 
@@ -23,7 +23,9 @@ This tool defines low-pass differentiator filter design used in ECG processing p
 
 ## Scientific References
 
-No scientific references are listed in this specification.
+| ID | Relation | Note |
+| --- | --- | --- |
+| `lazaro_prv_sleep_apnea_ppg_2014` | original_method | Method provenance for the low-pass differentiator filter used in pulse-rate variability processing. |
 
 ## Inputs
 
@@ -52,15 +54,17 @@ No scientific references are listed in this specification.
 | --- | --- | --- |
 | `pass_frequency` | If pass_frequency is omitted, set pass_frequency = stop_frequency - 0.2 Hz. |  |
 | `frequency_constraints` | pass_frequency must be strictly less than stop_frequency, and stop_frequency must be strictly less than sampling_frequency / 2. |  |
-| `effective_order` | For explicit order, use order + mod(order, 2), so odd explicit orders are rounded upward to the next even order. |  |
-| `filter_coefficients` | filter_coefficients are the numerator coefficients of the canonical low-pass differentiating FIR design for the normalized pass and stop frequencies. |  |
+| `normalized_frequencies` | Let wPass = pass_frequency / (sampling_frequency / 2) and wStop = stop_frequency / (sampling_frequency / 2). |  |
+| `explicit_effective_order` | For explicit order, use effective_order = order + mod(order, 2), so odd explicit orders are rounded upward to the next even order. |  |
+| `automatic_effective_order` | For omitted order, automatic-order implementations estimate estimated_order using firpmord([wPass, wStop], [1, 0], [0.01, 0.1]), then use effective_order = estimated_order + mod(estimated_order, 2). Implementations without a reliable automatic FIR order estimator may reject omitted order as an unsupported configuration. |  |
+| `filter_coefficients` | filter_coefficients are the numerator coefficients of the canonical linear-phase low-pass differentiating FIR design equivalent to MATLAB fdesign.differentiator('n,fp,fst', effective_order, wPass, wStop) followed by design(..., 'firls'), scaled by sampling_frequency / (2*pi). |  |
 | `delay` | delay is effective_order / 2 samples. |  |
 
 ## Behavior
 
 ### Nan handling
 
-NaN, Inf, and -Inf scalar frequencies are invalid. NaN or Inf behavior inside automatic filter-design internals is outside this draft.
+NaN, Inf, and -Inf scalar frequencies are invalid.
 
 ### Empty input
 
@@ -72,14 +76,15 @@ All inputs are scalars. filter_coefficients is a one-dimensional ordered vector.
 
 ### Insufficient data
 
-Automatic order selection is pending review for shared conformance. Explicit-order behavior is specified for positive scalar order values.
+Explicit-order behavior is required for conformance. Omitted-order automatic behavior is preferred when a reliable FIR order estimator is available; otherwise omitted order may be rejected with an unsupported-configuration error.
 
 ## Informative Notes
 
 * When pass_frequency is omitted, use stop_frequency - 0.2 Hz.
+* Explicit-order behavior is required for conformance; automatic-order behavior is preferred when supported.
 * When order is supplied, round it upward to the next even integer before design.
-* Automatic order selection is not covered by a shared conformance case in this draft.
-* The filter is a linear-phase differentiator; delay is one half of the effective even order.
+* When order is omitted, implementations may either estimate the automatic order as specified here or reject the configuration as unsupported.
+* The filter is a linear-phase low-pass differentiator; delay is one half of the effective even order.
 
 ## Conformance Cases
 

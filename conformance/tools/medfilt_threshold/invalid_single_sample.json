@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.medfilt_threshold.invalid_single_sample",
+  "specification_id": "tools.medfilt_threshold",
+  "description": "Reject single-sample x input because medfilt_threshold requires at least two samples.",
+  "inputs": [
+    {
+      "id": "x",
+      "value": [
+        1
+      ]
+    }
+  ],
+  "parameters": {
+    "window": 2,
+    "factor": 2,
+    "max_threshold": 100
+  },
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "x must contain at least two samples."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative x minimum_length constraint."
+  }
+}
