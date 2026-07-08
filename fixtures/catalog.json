@@ -287,6 +287,14 @@
           "unit": "a.u."
         },
         {
+          "id": "x_long_gap_filtfilt_filterable_segments",
+          "unit": "a.u."
+        },
+        {
+          "id": "nan_filtfilt_long_gap_filterable_segments",
+          "unit": "a.u."
+        },
+        {
           "id": "x_boundary_nan",
           "unit": "a.u."
         },
@@ -315,6 +323,7 @@
         "Reference outputs were generated with Biosigmat nanfilter and nanfiltfilt at commit 04365c8ac02c886c4839412a319cac60221ab1ef.",
         "All cases use numerator_coefficients = [0.5, 0.5], denominator_coefficients = [1], and max_gap = 1 unless a case explicitly omits max_gap.",
         "pulse_case_table covers no-NaN, short-gap, and long-gap behavior.",
+        "x_long_gap_filtfilt_filterable_segments and nan_filtfilt_long_gap_filterable_segments analytically cover preserved long-gap segmentation for nan_filtfilt with finite candidate segments long enough to satisfy length(segment) > 3 * filter_order.",
         "nan_filter_boundary_nan and nan_filtfilt_boundary_nan are analytical identity-filter expected outputs for boundary-NaN preservation.",
         "short_segments_case_table covers candidate finite segments too short for the selected filtering operation; the expected outputs are analytical all-NaN results under the current contract."
       ]
