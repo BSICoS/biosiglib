@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v0.5.5 - 2026-07-08
+
 ### Changed
 
 - Updated `tools.snap_to_peak` to allow NaN values as detection markers and ECG segment gaps while continuing to reject Inf and -Inf values.
