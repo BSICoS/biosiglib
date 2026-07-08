@@ -6,6 +6,12 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v0.5.4 - 2026-07-08
+
+### Fixed
+
+- Fixed the released `nan_filtfilt_long_gap_filterable_segments` endpoint expected values to match independent MATLAB `filtfilt` calls on each finite segment.
+
 ## v0.5.3 - 2026-07-08
 
 ### Fixed
