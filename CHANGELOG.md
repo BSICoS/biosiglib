@@ -6,6 +6,12 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v0.5.2 - 2026-07-08
+
+### Fixed
+
+- Corrected a stale `tools.nan_filtfilt` long-gap fixture so it matches the v0.5.1 minimum segment-length semantics.
+
 ## v0.5.1 - 2026-07-08
 
 ### Added
