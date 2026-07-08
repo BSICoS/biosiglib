@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.snap_to_peak.detection_on_nan_ecg_returns_nan",
+  "specification_id": "tools.snap_to_peak",
+  "description": "Return NaN when a finite detection points to a NaN ECG sample.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "fixture_id": "tools.synthetic.snap_to_peak_cases",
+      "file_role": "detection_on_nan_ecg_signal_table",
+      "column": "ecg"
+    },
+    {
+      "id": "detections",
+      "value": [
+        3,
+        4
+      ]
+    }
+  ],
+  "parameters": {
+    "window_size": 2
+  },
+  "expected_outputs": [
+    {
+      "id": "refined_detections",
+      "fixture_id": "tools.synthetic.snap_to_peak_cases",
+      "file_role": "detection_on_nan_ecg_expected_table",
+      "column": "refined_detections",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The detection at sample 3 points to a NaN ECG sample and returns NaN; the detection at sample 4 searches only the finite segment after the gap and remains at sample 4."
+  }
+}
