@@ -4,6 +4,7 @@
 ## Validation
 
 - [ ] `python tools/generate_docs.py --check`
+- [ ] `python -m unittest discover -s tests -v`
 - [ ] `python tools/validate_specs.py`
 - [ ] `python -m compileall tools`
 - [ ] `mkdocs build --strict`

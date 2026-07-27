@@ -438,6 +438,48 @@ def validate_scientific_notes(
     return errors
 
 
+def validate_specification_documentation(
+    root: Path,
+    specs_by_id: dict[str, dict[str, Any]],
+) -> list[str]:
+    """Require every specification page to be generated, indexed, and navigable."""
+    errors = []
+    index_path = root / "docs" / "specifications.md"
+    mkdocs_path = root / "mkdocs.yml"
+
+    index_text = read_text(index_path) if index_path.is_file() else None
+    mkdocs_text = read_text(mkdocs_path) if mkdocs_path.is_file() else None
+
+    if index_text is None:
+        errors.append(f"{relative_name(index_path, root)}: specification index page is missing")
+    if mkdocs_text is None:
+        errors.append(f"{relative_name(mkdocs_path, root)}: MkDocs configuration is missing")
+
+    for specification_id in sorted(specs_by_id):
+        documentation_path = (
+            root / "docs" / "generated" / "specifications" / f"{specification_id}.md"
+        )
+        documentation_reference = f"generated/specifications/{specification_id}.md"
+
+        if not documentation_path.is_file():
+            errors.append(
+                f"{relative_name(documentation_path, root)}: "
+                f"generated page for specification '{specification_id}' is missing"
+            )
+        if index_text is not None and documentation_reference not in index_text:
+            errors.append(
+                f"{relative_name(index_path, root)}: specification "
+                f"'{specification_id}' is not listed"
+            )
+        if mkdocs_text is not None and documentation_reference not in mkdocs_text:
+            errors.append(
+                f"{relative_name(mkdocs_path, root)}: specification "
+                f"'{specification_id}' is not listed in navigation"
+            )
+
+    return errors
+
+
 def load_algorithm_specs(
     root: Path,
     validator: Draft202012Validator,
@@ -1057,6 +1099,7 @@ def validate_repository(root: Path) -> tuple[list[str], dict[str, dict[str, Any]
         )
     )
     errors.extend(validate_scientific_notes(root, specs_by_id))
+    errors.extend(validate_specification_documentation(root, specs_by_id))
 
     return errors, specs_by_id, validators
 

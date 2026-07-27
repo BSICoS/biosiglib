@@ -10,6 +10,11 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 - Defined `hrv.tdmetrics` minimum-data behavior per metric and added analytical conformance cases for one valid interval and one successive difference.
 - Clarified that NaN samples are hard finite-segment boundaries for `ecg.pantompkins` and recorded the Biosigmat commit that generated the Medicom oracle.
+- Added every generated specification page to the specification index and MkDocs navigation.
+
+### Added
+
+- Validator checks and isolated negative tests that require every specification to have a generated, indexed, and navigable documentation page.
 
 ## v0.5.5 - 2026-07-08
 

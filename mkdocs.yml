@@ -36,6 +36,11 @@ nav:
       - hrv.tdmetrics: generated/specifications/hrv.tdmetrics.md
       - ecg.pantompkins: generated/specifications/ecg.pantompkins.md
       - ecg.sloperange: generated/specifications/ecg.sloperange.md
+      - tools.lpd_filter: generated/specifications/tools.lpd_filter.md
+      - tools.medfilt_threshold: generated/specifications/tools.medfilt_threshold.md
+      - tools.nan_filter: generated/specifications/tools.nan_filter.md
+      - tools.nan_filtfilt: generated/specifications/tools.nan_filtfilt.md
+      - tools.snap_to_peak: generated/specifications/tools.snap_to_peak.md
   - Scientific Notes:
       - Overview: scientific/index.md
       - ecg.sloperange: scientific/ecg.sloperange.md

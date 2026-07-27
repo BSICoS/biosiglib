@@ -29,6 +29,7 @@ Use the repository-local `.venv` for local Python tooling. After creating and in
 ```bash
 python tools/generate_docs.py
 python tools/generate_docs.py --check
+python -m unittest discover -s tests -v
 python tools/validate_specs.py
 python -m compileall tools
 mkdocs build --strict
@@ -39,6 +40,7 @@ On Windows PowerShell, explicit `.venv` invocations look like:
 ```powershell
 .venv\Scripts\python.exe tools\generate_docs.py
 .venv\Scripts\python.exe tools\generate_docs.py --check
+.venv\Scripts\python.exe -m unittest discover -s tests -v
 .venv\Scripts\python.exe tools\validate_specs.py
 .venv\Scripts\python.exe -m compileall tools
 .venv\Scripts\python.exe -m mkdocs build --strict
