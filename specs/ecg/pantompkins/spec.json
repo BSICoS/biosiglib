@@ -123,8 +123,12 @@
     ],
     "definitions": [
       {
+        "target": "finite_ecg_segment",
+        "text": "A finite ECG segment is a maximal contiguous run of ecg samples that are neither NaN nor infinite. NaN samples are hard boundaries between finite ECG segments; Inf and -Inf samples are invalid inputs."
+      },
+      {
         "target": "detection_chain",
-        "text": "Apply bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement to the ECG signal."
+        "text": "Within each finite ECG segment, apply bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement without using samples across a NaN boundary."
       },
       {
         "target": "r_wave_times",
@@ -144,7 +148,7 @@
       }
     ],
     "behavior": {
-      "nan_handling": "NaN samples in the ECG signal are preserved through filtering as the implementation permits. Detections should not be produced inside NaN-corrupted regions in a future shared NaN case; the case in this draft contains no NaN samples.",
+      "nan_handling": "NaN samples in ecg are allowed and act as hard boundaries between finite ECG segments. Filtering, integration, peak detection, and peak refinement must not use samples across a NaN boundary. No R-wave detection is returned inside a NaN gap. Intermediate vector outputs remain aligned sample-by-sample with ecg and represent unprocessed NaN gaps as NaN.",
       "empty_input": "Empty ECG input is invalid; the exact failure mechanism is implementation-specific.",
       "input_orientation": "Treat ECG input as a one-dimensional vector regardless of row or column orientation. All vector outputs are conceptually one-dimensional ordered vectors.",
       "insufficient_data": "An ECG signal with duration less than 3 seconds is insufficient data. Signal duration is defined as length(ecg) / sampling_frequency. A duration of exactly 3 seconds is sufficient."

@@ -9,6 +9,7 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Changed
 
 - Defined `hrv.tdmetrics` minimum-data behavior per metric and added analytical conformance cases for one valid interval and one successive difference.
+- Clarified that NaN samples are hard finite-segment boundaries for `ecg.pantompkins` and recorded the Biosigmat commit that generated the Medicom oracle.
 
 ## v0.5.5 - 2026-07-08
 
