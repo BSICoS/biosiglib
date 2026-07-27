@@ -56,7 +56,8 @@ This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filt
 
 | Target | Definition | Formula |
 | --- | --- | --- |
-| `detection_chain` | Apply bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement to the ECG signal. |  |
+| `finite_ecg_segment` | A finite ECG segment is a maximal contiguous run of ecg samples that are neither NaN nor infinite. NaN samples are hard boundaries between finite ECG segments; Inf and -Inf samples are invalid inputs. |  |
+| `detection_chain` | Within each finite ECG segment, apply bandpass filtering, derivative filtering, squaring, moving-window integration, peak detection, and peak refinement without using samples across a NaN boundary. |  |
 | `r_wave_times` | Detected ECG R-wave occurrence times in seconds, sorted in ascending order. |  |
 | `ecg_filtered` | Bandpass-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
 | `decg_squared` | Squared derivative-filtered ECG signal, represented as a one-dimensional vector with the same canonical sample order and length as the input ECG. |  |
@@ -66,7 +67,7 @@ This Pan-Tompkins-style detector is implemented in Biosigmat using bandpass filt
 
 ### Nan handling
 
-NaN samples in the ECG signal are preserved through filtering as the implementation permits. Detections should not be produced inside NaN-corrupted regions in a future shared NaN case; the case in this draft contains no NaN samples.
+NaN samples in ecg are allowed and act as hard boundaries between finite ECG segments. Filtering, integration, peak detection, and peak refinement must not use samples across a NaN boundary. No R-wave detection is returned inside a NaN gap. Intermediate vector outputs remain aligned sample-by-sample with ecg and represent unprocessed NaN gaps as NaN.
 
 ### Empty input
 
