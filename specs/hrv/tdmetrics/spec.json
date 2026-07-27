@@ -14,11 +14,7 @@
       "NaN intervals are explicit missing or invalid interval markers and are ignored in all metric calculations, equivalent to omit-NaN behavior.",
       "The function must not silently treat invalid intervals as physiological variability.",
       "Removing invalid intervals or marking them as NaN can both be correct choices for time-domain statistics over valid intervals.",
-      "tdmetrics does not interpolate NaN values, gap-fill intervals, or reconstruct event times internally.",
-      "Unresolved behavior: empty input.",
-      "Unresolved behavior: one valid interval.",
-      "Unresolved behavior: no valid successive intervals.",
-      "Unresolved behavior: only one valid successive interval when sample standard deviation is requested."
+      "tdmetrics does not interpolate NaN values, gap-fill intervals, or reconstruct event times internally."
     ],
     "keywords": [
       "dtk",
@@ -132,9 +128,9 @@
     ],
     "behavior": {
       "nan_handling": "NaN values in dtk are allowed and omitted from all metric calculations. Inf and -Inf intervals are invalid. Zero or negative finite intervals are invalid. tdmetrics must not silently interpolate, gap-fill, or treat invalid intervals as physiological variability.",
-      "empty_input": "Empty dtk input is invalid; the exact failure mechanism is implementation-specific until an expected-error case is added.",
+      "empty_input": "Empty dtk input is invalid.",
       "input_orientation": "Row and column vectors represent the same canonical dtk sequence and must produce scientifically equivalent outputs.",
-      "insufficient_data": "Unspecified for too few valid intervals to calculate mean, sample standard deviations, or successive-difference metrics after omitting NaN markers."
+      "insufficient_data": "After omitting NaN markers, zero valid intervals produce NaN for mhr, sdnn, sdsd, rmssd, and pnn50. One valid interval produces finite mhr and NaN for sdnn, sdsd, rmssd, and pnn50. Two valid intervals produce finite mhr, sdnn, rmssd, and pnn50, while sdsd is NaN because its sample standard deviation has only one successive difference. Three or more valid intervals produce all metrics normally. Undefined individual metrics are represented by NaN and must not cause a global insufficient-data error."
     }
   }
 }

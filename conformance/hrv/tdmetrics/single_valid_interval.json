@@ -1,0 +1,47 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.tdmetrics.single_valid_interval",
+  "specification_id": "hrv.tdmetrics",
+  "description": "Return mean heart or pulse rate and NaN for variability metrics when dtk contains one valid interval.",
+  "inputs": [
+    {
+      "id": "dtk",
+      "value": [
+        0.8
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "mhr",
+      "value": 75.0,
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "sdnn",
+      "value": "NaN",
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "sdsd",
+      "value": "NaN",
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "rmssd",
+      "value": "NaN",
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "pnn50",
+      "value": "NaN",
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Expected values follow directly from the normative minimum-data behavior for one valid interval."
+  }
+}

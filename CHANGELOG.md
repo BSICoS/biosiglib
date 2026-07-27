@@ -6,6 +6,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+### Changed
+
+- Defined `hrv.tdmetrics` minimum-data behavior per metric and added analytical conformance cases for one valid interval and one successive difference.
+
 ## v0.5.5 - 2026-07-08
 
 ### Changed

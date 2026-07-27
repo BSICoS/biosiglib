@@ -70,7 +70,7 @@ NaN values in dtk are allowed and omitted from all metric calculations. Inf and 
 
 ### Empty input
 
-Empty dtk input is invalid; the exact failure mechanism is implementation-specific until an expected-error case is added.
+Empty dtk input is invalid.
 
 ### Input orientation
 
@@ -78,7 +78,7 @@ Row and column vectors represent the same canonical dtk sequence and must produc
 
 ### Insufficient data
 
-Unspecified for too few valid intervals to calculate mean, sample standard deviations, or successive-difference metrics after omitting NaN markers.
+After omitting NaN markers, zero valid intervals produce NaN for mhr, sdnn, sdsd, rmssd, and pnn50. One valid interval produces finite mhr and NaN for sdnn, sdsd, rmssd, and pnn50. Two valid intervals produce finite mhr, sdnn, rmssd, and pnn50, while sdsd is NaN because its sample standard deviation has only one successive difference. Three or more valid intervals produce all metrics normally. Undefined individual metrics are represented by NaN and must not cause a global insufficient-data error.
 
 ## Informative Notes
 
@@ -88,10 +88,6 @@ Unspecified for too few valid intervals to calculate mean, sample standard devia
 * The function must not silently treat invalid intervals as physiological variability.
 * Removing invalid intervals or marking them as NaN can both be correct choices for time-domain statistics over valid intervals.
 * tdmetrics does not interpolate NaN values, gap-fill intervals, or reconstruct event times internally.
-* Unresolved behavior: empty input.
-* Unresolved behavior: one valid interval.
-* Unresolved behavior: no valid successive intervals.
-* Unresolved behavior: only one valid successive interval when sample standard deviation is requested.
 
 ## Conformance Cases
 
@@ -102,5 +98,7 @@ Unspecified for too few valid intervals to calculate mean, sample standard devia
 | `hrv.tdmetrics.invalid_dtk_negative` | [conformance/hrv/tdmetrics/invalid_dtk_negative.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/invalid_dtk_negative.json) |
 | `hrv.tdmetrics.invalid_dtk_non_numeric` | [conformance/hrv/tdmetrics/invalid_dtk_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/invalid_dtk_non_numeric.json) |
 | `hrv.tdmetrics.invalid_dtk_zero` | [conformance/hrv/tdmetrics/invalid_dtk_zero.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/invalid_dtk_zero.json) |
+| `hrv.tdmetrics.single_successive_difference` | [conformance/hrv/tdmetrics/single_successive_difference.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/single_successive_difference.json) |
+| `hrv.tdmetrics.single_valid_interval` | [conformance/hrv/tdmetrics/single_valid_interval.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/single_valid_interval.json) |
 | `hrv.tdmetrics.valid_dtk` | [conformance/hrv/tdmetrics/valid_dtk.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/valid_dtk.json) |
 | `hrv.tdmetrics.valid_dtk_with_nan` | [conformance/hrv/tdmetrics/valid_dtk_with_nan.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/hrv/tdmetrics/valid_dtk_with_nan.json) |
