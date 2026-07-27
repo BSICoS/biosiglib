@@ -24,6 +24,11 @@ The current specifications are:
 | [`hrv.tdmetrics`](generated/specifications/hrv.tdmetrics.md) | HRV | Time-domain HRV metrics from cleaned beat-to-beat or pulse-to-pulse intervals. |
 | [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) | ECG | Pan-Tompkins-style ECG R-wave detection with public intermediate signals. |
 | [`ecg.sloperange`](generated/specifications/ecg.sloperange.md) | ECG | Slope-range ECG-derived respiration from derivative ECG morphology around R waves. |
+| [`tools.lpd_filter`](generated/specifications/tools.lpd_filter.md) | Tools | Low-pass differentiating FIR filter design with linear-phase delay. |
+| [`tools.medfilt_threshold`](generated/specifications/tools.medfilt_threshold.md) | Tools | Median-filtered adaptive threshold with a configurable cap. |
+| [`tools.nan_filter`](generated/specifications/tools.nan_filter.md) | Tools | Causal filtering with NaN-aware gap handling. |
+| [`tools.nan_filtfilt`](generated/specifications/tools.nan_filtfilt.md) | Tools | Zero-phase filtering with NaN-aware gap handling. |
+| [`tools.snap_to_peak`](generated/specifications/tools.snap_to_peak.md) | Tools | NaN-aware local-maximum refinement of detection positions. |
 
 These specifications are not the final Biosiglib scope. The initial pilots established the specification format, validation rules, fixtures, conformance cases, documentation structure, and release propagation pattern that later specifications reuse.
 
