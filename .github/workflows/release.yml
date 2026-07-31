@@ -60,8 +60,17 @@ jobs:
       - name: Compile validator tools
         run: python -m compileall tools
 
+      - name: Test validator
+        run: python -m unittest discover -s tests -v
+
       - name: Validate Biosiglib
         run: python tools/validate_specs.py
+
+      - name: Check generated documentation
+        run: python tools/generate_docs.py --check
+
+      - name: Build documentation
+        run: mkdocs build --strict
 
       - name: Check whitespace
         run: git diff --check
