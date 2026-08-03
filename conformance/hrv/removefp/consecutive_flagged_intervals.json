@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.removefp.consecutive_flagged_intervals",
+  "specification_id": "hrv.removefp",
+  "description": "Remove the final event of each of two adjacent flagged intervals in the same pass.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [0, 1, 2, 2.2, 2.4, 3.4, 4.4]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2, 3.4, 4.4],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The adaptive baseline is 1 s throughout. Both adjacent 0.2 s intervals are flagged on the original series, so the events at 2.2 s and 2.4 s are removed simultaneously."
+  }
+}

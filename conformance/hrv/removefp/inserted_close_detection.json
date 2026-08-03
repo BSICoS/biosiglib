@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.removefp.inserted_close_detection",
+  "specification_id": "hrv.removefp",
+  "description": "Remove an inserted detection that follows its preceding event by only 0.2 seconds.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [0, 1, 2, 2.2, 3, 4, 5]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2, 3, 4, 5],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The adaptive baseline is 1 s throughout; only the 0.2 s interval is strictly below the 0.7 s removal threshold, so its second event at 2.2 s is removed."
+  }
+}

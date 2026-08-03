@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.removefp.strict_equality_retained",
+  "specification_id": "hrv.removefp",
+  "description": "Retain an event whose preceding interval is exactly at the strict false-positive boundary.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [0, 1, 2, 2.7, 3.7, 4.7, 5.7]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2, 2.7, 3.7, 4.7, 5.7],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The adaptive baseline is 1 s throughout. The 0.7 s interval equals, but is not strictly less than, 0.7 times that baseline and is therefore retained."
+  }
+}

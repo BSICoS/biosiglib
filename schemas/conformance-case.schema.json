@@ -123,6 +123,22 @@
         }
       ]
     },
+    "expected_value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "const": "NaN"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/expected_value"
+          }
+        }
+      ]
+    },
     "input_mapping": {
       "type": "object",
       "additionalProperties": false,
@@ -202,14 +218,7 @@
           "minLength": 1
         },
         "value": {
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "const": "NaN"
-            }
-          ]
+          "$ref": "#/$defs/expected_value"
         },
         "fixture_id": {
           "type": "string",
