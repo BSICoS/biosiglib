@@ -1,0 +1,169 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "hrv.fillgaps",
+    "module": "hrv"
+  },
+  "informative": {
+    "title": "Missing-event gap filling",
+    "summary": "Reconstructs missing event timestamps by iteratively interpolating intervals inside locally detected gaps.",
+    "description": "The method preserves every original event timestamp and attempts progressively larger insertion counts in unresolved long intervals. Each reconstruction uses PCHIP interpolation from nearby valid intervals, is rescaled to the exact gap duration, and is accepted or rolled back according to local interval bounds.",
+    "notes": [
+      "Input event times must already be strictly increasing; implementations must not sort them implicitly.",
+      "fillgaps receives an already cleaned event series and must not call hrv.removefp internally. The recommended preprocessing order is hrv.removefp followed by hrv.fillgaps.",
+      "The default factors are empirical algorithm settings and are not clinically validated thresholds.",
+      "Original event timestamps are never displaced or removed, including when a gap cannot be reconstructed."
+    ],
+    "keywords": [
+      "event times",
+      "missing events",
+      "HRV preprocessing",
+      "PCHIP interpolation"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "cajal_missing_data_hrv_2022",
+        "relation": "preprocessing_guidance",
+        "note": "Documents the missing-data problem in HRV analysis and the original empirical gap-detection and correction factors; the canonical defaults include later Biosigmat refinements recorded by this contract."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "tk",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "gap_detection_factor",
+        "data_type": "real_scalar",
+        "default": 1.5,
+        "unit": "1",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "correction_upper_factor",
+        "data_type": "real_scalar",
+        "default": 1.15,
+        "unit": "1",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "correction_lower_factor",
+        "data_type": "real_scalar",
+        "default": 0.75,
+        "unit": "1",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "minimum_interval",
+        "data_type": "real_scalar",
+        "default": 0.5,
+        "unit": "s",
+        "constraints": {
+          "minimum": 0
+        }
+      },
+      {
+        "id": "max_gap_duration",
+        "data_type": "real_scalar",
+        "default": 10,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "tn",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      },
+      {
+        "id": "dtn",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "tk",
+        "text": "tk is a non-empty ordered vector of finite event timestamps expressed in seconds. The time origin is unrestricted, so negative timestamps are valid. tk is assumed to have already undergone any desired false-positive removal; fillgaps must not invoke hrv.removefp internally."
+      },
+      {
+        "target": "event_order",
+        "text": "Event timestamps must be strictly increasing: every timestamp must be greater than the preceding timestamp. Unsorted timestamps and duplicate timestamps are invalid, and implementations must not sort tk implicitly."
+      },
+      {
+        "target": "parameter_relationships",
+        "text": "All five parameters must be finite. The three factors must satisfy 0 < correction_lower_factor < correction_upper_factor <= gap_detection_factor. minimum_interval must be greater than or equal to 0 s, and max_gap_duration must be strictly positive."
+      },
+      {
+        "target": "adaptive_baseline",
+        "text": "For a series with at least three events, compute its successive intervals and apply tools.medfilt_threshold with window = 30 samples, factor = 1, and max_threshold = 1.5 s. Recompute this aligned baseline after every complete insertion-count pass."
+      },
+      {
+        "target": "gap_detection",
+        "text": "An interval is a gap only when it is strictly greater than both gap_detection_factor times its aligned adaptive baseline and minimum_interval. Equality to either boundary is not a gap. A detected gap whose duration exceeds max_gap_duration is uncorrectable."
+      },
+      {
+        "target": "segment_wide_iteration",
+        "text": "Start with one inserted event for every unresolved correctable gap in the complete series. Finish that pass for every such gap before attempting two insertions in any still-unresolved gap, then continue with three and higher insertion counts without an arbitrary maximum. Attempts within a pass use the interval series, baseline, and unresolved-gap set at the start of that pass; accepted results are applied together after the pass, followed by interval, baseline, and gap recomputation."
+      },
+      {
+        "target": "interpolation_support",
+        "text": "For a gap attempt with N inserted events, select the two nearest valid intervals before the gap and the two nearest valid intervals after it. Intervals belonging to every other unresolved gap are excluded while searching outward. The search distance is unbounded, but no extrapolation or lower-order interpolation is allowed; a gap without two valid intervals on each side is uncorrectable."
+      },
+      {
+        "target": "pchip_reconstruction",
+        "text": "Place the four support-interval values at compressed coordinates [-1, 0, N + 2, N + 3] in chronological order. Evaluate shape-preserving piecewise cubic Hermite interpolation at integer coordinates 1 through N + 1. Rescale all N + 1 reconstructed intervals by one common factor so their sum equals the original gap duration exactly, then insert N events at their cumulative offsets from the original event before the gap."
+      },
+      {
+        "target": "sufficient_reconstruction",
+        "text": "A reconstruction is sufficient only when every one of its N + 1 intervals is strictly less than correction_upper_factor times the baseline aligned with the original gap at the start of the current pass. If sufficient, accept it and finalize that gap."
+      },
+      {
+        "target": "over_insertion",
+        "text": "A reconstruction is over-inserted only when every one of its N + 1 intervals is strictly less than max(correction_lower_factor times the baseline aligned with the original gap at the start of the current pass, minimum_interval). If an attempt is over-inserted, finalize the gap using the preceding insertion-count reconstruction, even when that preceding reconstruction did not satisfy the upper bound. Because iteration starts at N = 1, an over-inserted N = 1 attempt leaves the gap unresolved with no inserted events."
+      },
+      {
+        "target": "original_events",
+        "text": "tn contains every original timestamp from tk unchanged and in its original order. Reconstruction can only add timestamps strictly inside a gap; it must never remove or displace original events."
+      },
+      {
+        "target": "unresolved_gap_output",
+        "text": "If a gap is uncorrectable or remains unresolved, preserve both original timestamps spanning it and insert no event in that span. Compute dtn as diff(tn), then replace the single dtn element spanning every unresolved gap with NaN. This rule also applies when no gap can be attempted and the algorithm returns early."
+      },
+      {
+        "target": "dtn",
+        "text": "dtn is the successive-difference vector of tn, with length max(length(tn) - 1, 0), except that intervals spanning unresolved gaps are represented by NaN as defined above."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaN, Inf, and -Inf timestamps are invalid. NaN does not represent a missing event in tk; a missed event is represented by the resulting abnormally long finite interval. NaN is used only in dtn to mark an unresolved gap span.",
+      "empty_input": "Empty tk input is invalid.",
+      "input_orientation": "Row and column vectors represent the same canonical event-time sequence. Output orientation is implementation-specific and is not part of the language-independent contract.",
+      "insufficient_data": "A single event is valid and returns tn equal to tk with empty dtn. A two-event series is valid; without enough baseline and two-sided interpolation support, its timestamps are preserved and any detected unresolved gap would be represented by NaN in dtn. Small valid inputs must not fail merely because reconstruction support is unavailable."
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fillgaps.segment_wide_iteration",
+  "specification_id": "hrv.fillgaps",
+  "description": "Attempt one insertion in every gap before resolving a larger gap with two insertions.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [0, 1, 2, 4, 5, 6, 7, 10, 11, 12, 13, 14]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "dtn",
+      "value": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "With a 1 s baseline, the 2 s gap is accepted with one insertion during the first pass. The 3 s gap is not sufficient with one insertion and is accepted with two during the second pass."
+  }
+}

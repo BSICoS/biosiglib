@@ -22,6 +22,7 @@ The current specifications are:
 | Specification | Module | Summary |
 | --- | --- | --- |
 | [`hrv.tdmetrics`](generated/specifications/hrv.tdmetrics.md) | HRV | Time-domain HRV metrics from cleaned beat-to-beat or pulse-to-pulse intervals. |
+| [`hrv.fillgaps`](generated/specifications/hrv.fillgaps.md) | HRV | Iterative PCHIP reconstruction of missing events in locally detected gaps. |
 | [`hrv.removefp`](generated/specifications/hrv.removefp.md) | HRV | Deterministic false-positive event removal using an adaptive interval baseline. |
 | [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) | ECG | Pan-Tompkins-style ECG R-wave detection with public intermediate signals. |
 | [`ecg.sloperange`](generated/specifications/ecg.sloperange.md) | ECG | Slope-range ECG-derived respiration from derivative ECG morphology around R waves. |

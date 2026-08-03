@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fillgaps.over_maximum_duration_unresolved",
+  "specification_id": "hrv.fillgaps",
+  "description": "Preserve a detected gap longer than the maximum correction duration and mark it unresolved.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [0, 1, 2, 14, 15, 16]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2, 14, 15, 16],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "dtn",
+      "value": [1, 1, "NaN", 1, 1],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The 12 s interval is a detected gap but exceeds the default 10 s maximum. Both original timestamps remain and the spanning dtn element is NaN."
+  }
+}
