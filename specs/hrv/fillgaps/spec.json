@@ -140,11 +140,11 @@
       },
       {
         "target": "sufficient_reconstruction",
-        "text": "A reconstruction is sufficient only when every one of its N + 1 intervals is strictly less than correction_upper_factor times the baseline aligned with the original gap at the start of the current pass. If sufficient, accept it and finalize that gap."
+        "text": "After first applying the over-insertion rule, a reconstruction is sufficient only when every one of its N + 1 intervals is strictly less than correction_upper_factor times the baseline aligned with the original gap at the start of the current pass. If it is sufficient and is not over-inserted, accept it and finalize that gap."
       },
       {
         "target": "over_insertion",
-        "text": "A reconstruction is over-inserted only when every one of its N + 1 intervals is strictly less than max(correction_lower_factor times the baseline aligned with the original gap at the start of the current pass, minimum_interval). If an attempt is over-inserted, finalize the gap using the preceding insertion-count reconstruction, even when that preceding reconstruction did not satisfy the upper bound. Because iteration starts at N = 1, an over-inserted N = 1 attempt leaves the gap unresolved with no inserted events."
+        "text": "A reconstruction is over-inserted only when every one of its N + 1 intervals is strictly less than max(correction_lower_factor times the baseline aligned with the original gap at the start of the current pass, minimum_interval). Evaluate over-insertion before sufficiency; because the lower boundary is below the upper boundary, an over-inserted attempt also satisfies the upper test, but the fallback rule takes precedence. If an attempt is over-inserted, finalize the gap using the preceding insertion-count reconstruction, even when that preceding reconstruction did not satisfy the upper bound. Because iteration starts at N = 1, an over-inserted N = 1 attempt leaves the gap unresolved with no inserted events."
       },
       {
         "target": "original_events",
