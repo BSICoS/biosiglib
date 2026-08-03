@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fillgaps.regular_series_unchanged",
+  "specification_id": "hrv.fillgaps",
+  "description": "Return an event series unchanged when no interval exceeds the gap boundary.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [0, 1, 2, 3, 4, 5]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2, 3, 4, 5],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "dtn",
+      "value": [1, 1, 1, 1, 1],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Every interval and aligned baseline equals 1 s, so no interval is strictly greater than the 1.5 s detection boundary."
+  }
+}

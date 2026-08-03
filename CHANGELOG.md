@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+### Added
+
+- Added the normative `hrv.fillgaps` contract, seven analytical shared cases, and a scientific note covering strict event ordering, explicit preprocessing boundaries, configurable empirical factors, segment-wide iterative PCHIP reconstruction, exact gap-duration preservation, over-insertion fallback, and NaN-marked unresolved gaps. This is a MINOR change because it adds a new compatible specification; Biosigmat #55 and Biosigpy #45 must adapt before declaring conformance.
+
 ## v1.1.0 - 2026-08-03
 
 ### Added

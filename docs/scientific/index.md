@@ -39,6 +39,7 @@ Changes touching specifications or scientific notes require a consistency review
 ## Current Notes
 
 * [`ecg.sloperange`](ecg.sloperange.md) - slope-range ECG-derived respiration.
+* [`hrv.fillgaps`](hrv.fillgaps.md) - iterative reconstruction of missing event timestamps.
 * [`hrv.removefp`](hrv.removefp.md) - deterministic removal of event detections that follow abnormally short intervals.
 
 Use the [scientific-note template](template.md) when adding one.

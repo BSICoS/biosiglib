@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fillgaps.pchip_single_insertion",
+  "specification_id": "hrv.fillgaps",
+  "description": "Fill a non-constant 2.2 second gap with one PCHIP-derived event while preserving the exact duration.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [0, 0.9, 1.9, 4.1, 5.2, 6.4]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [0, 0.9, 1.9, 2.987477954144621, 4.1, 5.2, 6.4],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "dtn",
+      "value": [0.9, 1, 1.087477954144621, 1.1125220458553793, 1.1, 1.2],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The gap baseline is 1.05 s. PCHIP at compressed coordinates 1 and 2 yields 1.038047138047138 and 1.0619528619528622 s before common rescaling to the exact 2.2 s gap duration."
+  }
+}

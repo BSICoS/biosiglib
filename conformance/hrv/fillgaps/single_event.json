@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fillgaps.single_event",
+  "specification_id": "hrv.fillgaps",
+  "description": "Return a single valid event unchanged with an empty interval output.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [-2.5]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [-2.5],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "dtn",
+      "value": [],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "One event has no successive interval and therefore cannot contain a detectable gap."
+  }
+}
