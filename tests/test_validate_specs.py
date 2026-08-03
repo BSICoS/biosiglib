@@ -14,6 +14,36 @@ sys.path.insert(0, str(REPOSITORY_ROOT / "tools"))
 import validate_specs  # noqa: E402
 
 
+class ConformanceCaseSchemaTests(unittest.TestCase):
+    def test_accepts_literal_vector_expected_output(self) -> None:
+        schema = validate_specs.load_json(
+            REPOSITORY_ROOT / "schemas" / "conformance-case.schema.json"
+        )
+        validator = validate_specs.Draft202012Validator(schema)
+        case = {
+            "$schema": "../../../schemas/conformance-case.schema.json",
+            "id": "hrv.example.literal_vector",
+            "specification_id": "hrv.example",
+            "description": "Exercise a literal vector output without a fixture.",
+            "inputs": [{"id": "tk", "value": [0, 1, 2]}],
+            "parameters": {},
+            "expected_outputs": [
+                {
+                    "id": "tn",
+                    "value": [0, 1, "NaN"],
+                    "absolute_tolerance": 0,
+                }
+            ],
+            "nan_equal": True,
+            "oracle": {
+                "type": "analytical",
+                "description": "Literal vector schema regression case.",
+            },
+        }
+
+        self.assertEqual(list(validator.iter_errors(case)), [])
+
+
 class SpecificationDocumentationValidationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary_directory = tempfile.TemporaryDirectory()

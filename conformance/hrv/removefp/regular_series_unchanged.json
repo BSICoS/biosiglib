@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.removefp.regular_series_unchanged",
+  "specification_id": "hrv.removefp",
+  "description": "Retain every event in a regular series whose intervals equal their adaptive baseline.",
+  "inputs": [
+    {
+      "id": "tk",
+      "value": [0, 1, 2, 3, 4, 5]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2, 3, 4, 5],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Every original interval and every aligned adaptive-baseline sample equals 1 s, so no interval is strictly below 0.7 times the baseline."
+  }
+}

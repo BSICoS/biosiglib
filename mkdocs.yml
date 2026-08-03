@@ -34,6 +34,7 @@ nav:
   - Specifications:
       - Overview: specifications.md
       - hrv.tdmetrics: generated/specifications/hrv.tdmetrics.md
+      - hrv.removefp: generated/specifications/hrv.removefp.md
       - ecg.pantompkins: generated/specifications/ecg.pantompkins.md
       - ecg.sloperange: generated/specifications/ecg.sloperange.md
       - tools.lpd_filter: generated/specifications/tools.lpd_filter.md
@@ -44,6 +45,7 @@ nav:
   - Scientific Notes:
       - Overview: scientific/index.md
       - ecg.sloperange: scientific/ecg.sloperange.md
+      - hrv.removefp: scientific/hrv.removefp.md
       - Template: scientific/template.md
   - Conformance: conformance.md
   - Releases: releases.md

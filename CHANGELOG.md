@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+### Added
+
+- Added the normative `hrv.removefp` contract, four analytical shared cases, and a scientific note covering strictly ordered event times, adaptive-baseline detection, strict threshold equality, simultaneous one-pass removal, adjacent short intervals, and empirical-threshold limitations. This is a MINOR change because it adds a new compatible specification; Biosigmat #54 and Biosigpy #44 must adapt before declaring conformance.
+- Extended the conformance-case schema with literal vector expected outputs so compact analytical vector cases do not require redundant fixture files.
+
 ## v1.0.0 - 2026-08-03
 
 ### Added
