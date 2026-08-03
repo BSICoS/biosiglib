@@ -66,35 +66,35 @@
   "expected_outputs": [
     {
       "id": "edr",
-      "fixture_id": "ecg.synthetic.sloperange_expected_edr_001",
+      "fixture_id": "ecg.synthetic.sloperange_expected_edr",
       "file_role": "expected_edr_table",
       "column": "positive_edr",
       "absolute_tolerance": 0
     },
     {
       "id": "upslopes",
-      "fixture_id": "ecg.synthetic.sloperange_expected_slopes_001",
+      "fixture_id": "ecg.synthetic.sloperange_expected_slopes",
       "file_role": "expected_slope_vectors",
       "column": "positive_upslopes",
       "absolute_tolerance": 0
     },
     {
       "id": "downslopes",
-      "fixture_id": "ecg.synthetic.sloperange_expected_slopes_001",
+      "fixture_id": "ecg.synthetic.sloperange_expected_slopes",
       "file_role": "expected_slope_vectors",
       "column": "positive_downslopes",
       "absolute_tolerance": 0
     },
     {
       "id": "upslope_max_positions",
-      "fixture_id": "ecg.synthetic.sloperange_expected_edr_001",
+      "fixture_id": "ecg.synthetic.sloperange_expected_edr",
       "file_role": "expected_edr_table",
       "column": "positive_upslope_max_positions",
       "absolute_tolerance": 0
     },
     {
       "id": "downslope_min_positions",
-      "fixture_id": "ecg.synthetic.sloperange_expected_edr_001",
+      "fixture_id": "ecg.synthetic.sloperange_expected_edr",
       "file_role": "expected_edr_table",
       "column": "positive_downslope_min_positions",
       "absolute_tolerance": 0

@@ -106,7 +106,7 @@
       ]
     },
     {
-      "id": "ecg.synthetic.sloperange_expected_edr_001",
+      "id": "ecg.synthetic.sloperange_expected_edr",
       "module": "ecg",
       "data_kind": "table",
       "source": {
@@ -155,7 +155,7 @@
       ]
     },
     {
-      "id": "ecg.synthetic.sloperange_expected_slopes_001",
+      "id": "ecg.synthetic.sloperange_expected_slopes",
       "module": "ecg",
       "data_kind": "table",
       "source": {
