@@ -1,4 +1,4 @@
-positive_edr,boundary_edr
-5,NaN
-7,7
-6,NaN
+positive_edr,boundary_edr,positive_upslope_max_positions,positive_downslope_min_positions,boundary_upslope_max_positions,boundary_downslope_min_positions
+5,NaN,9,13,NaN,NaN
+7,7,19,23,19,23
+6,NaN,29,33,NaN,NaN

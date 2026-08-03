@@ -16,7 +16,7 @@ Respiration changes the position of the heart and the electrical axis seen by a 
 
 ## Method summary
 
-For each detected R wave, the method inspects short derivative-ECG windows around the beat. It compares the strongest local upslope with the strongest local downslope and stores their difference as the EDR amplitude for that beat. Beats whose analysis windows fall outside the signal keep their alignment but receive missing-value markers.
+For each detected R wave, the method inspects short derivative-ECG windows around the beat. It compares the strongest local upslope with the strongest local downslope and stores their difference as the EDR amplitude for that beat. Signal-aligned slope traces and the selected extrema positions make these choices available for visual inspection. Beats whose analysis windows fall outside the signal keep their beat-level alignment but do not contribute incomplete windows to the diagnostic traces.
 
 ## Key assumptions
 
@@ -24,7 +24,7 @@ The method assumes R-wave times are reliable, the derivative ECG emphasizes QRS 
 
 ## Interpretation and limitations
 
-Larger EDR values indicate stronger local slope-range modulation around a beat. Interpretation should focus on trends or derived respiratory rate estimates after suitable post-processing. The method may be unreliable when R-wave detections are wrong, QRS morphology is unstable for non-respiratory reasons, ECG noise is high, or boundary beats lack enough neighboring samples.
+Larger EDR values indicate stronger local slope-range modulation around a beat. Interpretation should focus on trends or derived respiratory rate estimates after suitable post-processing. Plotting the diagnostic slope traces and extrema markers over the derivative ECG can reveal whether the intended QRS regions were selected. The method may be unreliable when R-wave detections are wrong, QRS morphology is unstable for non-respiratory reasons, ECG noise is high, or boundary beats lack enough neighboring samples.
 
 ## References
 

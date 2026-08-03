@@ -45,22 +45,32 @@ No parameters.
 | id | data_type | shape | unit |
 | --- | --- | --- | --- |
 | `edr` | real_vector | vector | a.u. |
+| `upslopes` | real_vector | vector | a.u. |
+| `downslopes` | real_vector | vector | a.u. |
+| `upslope_max_positions` | real_vector | vector | sample |
+| `downslope_min_positions` | real_vector | vector | sample |
 
 ## Normative Definitions
 
 | Target | Definition | Formula |
 | --- | --- | --- |
 | `r_wave_times` | ECG R-wave occurrence times in seconds. Values must be finite, one-dimensional, strictly increasing, without repeats, and mappable onto the derivative ECG sample grid using sampling_frequency. |  |
-| `r_wave_samples` | Conceptual sample-grid positions derived from r_wave_times and sampling_frequency on the derivative ECG sample grid. Each value must lie within the decg sample grid. The contract does not specify implementation-specific array indexing conventions. |  |
+| `r_wave_samples` | Conceptual zero-based sample-grid positions computed as round(r_wave_times * sampling_frequency) on the derivative ECG sample grid. Each value must lie from 0 through length(decg) - 1, inclusive. Public implementations may retain native array indices in their direct APIs, but conformance values for normative position outputs must use this zero-based grid. |  |
 | `analysis_windows` | Set short_window = round(sampling_frequency * 0.015) and long_window = round(sampling_frequency * 0.05). The upslope_window contains integer offsets greater than -long_window and less than or equal to short_window. The downslope_window contains integer offsets greater than or equal to -short_window and less than long_window. |  |
-| `edr` | For each R wave with complete analysis windows, compute edr as max(decg over the upslope window) minus min(decg over the downslope window). |  |
-| `boundary_edr` | For an R wave whose analysis windows extend outside the derivative ECG signal, preserve output alignment with r_wave_times and set the corresponding edr value to NaN. |  |
+| `complete_beat` | A beat is complete only when both its upslope and downslope analysis windows lie entirely within the decg sample grid. Only complete beats contribute samples to upslopes or downslopes. |  |
+| `extrema_selection` | For each complete beat, select the maximum decg value in the upslope window and the minimum decg value in the downslope window. If multiple samples share the selected extreme value, choose the earliest sample in the corresponding window. |  |
+| `edr` | For each complete beat, compute edr as the decg value at upslope_max_positions minus the decg value at downslope_min_positions. Align edr with r_wave_times. |  |
+| `upslopes` | Return a vector with the same length, zero-based sample grid, and unit as decg. Copy decg inside the union of complete-beat upslope windows and set every other sample to NaN. |  |
+| `downslopes` | Return a vector with the same length, zero-based sample grid, and unit as decg. Copy decg inside the union of complete-beat downslope windows and set every other sample to NaN. |  |
+| `upslope_max_positions` | Return the selected upslope maximum positions on the conceptual zero-based decg sample grid, aligned with r_wave_times. Set the position to NaN for an incomplete beat. |  |
+| `downslope_min_positions` | Return the selected downslope minimum positions on the conceptual zero-based decg sample grid, aligned with r_wave_times. Set the position to NaN for an incomplete beat. |  |
+| `boundary_outputs` | For an incomplete beat, preserve alignment with r_wave_times and set the corresponding edr, upslope_max_positions, and downslope_min_positions values to NaN. Do not copy either incomplete beat window into upslopes or downslopes. |  |
 
 ## Behavior
 
 ### Nan handling
 
-NaN and infinite values in decg, r_wave_times, or sampling_frequency are invalid inputs. NaN values may appear in edr only to mark R waves whose analysis windows are incomplete at signal boundaries.
+NaN and infinite values in decg, r_wave_times, or sampling_frequency are invalid inputs. NaN values mark incomplete beats in edr, upslope_max_positions, and downslope_min_positions, and samples outside complete-beat analysis windows in upslopes and downslopes.
 
 ### Empty input
 
@@ -68,17 +78,15 @@ Empty decg and empty r_wave_times inputs are invalid.
 
 ### Input orientation
 
-Treat decg and r_wave_times as one-dimensional vectors regardless of row or column orientation. The edr output is a one-dimensional ordered vector aligned with r_wave_times.
+Treat decg and r_wave_times as one-dimensional vectors regardless of row or column orientation. The edr, upslope_max_positions, and downslope_min_positions outputs are one-dimensional ordered vectors aligned with r_wave_times. The upslopes and downslopes outputs are one-dimensional ordered vectors aligned with decg.
 
 ### Insufficient data
 
-If decg is too short to support complete windows around a beat, the affected boundary edr value is NaN when the corresponding r_wave_samples value is inside the signal. R-wave times that map outside the derivative ECG sample grid are invalid.
+If decg is too short to support both complete windows around a beat, the aligned edr and extrema-position values are NaN and that beat contributes no samples to either signal-aligned slope vector when the corresponding r_wave_samples value is inside the signal. R-wave times that map outside the derivative ECG sample grid are invalid.
 
 ## Informative Notes
 
-* This first Biosiglib contract makes edr the only normative output.
-* Diagnostic arrays exposed by implementations, including upslopes, downslopes, upslope_max_position, and downslope_min_position, are informative implementation details at this stage.
-* Implementation-specific array indexing conventions are not part of the Biosiglib contract.
+* The signal-aligned slope vectors and selected extrema positions support visual inspection of the analysis performed around each R wave.
 
 ## Conformance Cases
 

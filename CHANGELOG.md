@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+### Changed
+
+- Expanded the normative `ecg.sloperange` contract from the `edr` output alone to all five outputs by adding signal-aligned `upslopes` and `downslopes` vectors plus zero-based `upslope_max_positions` and `downslope_min_positions`. The shared analytical cases now verify complete-window masking, boundary `NaN` alignment, and earliest-sample selection for tied extrema. This is a MAJOR release change because downstream implementations must adapt before declaring conformance to the expanded contract.
+
 ## v0.6.0 - 2026-07-31
 
 ### Changed
