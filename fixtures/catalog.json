@@ -106,12 +106,12 @@
       ]
     },
     {
-      "id": "ecg.synthetic.sloperange_expected_edr_001",
+      "id": "ecg.synthetic.sloperange_expected_edr",
       "module": "ecg",
       "data_kind": "table",
       "source": {
         "type": "synthetic",
-        "description": "Small hand-calculated expected EDR outputs for ecg.sloperange conformance cases."
+        "description": "Small hand-calculated beat-aligned EDR and extrema-position outputs for ecg.sloperange conformance cases."
       },
       "files": [
         {
@@ -129,11 +129,69 @@
         {
           "id": "boundary_edr",
           "unit": "a.u."
+        },
+        {
+          "id": "positive_upslope_max_positions",
+          "unit": "sample"
+        },
+        {
+          "id": "positive_downslope_min_positions",
+          "unit": "sample"
+        },
+        {
+          "id": "boundary_upslope_max_positions",
+          "unit": "sample"
+        },
+        {
+          "id": "boundary_downslope_min_positions",
+          "unit": "sample"
         }
       ],
       "processing": [
         "positive_edr contains the analytical EDR sequence [5, 7, 6] for the small positive synthetic case.",
-        "boundary_edr contains [NaN, 7, NaN] to preserve alignment when the first and last R-wave windows are incomplete."
+        "boundary_edr contains [NaN, 7, NaN] to preserve alignment when the first and last R-wave windows are incomplete.",
+        "The positive extrema-position channels contain zero-based positions [9, 19, 29] and [13, 23, 33], selecting the earliest sample from each tied extreme.",
+        "The boundary extrema-position channels contain [NaN, 19, NaN] and [NaN, 23, NaN] because only the middle beat has both complete windows."
+      ]
+    },
+    {
+      "id": "ecg.synthetic.sloperange_expected_slopes",
+      "module": "ecg",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Small hand-calculated signal-aligned upslope and downslope vectors for ecg.sloperange conformance cases."
+      },
+      "files": [
+        {
+          "role": "expected_slope_vectors",
+          "path": "fixtures/data/ecg/sloperange_expected_slope_vectors.csv",
+          "format": "csv"
+        }
+      ],
+      "sampling_frequency_hz": 100,
+      "channels": [
+        {
+          "id": "positive_upslopes",
+          "unit": "a.u."
+        },
+        {
+          "id": "positive_downslopes",
+          "unit": "a.u."
+        },
+        {
+          "id": "boundary_upslopes",
+          "unit": "a.u."
+        },
+        {
+          "id": "boundary_downslopes",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Each 40-row channel is aligned with the corresponding synthetic decg input sample grid.",
+        "Finite values copy decg inside the union of complete-beat windows; NaN marks every sample outside those windows.",
+        "The positive channels contain all three complete beats, while the boundary channels contain only the complete middle beat."
       ]
     },
     {
