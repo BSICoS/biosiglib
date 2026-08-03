@@ -29,7 +29,7 @@ See [docs/development.md](docs/development.md) for local setup and validation co
 
 ## Releases
 
-See [docs/releases.md](docs/releases.md) for release semantics and propagation details.
+See the [SemVer classification and release-readiness checklist](docs/releases.md) for release semantics and propagation details.
 
 ## Project status
 

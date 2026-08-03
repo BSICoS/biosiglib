@@ -6,6 +6,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+### Added
+
+- Documented the manual ecosystem SemVer classification and release-readiness checklist, including downstream propagation and exact-commit checks.
+
 ### Changed
 
 - Expanded the normative `ecg.sloperange` contract from the `edr` output alone to all five outputs by adding signal-aligned `upslopes` and `downslopes` vectors plus zero-based `upslope_max_positions` and `downslope_min_positions`. The shared analytical cases now verify complete-window masking, boundary `NaN` alignment, and earliest-sample selection for tied extrema. This is a MAJOR release change because downstream implementations must adapt before declaring conformance to the expanded contract.
