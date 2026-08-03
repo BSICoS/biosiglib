@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+### Fixed
+
+- Clarified that `hrv.fillgaps` evaluates over-insertion before sufficiency. An attempt below the lower boundary necessarily also falls below the upper boundary, but the normative fallback to the preceding insertion count takes precedence. The existing analytical fallback case already encoded this result. This is a PATCH clarification with no conformance-case change.
+
 ## v1.2.0 - 2026-08-03
 
 ### Added
