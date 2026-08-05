@@ -35,6 +35,7 @@ nav:
       - Overview: specifications.md
       - hrv.tdmetrics: generated/specifications/hrv.tdmetrics.md
       - hrv.fillgaps: generated/specifications/hrv.fillgaps.md
+      - hrv.ipfm: generated/specifications/hrv.ipfm.md
       - hrv.removefp: generated/specifications/hrv.removefp.md
       - ecg.pantompkins: generated/specifications/ecg.pantompkins.md
       - ecg.sloperange: generated/specifications/ecg.sloperange.md
@@ -47,6 +48,7 @@ nav:
       - Overview: scientific/index.md
       - ecg.sloperange: scientific/ecg.sloperange.md
       - hrv.fillgaps: scientific/hrv.fillgaps.md
+      - hrv.ipfm: scientific/hrv.ipfm.md
       - hrv.removefp: scientific/hrv.removefp.md
       - Template: scientific/template.md
   - Conformance: conformance.md

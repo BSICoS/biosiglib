@@ -114,6 +114,122 @@
       "doi": "10.3390/s22155774"
     },
     {
+      "id": "mateo_laguna_ipfm_2000",
+      "type": "journal_article",
+      "title": "Improved Heart Rate Variability Signal Analysis from the Beat Occurrence Times According to the IPFM Model",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Mateo",
+          "given_names": "Javier"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        }
+      ],
+      "year": 2000,
+      "journal": "IEEE Transactions on Biomedical Engineering",
+      "volume": "47",
+      "issue": "8",
+      "pages": "985-996",
+      "doi": "10.1109/10.855925"
+    },
+    {
+      "id": "mateo_laguna_ectopic_ht_2003",
+      "type": "journal_article",
+      "title": "Analysis of Heart Rate Variability in the Presence of Ectopic Beats Using the Heart Timing Signal",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Mateo",
+          "given_names": "Javier"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        }
+      ],
+      "year": 2003,
+      "journal": "IEEE Transactions on Biomedical Engineering",
+      "volume": "50",
+      "issue": "3",
+      "pages": "334-343",
+      "doi": "10.1109/TBME.2003.808831"
+    },
+    {
+      "id": "bailon_tvipfm_2011",
+      "type": "journal_article",
+      "title": "The Integral Pulse Frequency Modulation Model With Time-Varying Threshold: Application to Heart Rate Variability Analysis During Exercise Stress Testing",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        },
+        {
+          "type": "person",
+          "family_name": "Laouini",
+          "given_names": "Ghailen"
+        },
+        {
+          "type": "person",
+          "family_name": "Grao",
+          "given_names": "C\u00e9sar"
+        },
+        {
+          "type": "person",
+          "family_name": "Orini",
+          "given_names": "Michele"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        },
+        {
+          "type": "person",
+          "family_name": "Meste",
+          "given_names": "Olivier"
+        }
+      ],
+      "year": 2011,
+      "journal": "IEEE Transactions on Biomedical Engineering",
+      "volume": "58",
+      "issue": "3",
+      "pages": "642-652",
+      "doi": "10.1109/TBME.2010.2095011"
+    },
+    {
+      "id": "sornmo_bailon_laguna_hrv_review_2024",
+      "type": "journal_article",
+      "title": "Spectral Analysis of Heart Rate Variability in Time-Varying Conditions and in the Presence of Confounding Factors",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "S\u00f6rnmo",
+          "given_names": "Leif"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        }
+      ],
+      "year": 2024,
+      "journal": "IEEE Reviews in Biomedical Engineering",
+      "volume": "17",
+      "pages": "322-341",
+      "doi": "10.1109/RBME.2022.3220636"
+    },
+    {
       "id": "kontaxis_edr_af_2020",
       "type": "journal_article",
       "title": "ECG-derived Respiratory Rate in Atrial Fibrillation",

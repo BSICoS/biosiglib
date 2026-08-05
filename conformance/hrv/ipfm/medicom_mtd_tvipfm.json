@@ -1,0 +1,48 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.ipfm.medicom_mtd_tvipfm",
+  "specification_id": "hrv.ipfm",
+  "description": "Reconstruct instantaneous rate and the TVIPFM modulating signal from a nonuniform real event-time series.",
+  "inputs": [
+    {
+      "id": "tn",
+      "fixture_id": "ecg.medicom_mtd.r_wave_timing",
+      "file_role": "beat_timing_table",
+      "column": "r_wave_times"
+    },
+    {
+      "id": "fs",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["ihr", "m"],
+  "expected_outputs": [
+    {
+      "id": "ihr",
+      "fixture_id": "hrv.medicom_mtd.ipfm_expected",
+      "file_role": "expected_output_table",
+      "column": "ihr",
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "m",
+      "fixture_id": "hrv.medicom_mtd.ipfm_expected",
+      "file_role": "expected_output_table",
+      "column": "m",
+      "absolute_tolerance": 1e-9
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "Expected outputs were generated from the complete Medicom MTD R-wave timing fixture at fs = 4 Hz and SplineOrder = 14. The exact Biosigmat commit provides the mature MATLAB aptknt/spapi/fnder and filtfilt oracle; scientific meaning is governed by the cited IPFM and TVIPFM publications rather than by the implementation alone.",
+    "commit": "532e7a13541ec6c56798c5a7c64e2f7e4e8ab594",
+    "reference_ids": [
+      "mateo_laguna_ipfm_2000",
+      "mateo_laguna_ectopic_ht_2003",
+      "bailon_tvipfm_2011",
+      "sornmo_bailon_laguna_hrv_review_2024"
+    ]
+  }
+}

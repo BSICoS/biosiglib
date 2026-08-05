@@ -34,3 +34,5 @@ python tools/validate_specs.py --manifest path/to/conformance.json
 ```
 
 Cross-language conformance is built from shared specifications, shared fixtures, and shared expected results rather than from one implementation copying the other.
+
+When behavior depends on requesting an optional output, a conformance case uses `requested_outputs` to declare the return profile that must be exercised. This is especially important for expected-error cases, where there are no expected-output mappings from which to infer the request.

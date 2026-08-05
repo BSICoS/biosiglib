@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.ipfm.invalid_numerical_rate",
+  "specification_id": "hrv.ipfm",
+  "description": "Reject a pathological event series whose high-order spline derivative becomes non-positive inside the valid output domain.",
+  "inputs": [
+    {
+      "id": "tn",
+      "value": [0, 0.01, 1, 1.01]
+    },
+    {
+      "id": "fs",
+      "value": 20
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["ihr"],
+  "expected_error": {
+    "category": "invalid_numerical_result",
+    "description": "The canonical order-14 spline derivative is non-positive on this strongly alternating interval sequence and must not be clamped or returned as a physiological rate."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The input is finite and strictly increasing, but canonical high-order interpolation overshoots and produces a negative derivative within [0, 1.01]. Positivity is a normative postcondition, so the required outcome is invalid_numerical_result rather than a numerical vector."
+  }
+}

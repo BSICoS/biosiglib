@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.ipfm.constant_rate",
+  "specification_id": "hrv.ipfm",
+  "description": "Reconstruct a one-hertz constant-rate event series and verify that TVIPFM modulation is zero on the minimum valid 13-sample filtering grid.",
+  "inputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2, 3]
+    },
+    {
+      "id": "fs",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["ihr", "m"],
+  "expected_outputs": [
+    {
+      "id": "ihr",
+      "value": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "m",
+      "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "absolute_tolerance": 2e-9
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Uniform one-second event intervals extend to a globally linear cumulative beat count, whose derivative is exactly 1 Hz. A constant 1 Hz signal is unchanged by the unit-DC-gain low-pass filter, so m is zero. The grid 0:0.25:3 contains exactly 13 samples, the minimum valid length for padlen 12."
+  }
+}
