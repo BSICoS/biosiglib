@@ -1,0 +1,166 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "hrv.ipfm",
+    "module": "hrv"
+  },
+  "informative": {
+    "title": "Integral pulse frequency modulation heart-timing reconstruction",
+    "summary": "Estimates uniformly sampled instantaneous heart rate and an optional TVIPFM autonomic modulating signal from event times.",
+    "description": "The canonical contract reconstructs cumulative beat count with an edge-stabilized high-order B-spline, differentiates it to obtain instantaneous heart rate, and optionally applies the time-varying-threshold IPFM correction. It covers sampled numerical outputs only; language-specific unevaluated spline objects are outside shared conformance.",
+    "notes": [
+      "The default order-14 spline is supported by the Mateo-Laguna heart-timing literature.",
+      "The 10 virtual events per side and the use of up to 8 boundary intervals are empirical stabilization constants inherited from Biosigmat, not physiological or clinically validated parameters.",
+      "The 0.03 Hz TVIPFM separation is literature-backed, while the exact fourth-order Butterworth realization and forward-backward edge convention are fixed numerical compatibility choices inherited from Biosigmat.",
+      "Implementations must not expose the virtual-event count, boundary-median width, trend cutoff, filter order, filter family, or forward-backward padding length as canonical public parameters."
+    ],
+    "keywords": [
+      "heart timing signal",
+      "instantaneous heart rate",
+      "IPFM",
+      "TVIPFM",
+      "B-spline interpolation"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "mateo_laguna_ipfm_2000",
+        "relation": "original_method",
+        "note": "Original heart-timing/IPFM formulation and explicit analysis of fourteenth-order spline interpolation. The paper does not prescribe the canonical 10/8 edge constants."
+      },
+      {
+        "id": "mateo_laguna_ectopic_ht_2003",
+        "relation": "validation",
+        "note": "Validates heart-timing analysis in the presence of ectopic beats and uses fourteenth-order spline interpolation after incorrect values are removed."
+      },
+      {
+        "id": "bailon_tvipfm_2011",
+        "relation": "original_method",
+        "note": "Defines TVIPFM Approach A, including the time-varying mean-rate correction and the 0.03 Hz separation used here."
+      },
+      {
+        "id": "bailon_tvipfm_2011",
+        "relation": "validation",
+        "note": "Validates the TVIPFM correction during exercise stress testing; it does not prescribe Biosigmat's exact fourth-order Butterworth and forward-backward realization."
+      },
+      {
+        "id": "sornmo_bailon_laguna_hrv_review_2024",
+        "relation": "scientific_context",
+        "note": "Provides the later derivation and review context for the TVIPFM correction under a time-varying mean heart rate."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "tn",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 2
+        }
+      },
+      {
+        "id": "fs",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "spline_order",
+        "data_type": "integer_scalar",
+        "default": 14,
+        "unit": "1",
+        "constraints": {
+          "minimum": 2
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "ihr",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "Hz"
+      },
+      {
+        "id": "m",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "1"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "canonical_api",
+        "text": "The language-independent API requires tn and fs and returns numerical values evaluated on the canonical uniform grid. ihr is always available. m is an optional output computed only when requested. Returning an unevaluated spline representation, including the MATLAB ipfm(tn) convenience mode, is outside this contract."
+      },
+      {
+        "target": "tn",
+        "text": "tn is a finite real event-time vector containing at least two timestamps in seconds. It must be strictly increasing, and implementations must not sort or deduplicate it implicitly."
+      },
+      {
+        "target": "boundary_extension",
+        "text": "Let d = diff(tn) and q = min(8, length(d)). Prepend 10 virtual events separated by median(d[0:q]) and append 10 virtual events separated by median(d[length(d)-q:length(d)]). The resulting extended event sequence tau remains strictly increasing and contains N = length(tn) + 20 sites. The virtual events stabilize interpolation but do not enlarge the valid output domain."
+      },
+      {
+        "target": "spline_order",
+        "text": "spline_order is an integer satisfying 2 <= spline_order <= N, where N is the number of extended event sites. The default is 14. Order k means polynomial degree k - 1; an implementation must reject an order above N instead of silently reducing it."
+      },
+      {
+        "target": "aptknt_knot_sequence",
+        "text": "For spline order k and strictly increasing extended sites tau_1 through tau_N, form interior knots xi_i = mean(tau_{i+1}, ..., tau_{i+k-1}) for i = 1, ..., N - k. The complete knot vector is tau_1 repeated k times, followed by xi_1 through xi_{N-k}, followed by tau_N repeated k times. This is the MATLAB aptknt construction for these sites and must be used instead of a language-specific default knot placement."
+      },
+      {
+        "target": "heart_timing_spline",
+        "text": "Construct the unique order-k B-spline on the canonical knot vector that interpolates cumulative beat indices 1 through N at tau_1 through tau_N. Differentiate this spline once with respect to time. The derivative is instantaneous rate because the interpolated dependent variable is cumulative beat count and event time is measured in seconds."
+      },
+      {
+        "target": "sampling_grid",
+        "text": "The output grid contains t_j = tn[0] + j / fs for every non-negative integer j satisfying t_j <= tn[-1]. Construct it from integer indices and remove any floating-point overshoot beyond tn[-1]. Do not append an irregular endpoint or alter fs to force tn[-1] onto the grid. Never evaluate outside the original interval [tn[0], tn[-1]], and disable spline extrapolation where the implementation API permits it."
+      },
+      {
+        "target": "ihr",
+        "text": "Evaluate the differentiated heart-timing spline at every canonical grid point. ihr is the resulting unfiltered instantaneous heart-rate vector in hertz and has the same length as the grid. Every value must be finite and strictly positive."
+      },
+      {
+        "target": "tvipfm_filter",
+        "text": "When m is requested, design a fourth-order digital Butterworth low-pass filter with cutoff 0.03 Hz, equivalently normalized cutoff 0.06 / fs relative to Nyquist. Apply it forward and backward to ihr for zero phase. Filter family, order, cutoff, and zero-phase application are fixed and are not public parameters."
+      },
+      {
+        "target": "forward_backward_filter_convention",
+        "text": "Reproduce the MATLAB filtfilt padding convention for the five-coefficient Butterworth numerator and denominator: extend each end by exactly 12 samples, use odd-symmetry linear reflection about each endpoint, and use steady-state initial conditions scaled by the endpoint of the extended signal on each pass. SciPy implementations must use method = pad, padtype = odd, and padlen = 12 explicitly."
+      },
+      {
+        "target": "m",
+        "text": "Let mean_ihr be the forward-backward low-pass result and hrv = ihr - mean_ihr. The TVIPFM Approach A modulating signal is m = hrv / mean_ihr. m is dimensionless and has the same length as ihr. The division corrects the scaling caused by a time-varying threshold or mean heart rate; it must not be described as generic detrending alone.",
+        "latex": "m(t) = \\frac{ihr(t) - mean\\_ihr(t)}{mean\\_ihr(t)}"
+      },
+      {
+        "target": "numerical_validity",
+        "text": "Do not clamp ihr or mean_ihr, take absolute values, or replace a non-positive denominator with an epsilon. If spline evaluation produces any non-finite or non-positive ihr, or filtering produces any non-finite or non-positive mean_ihr, raise invalid_numerical_result."
+      },
+      {
+        "target": "error_categories",
+        "text": "Use invalid_type for non-numeric inputs, invalid_shape for non-vector tn or non-scalar fs/spline_order, invalid_value for non-finite values, non-increasing tn, fs outside the requested-output domain, or spline_order outside its valid range, insufficient_data when tn has fewer than two events or requested m has fewer than 13 grid samples, and invalid_numerical_result for the defensive numerical failures defined above. Language-specific exception classes and message text are not normative."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaN, Inf, and -Inf are invalid in tn and fs. NaN and infinite output values are never conformant numerical results and raise invalid_numerical_result.",
+      "empty_input": "Empty tn is insufficient_data. An omitted fs is outside the canonical sampled API.",
+      "input_orientation": "MATLAB row and column tn inputs represent the same sequence, and canonical MATLAB numerical outputs are column vectors. Python accepts and returns one-dimensional arrays.",
+      "insufficient_data": "At least two event times are required. Computing only ihr requires fs > 0 and does not invoke the TVIPFM filter, so 12 or fewer grid samples remain valid. Requesting m additionally requires fs > 0.06 Hz and at least 13 canonical grid samples; 12 or fewer grid samples raise insufficient_data."
+    }
+  }
+}

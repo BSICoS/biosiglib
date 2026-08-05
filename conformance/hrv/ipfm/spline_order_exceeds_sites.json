@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.ipfm.spline_order_exceeds_sites",
+  "specification_id": "hrv.ipfm",
+  "description": "Reject a requested spline order larger than the number of extended interpolation sites.",
+  "inputs": [
+    {
+      "id": "tn",
+      "value": [0, 1]
+    },
+    {
+      "id": "fs",
+      "value": 4
+    }
+  ],
+  "parameters": {
+    "spline_order": 23
+  },
+  "requested_outputs": ["ihr"],
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "Two original events plus 20 virtual events provide 22 interpolation sites, so order 23 is outside the canonical mathematical range."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The canonical bound is spline_order <= length(tn) + 20. MATLAB aptknt silently caps an excessive requested order, but conformant implementations must reject it so the public parameter retains its stated meaning."
+  }
+}

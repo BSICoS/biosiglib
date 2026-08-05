@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.ipfm.non_aligned_sampling_grid",
+  "specification_id": "hrv.ipfm",
+  "description": "Verify integer-index grid construction when the last event is not aligned with the requested sampling frequency.",
+  "inputs": [
+    {
+      "id": "tn",
+      "value": [0.1, 0.4, 0.7, 1.0]
+    },
+    {
+      "id": "fs",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["ihr"],
+  "expected_outputs": [
+    {
+      "id": "ihr",
+      "value": [3.3333333333333335, 3.3333333333333335, 3.3333333333333335, 3.3333333333333335],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The canonical grid is [0.1, 0.35, 0.6, 0.85]. The next point, 1.1, exceeds the last event time, and the irregular endpoint 1.0 is not appended. Uniform 0.3 second event intervals yield the constant analytical rate 10/3 Hz at all four grid points. This short ihr-only request does not invoke the TVIPFM filter."
+  }
+}

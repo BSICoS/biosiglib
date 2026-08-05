@@ -176,6 +176,17 @@ def validate_conformance_structured_identifiers(
             )
         )
 
+    for output_index, output_id in enumerate(case.get("requested_outputs", [])):
+        errors.extend(
+            validate_structured_identifier(
+                case_path,
+                root,
+                ["requested_outputs", output_index],
+                "requested output id",
+                output_id,
+            )
+        )
+
     parameters = case.get("parameters", {})
     if isinstance(parameters, dict):
         for parameter_id in parameters:
@@ -766,6 +777,16 @@ def validate_conformance_references(
         errors.extend(
             report_duplicate_case_entries(case_path, root, case, "expected_outputs", "expected output")
         )
+
+        requested_outputs = case.get("requested_outputs", [])
+        if spec_info is not None and isinstance(requested_outputs, list):
+            for output_index, output_id in enumerate(requested_outputs):
+                if isinstance(output_id, str) and output_id not in spec_info["output_ids"]:
+                    errors.append(
+                        f"{relative_name(case_path, root)}: "
+                        f"{json_path(['requested_outputs', output_index])}: "
+                        f"unknown specification output id '{output_id}'"
+                    )
 
         for input_index, input_mapping in enumerate(case.get("inputs", [])):
             if not isinstance(input_mapping, dict):

@@ -43,6 +43,28 @@ class ConformanceCaseSchemaTests(unittest.TestCase):
 
         self.assertEqual(list(validator.iter_errors(case)), [])
 
+    def test_accepts_requested_outputs_and_invalid_numerical_result(self) -> None:
+        schema = validate_specs.load_json(
+            REPOSITORY_ROOT / "schemas" / "conformance-case.schema.json"
+        )
+        validator = validate_specs.Draft202012Validator(schema)
+        case = {
+            "$schema": "../../../schemas/conformance-case.schema.json",
+            "id": "hrv.example.invalid_numerical_result",
+            "specification_id": "hrv.example",
+            "description": "Request an optional output that fails numerically.",
+            "inputs": [{"id": "tk", "value": [0, 1, 2]}],
+            "parameters": {},
+            "requested_outputs": ["signal", "modulation"],
+            "expected_error": {"category": "invalid_numerical_result"},
+            "oracle": {
+                "type": "analytical",
+                "description": "Schema regression case for output-dependent errors.",
+            },
+        }
+
+        self.assertEqual(list(validator.iter_errors(case)), [])
+
 
 class SpecificationDocumentationValidationTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -108,6 +130,45 @@ class SpecificationDocumentationValidationTests(unittest.TestCase):
 
 
 class ExistingNegativeValidationTests(unittest.TestCase):
+    def test_rejects_unknown_requested_output(self) -> None:
+        root = Path("repository").resolve()
+        case_path = root / "conformance" / "hrv" / "example" / "unknown_output.json"
+        cases = [
+            (
+                case_path,
+                {
+                    "specification_id": "hrv.example",
+                    "inputs": [],
+                    "parameters": {},
+                    "requested_outputs": ["unknown_output"],
+                    "expected_error": {"category": "invalid_value"},
+                    "oracle": {
+                        "type": "analytical",
+                        "description": "Validator cross-reference regression case.",
+                    },
+                },
+            )
+        ]
+        specs_by_id = {
+            "hrv.example": {
+                "input_ids": set(),
+                "parameter_ids": set(),
+                "output_ids": {"ihr"},
+            }
+        }
+
+        errors = validate_specs.validate_conformance_references(
+            root,
+            cases,
+            specs_by_id=specs_by_id,
+            fixtures_by_id={},
+            known_reference_ids=set(),
+        )
+
+        self.assertTrue(
+            any("unknown specification output id 'unknown_output'" in error for error in errors)
+        )
+
     def test_rejects_unknown_conformance_specification(self) -> None:
         root = Path("repository").resolve()
         case_path = root / "conformance" / "tools" / "example" / "unknown.json"

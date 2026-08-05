@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.ipfm.insufficient_modulating_signal_samples",
+  "specification_id": "hrv.ipfm",
+  "description": "Reject a modulating-signal request when the canonical grid cannot support the fixed forward-backward padding.",
+  "inputs": [
+    {
+      "id": "tn",
+      "value": [0, 1, 2]
+    },
+    {
+      "id": "fs",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["ihr", "m"],
+  "expected_error": {
+    "category": "insufficient_data",
+    "description": "The grid 0:0.25:2 contains 9 samples, fewer than the 13 required to construct the fixed 12-sample reflection on each side."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The grid length is floor((2 - 0) * 4) + 1 = 9. MATLAB-compatible padlen 12 requires a signal length strictly greater than 12."
+  }
+}

@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## v1.3.0 - 2026-08-05
+
+### Added
+
+- Added the normative `hrv.ipfm` sampled contract, six focused shared cases, and a scientific note covering MATLAB-compatible `aptknt` knot placement, order-14 heart-timing reconstruction, the no-extrapolation grid, TVIPFM Approach A, exact forward-backward filtering compatibility, input-dependent spline-order bounds, and defensive numerical-result failures.
+- Added the Mateo-Laguna IPFM and ectopic-heart-timing publications, the original Bailón et al. TVIPFM publication, and the Sörnmo-Bailón-Laguna review with provenance that separates literature-backed behavior from empirical Biosigmat constants.
+- Added compatible schema support for `scientific_context` provenance, output-dependent conformance requests, and `invalid_numerical_result` expected errors.
+
+This is a MINOR change because it adds a new compatible specification and conformance profile without changing any released contract. Biosigmat and Biosigpy must adapt before declaring `hrv.ipfm` conformance.
+
 ## v1.2.1 - 2026-08-03
 
 ### Fixed
