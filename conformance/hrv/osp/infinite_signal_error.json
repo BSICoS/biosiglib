@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.infinite_signal_error",
+  "specification_id": "hrv.osp",
+  "description": "Reject an infinite HRV modulation sample explicitly instead of propagating it into the projection.",
+  "inputs": [
+    {
+      "id": "m",
+      "fixture_id": "hrv.synthetic.osp_nonfinite_inputs",
+      "file_role": "nonfinite_signal_table",
+      "column": "m_inf"
+    },
+    {
+      "id": "resp",
+      "value": [1, 0, -1]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 0, 1]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.5, 1]
+    },
+    {
+      "id": "fs",
+      "value": 1
+    }
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "Inf and -Inf are invalid in m and resp and must be rejected before spectral or linear-algebra processing."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This explicit error is the approved strengthening of the prior Biosigmat behavior for non-finite OSP signals."
+  }
+}

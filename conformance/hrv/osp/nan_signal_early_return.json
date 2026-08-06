@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.nan_signal_early_return",
+  "specification_id": "hrv.osp",
+  "description": "Return all outputs empty when a signal contains NaN, before rejecting unequal signal lengths.",
+  "inputs": [
+    {
+      "id": "m",
+      "fixture_id": "hrv.synthetic.osp_nonfinite_inputs",
+      "file_role": "nonfinite_signal_table",
+      "column": "m_nan"
+    },
+    {
+      "id": "resp",
+      "value": [1]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [1, 0]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.5]
+    },
+    {
+      "id": "fs",
+      "value": 1
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "m_resp",
+      "value": [],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "m_unrelated",
+      "value": [],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "delay",
+      "value": [],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "The mature MATLAB implementation returns three empty outputs when either signal contains NaN. The deliberately unequal signal lengths verify that this compatibility return precedes the length check.",
+    "commit": "a1151a4778c8f26015b5a7dc3bf6edea9d19f0b1"
+  }
+}

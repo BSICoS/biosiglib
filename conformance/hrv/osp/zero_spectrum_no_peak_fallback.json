@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.zero_spectrum_no_peak_fallback",
+  "specification_id": "hrv.osp",
+  "description": "Exercise zero occupied power, empty-band fallback, no detected peaks, first-maximum selection, and the default respiratory-frequency floor.",
+  "inputs": [
+    {
+      "id": "m",
+      "value": [0, 1, 2, 3, 4, 5]
+    },
+    {
+      "id": "resp",
+      "value": [1, 0, -1, 0, 1, 0]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 0, 0, 0, 0]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.2, 0.4, 0.6, 0.8]
+    },
+    {
+      "id": "fs",
+      "value": 0.2
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["delay"],
+  "expected_outputs": [
+    {
+      "id": "delay",
+      "value": 4,
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Zero total power gives NaN occupied limits, so the full spectrum is restored. The flat spectrum has no peaks and its first maximum is f = 0 Hz; the default floor changes this to 0.1 Hz, giving delay = round(2 * 0.2 / 0.1) = 4."
+  }
+}

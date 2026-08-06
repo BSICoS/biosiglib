@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.more_than_three_peaks_lowest_frequency",
+  "specification_id": "hrv.osp",
+  "description": "Choose the lowest-frequency detected peak when more than three peaks are present, even though it is the weakest.",
+  "inputs": [
+    {
+      "id": "m",
+      "value": [0, 1, 2, 3, 4, 5]
+    },
+    {
+      "id": "resp",
+      "value": [1, 0, -1, 0, 1, 0]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 1, 0]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+    },
+    {
+      "id": "fs",
+      "value": 0.75
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["delay"],
+  "expected_outputs": [
+    {
+      "id": "delay",
+      "value": 5,
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The selected band contains four peaks at 0.3, 0.5, 0.7, and 0.9 Hz with powers 2, 3, 4, and 5. The empirical more-than-three branch selects 0.3 Hz rather than the 0.9 Hz global peak, giving delay 5."
+  }
+}

@@ -354,6 +354,103 @@
       "pages": "1-14",
       "article_number": "5704",
       "doi": "10.1038/s41598-020-62624-5"
+    },
+    {
+      "id": "varon_respiratory_hrv_osp_2017",
+      "type": "conference_paper",
+      "title": "Removal of Respiratory Influences from Heart Rate During Emotional Stress",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Varon",
+          "given_names": "Carolina"
+        },
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Hernando",
+          "given_names": "Alberto"
+        },
+        {
+          "type": "person",
+          "family_name": "Caicedo",
+          "given_names": "Alexander"
+        },
+        {
+          "type": "person",
+          "family_name": "Van Huffel",
+          "given_names": "Sabine"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        }
+      ],
+      "year": 2017,
+      "journal": "Computing in Cardiology",
+      "volume": "44",
+      "pages": "1-4",
+      "doi": "10.22489/CinC.2017.264-160",
+      "url": "https://cinc.org/archives/2017/pdf/264-160.pdf"
+    },
+    {
+      "id": "varon_unconstrained_hrv_osp_2019",
+      "type": "journal_article",
+      "title": "Unconstrained Estimation of HRV Indices After Removing Respiratory Influences From Heart Rate",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Varon",
+          "given_names": "Carolina"
+        },
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Bolea",
+          "given_names": "Juan"
+        },
+        {
+          "type": "person",
+          "family_name": "Hernando",
+          "given_names": "Alberto"
+        },
+        {
+          "type": "person",
+          "family_name": "Aguil\u00f3",
+          "given_names": "Jordi"
+        },
+        {
+          "type": "person",
+          "family_name": "Gil",
+          "given_names": "Eduardo"
+        },
+        {
+          "type": "person",
+          "family_name": "Van Huffel",
+          "given_names": "Sabine"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        }
+      ],
+      "year": 2019,
+      "journal": "IEEE Journal of Biomedical and Health Informatics",
+      "volume": "23",
+      "issue": "6",
+      "pages": "2386-2397",
+      "doi": "10.1109/JBHI.2018.2884644",
+      "pmid": "30507541"
     }
   ]
 }

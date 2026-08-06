@@ -1,0 +1,52 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.short_signal_scalar_nan",
+  "specification_id": "hrv.osp",
+  "description": "Preserve scalar NaN component outputs and the computed delay when the signal is shorter than the adaptive model order.",
+  "inputs": [
+    {
+      "id": "m",
+      "value": [0, 1]
+    },
+    {
+      "id": "resp",
+      "value": [1, 0]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 0, 1, 0, 0]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.1, 0.2, 0.3, 0.4]
+    },
+    {
+      "id": "fs",
+      "value": 0.4
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "m_resp",
+      "value": "NaN",
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "m_unrelated",
+      "value": "NaN",
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "delay",
+      "value": 4,
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "The isolated 0.2 Hz bin gives delay 4 at fs = 0.4 Hz, exceeding N = 2. Biosigmat preserves delay and returns scalar NaN components rather than empty vectors.",
+    "commit": "a1151a4778c8f26015b5a7dc3bf6edea9d19f0b1"
+  }
+}
