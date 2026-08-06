@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.analytical_decomposition_orthogonality",
+  "specification_id": "hrv.osp",
+  "description": "Verify exact decomposition, reconstruction, alignment, and residual orthogonality for a small inspectable respiratory subspace.",
+  "inputs": [
+    {
+      "id": "m",
+      "value": [99, 1, 2, 3, 4, 5]
+    },
+    {
+      "id": "resp",
+      "value": [1, 0, -1, 0, 1, 0]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 0, 1]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.5, 1]
+    },
+    {
+      "id": "fs",
+      "value": 1
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "m_resp",
+      "value": [1, -1, -1, 1, 1],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "m_unrelated",
+      "value": [0, 3, 4, 3, 4],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "delay",
+      "value": 2,
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The 1 Hz dominant frequency gives delay 2 and delayed_m = [1,2,3,4,5]. The two V columns are [1,0,-1,0,1] and [0,-1,0,1,0], with Gram diagonal [3,2]. Projection gives [1,-1,-1,1,1]; the residual [0,3,4,3,4] has exactly zero inner product with both columns, and the components reconstruct delayed_m exactly.",
+    "reference_ids": [
+      "varon_respiratory_hrv_osp_2017",
+      "varon_unconstrained_hrv_osp_2019"
+    ]
+  }
+}

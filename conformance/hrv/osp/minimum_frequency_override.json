@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.minimum_frequency_override",
+  "specification_id": "hrv.osp",
+  "description": "Apply a non-default minimum respiratory frequency after selecting a lower spectral peak.",
+  "inputs": [
+    {
+      "id": "m",
+      "value": [0, 1, 2, 3, 4, 5]
+    },
+    {
+      "id": "resp",
+      "value": [1, 0, -1, 0, 1, 0]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 0, 1, 0, 0]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.05, 0.1, 0.15, 0.2]
+    },
+    {
+      "id": "fs",
+      "value": 0.5
+    }
+  ],
+  "parameters": {
+    "min_resp_frequency": 0.25
+  },
+  "requested_outputs": ["delay"],
+  "expected_outputs": [
+    {
+      "id": "delay",
+      "value": 4,
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The spectrum selects 0.1 Hz, then the public override clamps it to 0.25 Hz. Consequently delay = round(2 * 0.5 / 0.25) = 4."
+  }
+}

@@ -84,6 +84,36 @@
       ]
     },
     {
+      "id": "hrv.synthetic.osp_nonfinite_inputs",
+      "module": "hrv",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Small synthetic HRV modulation vectors containing NaN or Inf for hrv.osp early-return and invalid-value conformance."
+      },
+      "files": [
+        {
+          "role": "nonfinite_signal_table",
+          "path": "fixtures/data/hrv/osp_nonfinite_inputs.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "m_nan",
+          "unit": "1"
+        },
+        {
+          "id": "m_inf",
+          "unit": "1"
+        }
+      ],
+      "processing": [
+        "m_nan contains one NaN marker and verifies the compatibility early return before the aligned-signal length check.",
+        "m_inf contains one positive infinity and verifies explicit rejection rather than propagation into OSP linear algebra."
+      ]
+    },
+    {
       "id": "ecg.medicom_mtd.ecg_respiration",
       "module": "ecg",
       "data_kind": "table",

@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.occupied_band_boundary_inclusive",
+  "specification_id": "hrv.osp",
+  "description": "Include a spectral sample exactly on the lower 90% occupied-power boundary.",
+  "inputs": [
+    {
+      "id": "m",
+      "value": [0, 1, 2, 3, 4, 5]
+    },
+    {
+      "id": "resp",
+      "value": [1, 0, -1, 0, 1, 0]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 1, 1, 1, 1, 6]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.125, 0.25, 0.375, 0.5, 0.625]
+    },
+    {
+      "id": "fs",
+      "value": 0.25
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["delay"],
+  "expected_outputs": [
+    {
+      "id": "delay",
+      "value": 4,
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The lower occupied limit is exactly 0.125 Hz in binary64 and the upper limit is approximately 0.619792 Hz. Inclusive comparison retains the flat 0.125 through 0.5 Hz samples; no peak is detected and the first maximum selects 0.125 Hz. Excluding the boundary would incorrectly select 0.25 Hz and delay 2 instead of 4."
+  }
+}

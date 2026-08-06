@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+### Added
+
+- Added the normative `hrv.osp` contract, twelve focused shared cases, and a scientific note covering MATLAB-compatible 90% occupied-power integration, the inherited peak-count heuristic, configurable respiratory-frequency floor, positive half-way delay rounding, delayed-signal alignment, analytical reconstruction and residual orthogonality, an explicit Gram-matrix pseudoinverse threshold, and the established empty/`NaN`/short-signal compatibility behavior with explicit infinite-value rejection.
+- Added the Varon et al. 2017 and 2019 OSP publications with provenance that separates the literature-backed linear respiratory decomposition from empirical Biosigmat frequency-selection choices.
+
+This is a MINOR change because it adds a new compatible specification and conformance profile without changing any released contract. The release remains unpublished while Biosigmat and Biosigpy adapt to `hrv.osp`.
+
 ## v1.3.0 - 2026-08-05
 
 ### Added

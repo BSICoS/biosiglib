@@ -1,0 +1,52 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.near_rank_pseudoinverse_threshold",
+  "specification_id": "hrv.osp",
+  "description": "Distinguish the approved Gram-matrix pseudoinverse threshold from a larger language-specific default threshold.",
+  "inputs": [
+    {
+      "id": "m",
+      "value": [0, 5e-10, -5e-10, 5e-10, -5e-10, 5e-10]
+    },
+    {
+      "id": "resp",
+      "value": [1.00000005, 1, 1.00000005, 1, 1.00000005, 1]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 0, 1]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.5, 1]
+    },
+    {
+      "id": "fs",
+      "value": 1
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "m_resp",
+      "value": [5.68666083971039e-10, -6.22530365362763e-10, 5.68666083971039e-10, -6.22530365362763e-10, 5.68666083971039e-10],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "m_unrelated",
+      "value": [-6.86660839710385e-11, 1.22530365362763e-10, -6.86660839710385e-11, 1.22530365362763e-10, -6.86660839710385e-11],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "delay",
+      "value": 2,
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "For the 2-by-2 Gram matrix, Biosigmat binary64 singular values are approximately 10.0000005 and 5.0165e-15. The approved tolerance is 2 * eps(10.0000005) = 3.5527e-15, so the second value is retained. A 1e-15 relative default threshold discards it and changes both components by more than the 1e-10 conformance tolerance. Expected outputs were generated with the equivalent explicit MATLAB pinv(G, tol) rule.",
+    "commit": "a1151a4778c8f26015b5a7dc3bf6edea9d19f0b1"
+  }
+}

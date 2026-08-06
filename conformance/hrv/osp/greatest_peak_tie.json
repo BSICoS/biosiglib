@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.osp.greatest_peak_tie",
+  "specification_id": "hrv.osp",
+  "description": "Select the first, lowest-frequency peak when at most three detected peaks tie for greatest power.",
+  "inputs": [
+    {
+      "id": "m",
+      "value": [0, 1, 2, 3, 4, 5]
+    },
+    {
+      "id": "resp",
+      "value": [1, 0, -1, 0, 1, 0]
+    },
+    {
+      "id": "resp_pxx",
+      "value": [0, 2, 0, 5, 0, 5, 0, 2, 0]
+    },
+    {
+      "id": "f",
+      "value": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+    },
+    {
+      "id": "fs",
+      "value": 0.75
+    }
+  ],
+  "parameters": {},
+  "requested_outputs": ["delay"],
+  "expected_outputs": [
+    {
+      "id": "delay",
+      "value": 5,
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The 90% limits are approximately 0.085 and 0.715 Hz. The detected 0.3 and 0.5 Hz peaks both have power 5, so first-maximum semantics choose 0.3 Hz and delay = round(2 * 0.75 / 0.3) = 5."
+  }
+}
