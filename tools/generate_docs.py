@@ -278,6 +278,25 @@ def render_spec_page(root: Path, spec_path: Path, spec: dict[str, Any]) -> str:
     else:
         lines.append("No normative definitions are listed in this specification.")
 
+    warnings = normative.get("warnings", []) if isinstance(normative, dict) else []
+    if warnings:
+        lines.extend(["", "## Warnings", ""])
+        lines.extend(
+            table(
+                ["id", "condition", "effect", "aggregation"],
+                [
+                    [
+                        inline_code(entry.get("id", "")),
+                        entry.get("condition", ""),
+                        entry.get("effect", ""),
+                        entry.get("aggregation", ""),
+                    ]
+                    for entry in warnings
+                    if isinstance(entry, dict)
+                ],
+            )
+        )
+
     behavior = normative.get("behavior", {}) if isinstance(normative, dict) else {}
     lines.extend(["", "## Behavior", ""])
     if isinstance(behavior, dict) and behavior:

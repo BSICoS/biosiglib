@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.unlimited_hf_irregular_grid",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Extend HF through the final supplied frequency when limit_hf is false.",
+  "inputs": [
+    {"id": "pxx", "value": [1, 2, 3, 4, 5, 6]},
+    {"id": "f", "value": [0.04, 0.10, 0.16, 0.30, 0.41, 0.50]}
+  ],
+  "parameters": {"limit_hf": false},
+  "expected_outputs": [
+    {"id": "hf", "value": 1.48, "absolute_tolerance": 1e-12},
+    {"id": "lf", "value": 0.24, "absolute_tolerance": 1e-12},
+    {"id": "lfn", "value": 0.13953488372093023, "absolute_tolerance": 1e-12},
+    {"id": "lfhf", "value": 0.16216216216216217, "absolute_tolerance": 1e-12}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Unlimited HF adds the final 0.41 to 0.50 trapezoid, 0.495, to the default HF power and therefore gives 1.48.",
+    "reference_ids": ["task_force_hrv_1996"]
+  }
+}

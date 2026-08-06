@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.single_vlf_warning_preserves_metrics",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Emit the diagnostic VLF warning without changing valid single-spectrum metrics.",
+  "inputs": [
+    {"id": "pxx", "value": [1, 1, 1, 1, 1]},
+    {"id": "f", "value": [0, 0.03, 0.05, 0.15, 0.4]}
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {"id": "hf", "value": 0.25, "absolute_tolerance": 1e-12},
+    {"id": "lf", "value": 0.1, "absolute_tolerance": 1e-12},
+    {"id": "lfn", "value": 0.2857142857142857, "absolute_tolerance": 1e-12},
+    {"id": "lfhf", "value": 0.4, "absolute_tolerance": 1e-12}
+  ],
+  "expected_warnings": [
+    {"id": "excessive_vlf_power", "affected_ids": ["pxx"]}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The VLF/rest ratio exceeds 0.05, but LF and HF remain the unit-spectrum widths 0.10 and 0.25."
+  }
+}

@@ -111,6 +111,7 @@ def validate_algorithm_structured_identifiers(
         ("outputs", "id", "output id"),
         ("parameters", "id", "parameter id"),
         ("definitions", "target", "definition target"),
+        ("warnings", "id", "warning id"),
     ]
     for field_name, key_name, label in fields:
         entries = normative.get(field_name, [])
@@ -186,6 +187,29 @@ def validate_conformance_structured_identifiers(
                 output_id,
             )
         )
+
+    for warning_index, expected_warning in enumerate(case.get("expected_warnings", [])):
+        if not isinstance(expected_warning, dict):
+            continue
+        errors.extend(
+            validate_structured_identifier(
+                case_path,
+                root,
+                ["expected_warnings", warning_index, "id"],
+                "expected warning id",
+                expected_warning.get("id"),
+            )
+        )
+        for affected_index, affected_id in enumerate(expected_warning.get("affected_ids", [])):
+            errors.extend(
+                validate_structured_identifier(
+                    case_path,
+                    root,
+                    ["expected_warnings", warning_index, "affected_ids", affected_index],
+                    "warning affected id",
+                    affected_id,
+                )
+            )
 
     parameters = case.get("parameters", {})
     if isinstance(parameters, dict):
@@ -515,6 +539,7 @@ def load_algorithm_specs(
         inputs = normative.get("inputs", []) if isinstance(normative, dict) else []
         parameters = normative.get("parameters", []) if isinstance(normative, dict) else []
         outputs = normative.get("outputs", []) if isinstance(normative, dict) else []
+        warnings = normative.get("warnings", []) if isinstance(normative, dict) else []
 
         if isinstance(specification_id, str):
             specs_by_id[specification_id] = {
@@ -527,6 +552,9 @@ def load_algorithm_specs(
                 },
                 "output_ids": {
                     entry.get("id") for entry in outputs if isinstance(entry, dict)
+                },
+                "warning_ids": {
+                    entry.get("id") for entry in warnings if isinstance(entry, dict)
                 },
             }
 
@@ -777,6 +805,9 @@ def validate_conformance_references(
         errors.extend(
             report_duplicate_case_entries(case_path, root, case, "expected_outputs", "expected output")
         )
+        errors.extend(
+            report_duplicate_case_entries(case_path, root, case, "expected_warnings", "expected warning")
+        )
 
         requested_outputs = case.get("requested_outputs", [])
         if spec_info is not None and isinstance(requested_outputs, list):
@@ -915,6 +946,31 @@ def validate_conformance_references(
                         f"{json_path(['expected_outputs', output_index, 'column'])}: "
                         f"missing CSV column '{column}'"
                     )
+
+        for warning_index, expected_warning in enumerate(case.get("expected_warnings", [])):
+            if not isinstance(expected_warning, dict):
+                continue
+
+            warning_id = expected_warning.get("id")
+            if spec_info is not None and isinstance(warning_id, str):
+                if warning_id not in spec_info.get("warning_ids", set()):
+                    errors.append(
+                        f"{relative_name(case_path, root)}: "
+                        f"{json_path(['expected_warnings', warning_index, 'id'])}: "
+                        f"unknown specification warning id '{warning_id}'"
+                    )
+
+            if spec_info is not None:
+                known_affected_ids = spec_info["input_ids"] | spec_info["output_ids"]
+                for affected_index, affected_id in enumerate(
+                    expected_warning.get("affected_ids", [])
+                ):
+                    if isinstance(affected_id, str) and affected_id not in known_affected_ids:
+                        errors.append(
+                            f"{relative_name(case_path, root)}: "
+                            f"{json_path(['expected_warnings', warning_index, 'affected_ids', affected_index])}: "
+                            f"unknown specification input or output id '{affected_id}'"
+                        )
 
         oracle = case.get("oracle", {})
         if isinstance(oracle, dict):

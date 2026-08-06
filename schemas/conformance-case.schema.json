@@ -58,6 +58,13 @@
         "$ref": "#/$defs/expected_output"
       }
     },
+    "expected_warnings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/expected_warning"
+      }
+    },
     "expected_error": {
       "$ref": "#/$defs/expected_error"
     },
@@ -94,6 +101,11 @@
           {
             "required": [
               "nan_equal"
+            ]
+          },
+          {
+            "required": [
+              "expected_warnings"
             ]
           }
         ]
@@ -305,6 +317,29 @@
         "description": {
           "type": "string",
           "minLength": 1
+        }
+      }
+    },
+    "expected_warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "affected_ids"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "affected_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },

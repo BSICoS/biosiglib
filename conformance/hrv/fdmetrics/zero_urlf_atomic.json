@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.zero_urlf_atomic",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Invalidate all separated-mode outputs when the required unrelated LF power is exactly zero.",
+  "inputs": [
+    {"id": "related_pxx", "value": [0.01, 0.01, 0.01]},
+    {"id": "unrelated_pxx", "value": [0, 0, 0]},
+    {"id": "f", "value": [0.04, 0.15, 0.4]}
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {"id": "urlf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "re", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "r", "value": "NaN", "absolute_tolerance": 0}
+  ],
+  "expected_warnings": [
+    {"id": "zero_required_power", "affected_ids": ["urlf"]}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The unrelated LF integral is exactly zero, so the separated mode is atomically invalid even though raw related power is positive."
+  }
+}

@@ -114,6 +114,31 @@
       ]
     },
     {
+      "id": "hrv.synthetic.fdmetrics_nonfinite_inputs",
+      "module": "hrv",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Small synthetic PSD vector containing a NaN marker for hrv.fdmetrics mode-wide missing-data conformance."
+      },
+      "files": [
+        {
+          "role": "nonfinite_spectrum_table",
+          "path": "fixtures/data/hrv/fdmetrics_nonfinite_inputs.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "pxx_nan",
+          "unit": "1/Hz"
+        }
+      ],
+      "processing": [
+        "pxx_nan verifies the mode-wide NaN return without diagnostic warnings."
+      ]
+    },
+    {
       "id": "ecg.medicom_mtd.ecg_respiration",
       "module": "ecg",
       "data_kind": "table",
