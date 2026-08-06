@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.nan_separated_all_nan_no_warning",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Return every separated-mode metric as NaN without warnings when either selected PSD contains NaN.",
+  "inputs": [
+    {
+      "id": "related_pxx",
+      "fixture_id": "hrv.synthetic.fdmetrics_nonfinite_inputs",
+      "file_role": "nonfinite_spectrum_table",
+      "column": "pxx_nan"
+    },
+    {"id": "unrelated_pxx", "value": [0.001, 0.001, 0.001]},
+    {"id": "f", "value": [0.04, 0.15, 0.4]}
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {"id": "urlf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "re", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "r", "value": "NaN", "absolute_tolerance": 0}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "A NaN in any selected PSD activates the mode-wide missing-data return before either warning diagnostic is evaluated."
+  }
+}

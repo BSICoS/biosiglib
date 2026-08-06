@@ -36,3 +36,5 @@ python tools/validate_specs.py --manifest path/to/conformance.json
 Cross-language conformance is built from shared specifications, shared fixtures, and shared expected results rather than from one implementation copying the other.
 
 When behavior depends on requesting an optional output, a conformance case uses `requested_outputs` to declare the return profile that must be exercised. This is especially important for expected-error cases, where there are no expected-output mappings from which to infer the request.
+
+Successful cases may also use `expected_warnings` to require observable, non-fatal diagnostics. Warning identifiers are defined by the corresponding specification. Each expected warning lists the complete `affected_ids` set that must be aggregated into that single warning. Warning and affected-id ordering is not significant. If `expected_warnings` is absent, the call must not emit a normative warning. Expected-error cases cannot also declare warnings because the operation does not complete successfully.

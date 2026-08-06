@@ -1,0 +1,234 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "hrv.fdmetrics",
+    "module": "hrv"
+  },
+  "informative": {
+    "title": "Frequency-domain HRV metrics",
+    "summary": "Integrates conventional LF and HF powers or respiration-separated OSP powers on an authoritative frequency grid.",
+    "description": "The shared contract preserves the two mature Biosigmat fdmetrics call forms while making band selection, warning aggregation, missing-data behavior, and the robust respiration-separated ratio reproducible across languages.",
+    "notes": [
+      "Conventional LF and HF labels describe frequency bands and do not by themselves identify unique autonomic mechanisms.",
+      "Band edges are selected from the supplied frequency samples without interpolation, so coarse or irregular grids can materially affect the result.",
+      "The VLF diagnostic and the retained OSP rejection thresholds are empirical compatibility rules rather than universal physiological validity criteria.",
+      "The former single-spectrum 15000 power rejection is intentionally absent because its meaning depended on caller units."
+    ],
+    "keywords": [
+      "heart rate variability",
+      "frequency domain",
+      "low frequency",
+      "high frequency",
+      "orthogonal subspace projection",
+      "cardiorespiratory interaction"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "task_force_hrv_1996",
+        "relation": "metric_definition",
+        "note": "Provides the conventional LF and HF frequency bands and normalized frequency-domain HRV measures."
+      },
+      {
+        "id": "varon_unconstrained_hrv_osp_2019",
+        "relation": "method_extension",
+        "note": "Supports frequency-domain analysis after separating respiration-related and unrelated HRV modulation with OSP."
+      },
+      {
+        "id": "liu_robust_cardiorespiratory_index_2019",
+        "relation": "metric_definition",
+        "note": "Defines the robust normalization of respiration-unrelated LF power by total respiration-related and unrelated power."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "pxx",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "caller-defined power/Hz",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0,
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "related_pxx",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "1/Hz",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0,
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "unrelated_pxx",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "1/Hz",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0,
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "f",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0,
+          "minimum_length": 1
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "limit_hf",
+        "data_type": "boolean",
+        "default": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "hf",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "caller-defined power"
+      },
+      {
+        "id": "lf",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "caller-defined power"
+      },
+      {
+        "id": "lfn",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "1"
+      },
+      {
+        "id": "lfhf",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "1"
+      },
+      {
+        "id": "urlf",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "1"
+      },
+      {
+        "id": "re",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "1"
+      },
+      {
+        "id": "r",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "1"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "canonical_api",
+        "text": "One public operation has two mutually exclusive call forms. Single-spectrum mode takes pxx and f, with optional boolean limit_hf defaulting to true, and returns hf, lf, lfn, and lfhf. Separated OSP mode takes related_pxx, unrelated_pxx, and f and returns urlf, re, and r. The second mode has no limit_hf option. Implementations must reject missing, mixed, or ambiguous mode-specific input sets. Language bindings may preserve mature positional overloads: a third logical scalar selects the single-spectrum option, while a third numeric frequency vector selects separated mode."
+      },
+      {
+        "target": "frequency_grid",
+        "text": "f is authoritative and must be a nonempty real vector of finite, nonnegative, strictly increasing frequencies. Do not resample, interpolate, or insert samples at 0.04, 0.15, or 0.4 Hz. Every selected PSD must have exactly the same number of samples as f."
+      },
+      {
+        "target": "psd_validation",
+        "text": "Every selected PSD must be a nonempty real vector. Negative and infinite values are invalid. A PSD containing any NaN follows the mode-wide NaN return instead of raising an error. In single-spectrum mode the input unit is deliberately caller-defined, for example ms^2/Hz or 1/Hz. In separated mode related_pxx and unrelated_pxx are PSDs of the dimensionless respiration-related and respiration-unrelated modulation components and have unit 1/Hz."
+      },
+      {
+        "target": "trapezoidal_integration",
+        "text": "For inclusive zero-based indices a through b, integrate only the original selected samples as sum from i = a to b - 1 of (f[i+1] - f[i]) * (p[i] + p[i+1]) / 2. A selection containing exactly one sample therefore integrates to zero."
+      },
+      {
+        "target": "band_indices",
+        "text": "Let i_lf_start be the first index with f >= 0.04 and i_lf_end be the first index with f >= 0.15. The LF selection includes both indices. The HF selection starts at i_lf_end. When limit_hf is true and at least one sample has f >= 0.4, its end is the first such index; when no sample reaches 0.4, its end is the final index. When limit_hf is false, its end is always the final index. The boundary sample at i_lf_end belongs to both LF and HF trapezoidal selections, but no finite interval is counted twice."
+      },
+      {
+        "target": "single_powers",
+        "text": "In single-spectrum mode, lf is the trapezoidal integral of pxx from i_lf_start through i_lf_end and hf is the integral from i_lf_end through the selected HF end. The powers inherit the integrated caller unit. There is no magnitude rejection for lf or hf; in particular, powers greater than 15000 remain valid."
+      },
+      {
+        "target": "single_ratios",
+        "text": "When both required powers are strictly positive, lfn = lf / (lf + hf) and lfhf = lf / hf. Both ratios are dimensionless."
+      },
+      {
+        "target": "separated_powers",
+        "text": "In separated OSP mode, urlf is the LF-band trapezoidal integral of unrelated_pxx from i_lf_start through i_lf_end. re is the trapezoidal integral of related_pxx over the complete supplied frequency grid, independent of LF/HF coverage. Apply the retained empirical re rejection only to re: if its finite raw value is greater than 0.05, return re as NaN. Apply the retained empirical urlf rejection only to urlf: if its finite raw value is greater than 0.003, return urlf as NaN. Either rejected component makes r NaN but does not change the other component."
+      },
+      {
+        "target": "robust_ratio",
+        "text": "When the unrejected raw urlf is strictly positive and re is nonnegative, r = urlf / (re + urlf). Exact re = 0 is valid and gives r = 1. The ratio is dimensionless and bounded from 0 through 1 for valid powers."
+      },
+      {
+        "target": "vlf_diagnostic",
+        "text": "Evaluate the VLF diagnostic independently for pxx in single-spectrum mode and for related_pxx and unrelated_pxx in separated mode. If f has no sample below 0.04 Hz, emit no VLF warning. Otherwise, when a boundary index i_vlf equal to the first f >= 0.04 exists, integrate P_vlf from the first sample through i_vlf and P_rest from i_vlf through the final sample. Emit excessive_vlf_power for a spectrum when P_vlf / P_rest > 0.05. If P_rest = 0 and P_vlf > 0, the condition is true; if both are zero, it is false. If no i_vlf exists, the diagnostic is not evaluable and emits no warning."
+      },
+      {
+        "target": "warning_aggregation",
+        "text": "Emit at most one warning per warning id and call. excessive_vlf_power aggregates every offending selected PSD using affected input ids pxx, related_pxx, or unrelated_pxx. zero_required_power aggregates every exactly zero required band power using affected output ids lf and hf in single-spectrum mode or urlf in separated mode. A call may emit both warning ids because they represent distinct conditions. Warning ordering and message text are not normative; the canonical id and complete affected-id set are normative."
+      },
+      {
+        "target": "nan_mode_return",
+        "text": "If any selected PSD contains NaN, return NaN for every output of the selected mode and emit neither excessive_vlf_power nor zero_required_power. The unselected mode's outputs are not part of the call."
+      },
+      {
+        "target": "insufficient_band_return",
+        "text": "If the required LF or HF index selection does not exist, return NaN for every output of the selected mode without a zero-power warning. Partial nominal coverage is otherwise valid: the default HF selection may end below 0.4 at the last supplied sample."
+      },
+      {
+        "target": "zero_power_return",
+        "text": "After successful selection and integration, exact zero lf or hf makes all four single-spectrum outputs NaN and emits zero_required_power identifying every zero band. Exact zero urlf makes all three separated outputs NaN and emits zero_required_power identifying urlf. This includes a one-sample band whose trapezoidal integral is zero. Exact zero re is not an error and does not emit a warning when urlf is positive. The VLF diagnostic remains independent and may also warn on the same call."
+      },
+      {
+        "target": "comparison",
+        "text": "Each conformance case defines its absolute tolerance and uses zero relative tolerance; ordinary subunit powers and ratios use 1e-12, while large caller-unit powers use a scale-appropriate absolute tolerance. NaN outputs compare equal only when the conformance case enables nan_equal. Expected warnings compare as an unordered set of canonical warning ids, and each affected_ids value compares as an unordered complete set. Absence of expected_warnings means that no warning is expected."
+      },
+      {
+        "target": "error_categories",
+        "text": "Use invalid_type for non-numeric PSD or frequency inputs and for a non-boolean limit_hf; invalid_shape for non-vector PSD/f inputs or a non-scalar option; and invalid_value for empty, infinite, or negative PSD values, empty, NaN, infinite, negative, or non-increasing frequencies, unequal PSD/f lengths, or invalid combinations of mode-specific inputs. Language-specific exception classes, warning classes, and message text are not normative."
+      }
+    ],
+    "warnings": [
+      {
+        "id": "excessive_vlf_power",
+        "condition": "At least one selected PSD satisfies the normative VLF-to-rest power condition.",
+        "effect": "Diagnostic only; returned values and validation behavior are unchanged.",
+        "aggregation": "Emit once and identify the complete set of offending PSD input ids."
+      },
+      {
+        "id": "zero_required_power",
+        "condition": "At least one successfully selected required band power is exactly zero.",
+        "effect": "Return NaN for every output of the selected mode.",
+        "aggregation": "Emit once and identify the complete set of zero required power output ids."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaN is permitted only as a PSD missing-data marker. If any selected PSD contains NaN, all outputs of that mode are NaN and no warning is emitted. NaN in f is invalid.",
+      "empty_input": "Every selected PSD and f must be nonempty; empty vectors are invalid rather than missing-data returns.",
+      "input_orientation": "MATLAB row and column input vectors represent the same canonical sequences. Python accepts one-dimensional vectors. Every returned metric is scalar.",
+      "insufficient_data": "Missing required band indices produce a mode-wide NaN return. A present one-sample required band is instead an exact zero power, produces the zero_required_power warning, and also causes the mode-wide NaN return. Partial HF coverage below 0.4 Hz remains processable."
+    }
+  }
+}

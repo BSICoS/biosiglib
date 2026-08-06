@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.insufficient_band_all_nan",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Return all single-mode metrics as NaN when the grid has no sample at or beyond the LF/HF boundary.",
+  "inputs": [
+    {"id": "pxx", "value": [1, 1]},
+    {"id": "f", "value": [0.05, 0.10]}
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {"id": "hf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lfn", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lfhf", "value": "NaN", "absolute_tolerance": 0}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "No f >= 0.15 sample exists, so neither the LF endpoint nor HF start can be selected; this is insufficient coverage rather than an integrated zero."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.one_sample_hf_zero",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Treat a present one-sample HF selection as exact zero power rather than as missing coverage.",
+  "inputs": [
+    {"id": "pxx", "value": [1, 1]},
+    {"id": "f", "value": [0.04, 0.15]}
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {"id": "hf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lfn", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lfhf", "value": "NaN", "absolute_tolerance": 0}
+  ],
+  "expected_warnings": [
+    {"id": "zero_required_power", "affected_ids": ["hf"]}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "LF integrates over two samples, but HF contains only the shared 0.15 Hz sample and trapezoidal integration therefore yields exact zero."
+  }
+}

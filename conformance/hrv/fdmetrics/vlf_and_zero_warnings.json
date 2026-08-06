@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.vlf_and_zero_warnings",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Emit the distinct VLF and zero-power warnings together while returning atomic NaN outputs.",
+  "inputs": [
+    {"id": "pxx", "value": [1, 1, 0, 0, 0]},
+    {"id": "f", "value": [0, 0.03, 0.04, 0.15, 0.4]}
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {"id": "hf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lfn", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lfhf", "value": "NaN", "absolute_tolerance": 0}
+  ],
+  "expected_warnings": [
+    {"id": "excessive_vlf_power", "affected_ids": ["pxx"]},
+    {"id": "zero_required_power", "affected_ids": ["hf", "lf"]}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "VLF power is positive while rest power is zero, and both required band powers are exactly zero. The independent conditions therefore each emit one warning."
+  }
+}

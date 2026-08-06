@@ -41,6 +41,7 @@ Changes touching specifications or scientific notes require a consistency review
 * [`ecg.sloperange`](ecg.sloperange.md) - slope-range ECG-derived respiration.
 * [`hrv.fillgaps`](hrv.fillgaps.md) - iterative reconstruction of missing event timestamps.
 * [`hrv.ipfm`](hrv.ipfm.md) - heart-timing instantaneous-rate reconstruction and TVIPFM modulation.
+* [`hrv.fdmetrics`](hrv.fdmetrics.md) - conventional and respiration-separated frequency-domain HRV metrics.
 * [`hrv.osp`](hrv.osp.md) - respiratory and residual HRV decomposition by orthogonal subspace projection.
 * [`hrv.removefp`](hrv.removefp.md) - deterministic removal of event detections that follow abnormally short intervals.
 

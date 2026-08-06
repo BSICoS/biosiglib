@@ -65,6 +65,57 @@ class ConformanceCaseSchemaTests(unittest.TestCase):
 
         self.assertEqual(list(validator.iter_errors(case)), [])
 
+    def test_accepts_aggregated_expected_warning(self) -> None:
+        schema = validate_specs.load_json(
+            REPOSITORY_ROOT / "schemas" / "conformance-case.schema.json"
+        )
+        validator = validate_specs.Draft202012Validator(schema)
+        case = {
+            "$schema": "../../../schemas/conformance-case.schema.json",
+            "id": "hrv.example.warning",
+            "specification_id": "hrv.example",
+            "description": "Exercise an aggregated warning expectation.",
+            "inputs": [{"id": "pxx", "value": [0, 1, 2]}],
+            "parameters": {},
+            "expected_outputs": [
+                {"id": "lf", "value": 1, "absolute_tolerance": 0}
+            ],
+            "expected_warnings": [
+                {"id": "zero_required_power", "affected_ids": ["lf", "hf"]}
+            ],
+            "nan_equal": True,
+            "oracle": {
+                "type": "analytical",
+                "description": "Expected-warning schema regression case.",
+            },
+        }
+
+        self.assertEqual(list(validator.iter_errors(case)), [])
+
+    def test_rejects_expected_warning_on_error_case(self) -> None:
+        schema = validate_specs.load_json(
+            REPOSITORY_ROOT / "schemas" / "conformance-case.schema.json"
+        )
+        validator = validate_specs.Draft202012Validator(schema)
+        case = {
+            "$schema": "../../../schemas/conformance-case.schema.json",
+            "id": "hrv.example.error_warning",
+            "specification_id": "hrv.example",
+            "description": "Warnings are observable only for successful calls.",
+            "inputs": [{"id": "pxx", "value": []}],
+            "parameters": {},
+            "expected_error": {"category": "invalid_value"},
+            "expected_warnings": [
+                {"id": "zero_required_power", "affected_ids": ["lf"]}
+            ],
+            "oracle": {
+                "type": "analytical",
+                "description": "Error/warning exclusivity regression case.",
+            },
+        }
+
+        self.assertNotEqual(list(validator.iter_errors(case)), [])
+
 
 class SpecificationDocumentationValidationTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -130,6 +181,47 @@ class SpecificationDocumentationValidationTests(unittest.TestCase):
 
 
 class ExistingNegativeValidationTests(unittest.TestCase):
+    def test_rejects_unknown_warning_and_affected_id(self) -> None:
+        root = Path("repository").resolve()
+        case_path = root / "conformance" / "hrv" / "example" / "unknown_warning.json"
+        cases = [
+            (
+                case_path,
+                {
+                    "specification_id": "hrv.example",
+                    "inputs": [],
+                    "parameters": {},
+                    "expected_outputs": [],
+                    "expected_warnings": [
+                        {"id": "unknown_warning", "affected_ids": ["unknown_id"]}
+                    ],
+                },
+            )
+        ]
+        specs_by_id = {
+            "hrv.example": {
+                "input_ids": {"pxx"},
+                "parameter_ids": set(),
+                "output_ids": {"lf"},
+                "warning_ids": {"zero_required_power"},
+            }
+        }
+
+        errors = validate_specs.validate_conformance_references(
+            root,
+            cases,
+            specs_by_id=specs_by_id,
+            fixtures_by_id={},
+            known_reference_ids=set(),
+        )
+
+        self.assertTrue(
+            any("unknown specification warning id 'unknown_warning'" in error for error in errors)
+        )
+        self.assertTrue(
+            any("unknown specification input or output id 'unknown_id'" in error for error in errors)
+        )
+
     def test_rejects_unknown_requested_output(self) -> None:
         root = Path("repository").resolve()
         case_path = root / "conformance" / "hrv" / "example" / "unknown_output.json"

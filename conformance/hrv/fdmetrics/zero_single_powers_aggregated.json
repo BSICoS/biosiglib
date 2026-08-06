@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.zero_single_powers_aggregated",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Invalidate single-spectrum metrics atomically and aggregate both exact zero band powers into one warning.",
+  "inputs": [
+    {"id": "pxx", "value": [0, 0, 0, 0]},
+    {"id": "f", "value": [0, 0.04, 0.15, 0.4]}
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {"id": "hf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lfn", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "lfhf", "value": "NaN", "absolute_tolerance": 0}
+  ],
+  "expected_warnings": [
+    {"id": "zero_required_power", "affected_ids": ["hf", "lf"]}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Both required trapezoidal powers are exactly zero, so every single-mode output is NaN and both power ids are reported together. VLF and rest power are also both zero, which must not add an excessive_vlf_power warning."
+  }
+}

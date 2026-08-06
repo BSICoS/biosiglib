@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "hrv.fdmetrics.unrelated_power_threshold_rejection",
+  "specification_id": "hrv.fdmetrics",
+  "description": "Reject only excessive respiration-unrelated LF power while preserving valid related total power.",
+  "inputs": [
+    {"id": "related_pxx", "value": [0.01, 0.01, 0.01]},
+    {"id": "unrelated_pxx", "value": [0.1, 0.1, 0.1]},
+    {"id": "f", "value": [0.04, 0.15, 0.4]}
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {"id": "urlf", "value": "NaN", "absolute_tolerance": 0},
+    {"id": "re", "value": 0.0036, "absolute_tolerance": 1e-12},
+    {"id": "r", "value": "NaN", "absolute_tolerance": 0}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Raw urlf is 0.1 * 0.11 = 0.011 and exceeds 0.003. re is 0.01 * 0.36 = 0.0036 and remains reportable."
+  }
+}

@@ -152,6 +152,13 @@
             "$ref": "#/$defs/definition"
           }
         },
+        "warnings": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/warning"
+          }
+        },
         "behavior": {
           "type": "object",
           "additionalProperties": false,
@@ -323,6 +330,34 @@
         },
         "latex": {
           "type": "string"
+        }
+      }
+    },
+    "warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "condition",
+        "effect",
+        "aggregation"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effect": {
+          "type": "string",
+          "minLength": 1
+        },
+        "aggregation": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

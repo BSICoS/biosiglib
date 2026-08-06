@@ -8,10 +8,13 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Added
 
+- Added the normative `hrv.fdmetrics` contract, fifteen focused shared cases, and a scientific note covering its single-spectrum and respiration-separated OSP modes, original-grid LF/HF integration, limited and unlimited HF behavior, robust normalized ratio, retained separated-power rejections, removal of the unit-dependent single-power rejection, atomic missing/zero-power behavior, and stable aggregated VLF and zero-power warnings.
+- Added compatible schema and documentation support for normative warning definitions and successful conformance cases that require canonical warning ids with complete affected-id sets.
+- Added the Liu et al. 2019 robust cardiorespiratory HRV index publication and linked the established Task Force and Varon et al. provenance to `hrv.fdmetrics`.
 - Added the normative `hrv.osp` contract, twelve focused shared cases, and a scientific note covering MATLAB-compatible 90% occupied-power integration, the inherited peak-count heuristic, configurable respiratory-frequency floor, positive half-way delay rounding, delayed-signal alignment, analytical reconstruction and residual orthogonality, an explicit Gram-matrix pseudoinverse threshold, and the established empty/`NaN`/short-signal compatibility behavior with explicit infinite-value rejection.
 - Added the Varon et al. 2017 and 2019 OSP publications with provenance that separates the literature-backed linear respiratory decomposition from empirical Biosigmat frequency-selection choices.
 
-This is a MINOR change because it adds a new compatible specification and conformance profile without changing any released contract. The release remains unpublished while Biosigmat and Biosigpy adapt to `hrv.osp`.
+These are MINOR changes because they add compatible `hrv.osp` and `hrv.fdmetrics` specifications and conformance profiles without changing any released contract. The release remains unpublished while Biosigmat and Biosigpy adapt to both specifications.
 
 ## v1.3.0 - 2026-08-05
 
