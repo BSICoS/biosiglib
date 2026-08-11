@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.single_valid_fiducial_error",
+  "specification_id": "ecg.baselineremove",
+  "description": "Reject a call when filtering leaves exactly one valid fiducial position.",
+  "inputs": [
+    {"id": "ecg", "value": [1, 2, 7, 4, 5]},
+    {"id": "fiducial_positions", "value": [3, 10]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {"window_size": 1},
+  "expected_error": {
+    "category": "insufficient_data",
+    "description": "Exactly one valid fiducial level is insufficient to define the baseline spline."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Position 10 is discarded outside the five-sample signal, leaving only position 3."
+  }
+}

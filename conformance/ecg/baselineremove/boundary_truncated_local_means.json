@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.boundary_truncated_local_means",
+  "specification_id": "ecg.baselineremove",
+  "description": "Truncate local averaging windows at both ECG boundaries without padding.",
+  "inputs": [
+    {"id": "ecg", "value": [2, 4, 8, 16, 32]},
+    {"id": "fiducial_positions", "value": [1, 5]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {"window_size": 2},
+  "expected_outputs": [
+    {"id": "ecg_detrended", "value": [-1, -4.25, -5.5, -2.75, 8], "absolute_tolerance": 1e-12},
+    {"id": "baseline", "value": [3, 8.25, 13.5, 18.75, 24], "absolute_tolerance": 1e-12}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Radius one windows truncate to samples [1,2] and [4,5], giving endpoint levels 3 and 24. Their line rises by 21/4 per sample."
+  }
+}

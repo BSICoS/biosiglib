@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.nonfinite_fiducial_error",
+  "specification_id": "ecg.baselineremove",
+  "description": "Reject a nonfinite fiducial position before offset and range processing.",
+  "inputs": [
+    {"id": "ecg", "value": [1, 2, 3]},
+    {
+      "id": "fiducial_positions",
+      "fixture_id": "ecg.synthetic.baselineremove_nonfinite_inputs",
+      "file_role": "nonfinite_input_table",
+      "column": "nonfinite_values"
+    },
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {"window_size": 1},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "fiducial_positions must contain only finite real values."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The normative fiducial_positions input explicitly disallows NaN."
+  }
+}

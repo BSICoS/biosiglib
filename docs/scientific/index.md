@@ -38,6 +38,7 @@ Changes touching specifications or scientific notes require a consistency review
 
 ## Current Notes
 
+* [`ecg.baselineremove`](ecg.baselineremove.md) - ECG baseline removal from fiducial isoelectric samples.
 * [`ecg.sloperange`](ecg.sloperange.md) - slope-range ECG-derived respiration.
 * [`hrv.fillgaps`](hrv.fillgaps.md) - iterative reconstruction of missing event timestamps.
 * [`hrv.ipfm`](hrv.ipfm.md) - heart-timing instantaneous-rate reconstruction and TVIPFM modulation.

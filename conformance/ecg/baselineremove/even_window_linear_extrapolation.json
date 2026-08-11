@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.even_window_linear_extrapolation",
+  "specification_id": "ecg.baselineremove",
+  "description": "Use a three-sample effective window for even window_size and extrapolate the line defined by two valid fiducial levels.",
+  "inputs": [
+    {"id": "ecg", "value": [2, 4, 8, 16, 32]},
+    {"id": "fiducial_positions", "value": [2, 4]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {"window_size": 2},
+  "expected_outputs": [
+    {"id": "ecg_detrended", "value": [4.333333333333333, -0.6666666666666666, -3.666666666666666, -2.6666666666666643, 6.333333333333336], "absolute_tolerance": 1e-12},
+    {"id": "baseline", "value": [-2.333333333333333, 4.666666666666667, 11.666666666666666, 18.666666666666664, 25.666666666666664], "absolute_tolerance": 1e-12}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "window_size 2 gives radius 1 and levels mean([2,4,8]) = 14/3 at position 2 and mean([8,16,32]) = 56/3 at position 4. The unique line through those levels has slope 7 and is evaluated across positions 1 through 5."
+  }
+}

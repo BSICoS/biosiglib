@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.not_a_knot_cubic_extrapolation",
+  "specification_id": "ecg.baselineremove",
+  "description": "Fit a four-point not-a-knot cubic and evaluate it on both sides of the fiducial interval.",
+  "inputs": [
+    {"id": "ecg", "value": [9, 0, 9, 1, 9, 0, 2, 9]},
+    {"id": "fiducial_positions", "value": [2, 4, 6, 7]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {"window_size": 1},
+  "expected_outputs": [
+    {"id": "ecg_detrended", "value": [13.5, 0, 7.6, 0, 8.9, 0, 0, 1.6], "absolute_tolerance": 1e-12},
+    {"id": "baseline", "value": [-4.5, 0, 1.4, 1, 0.1, 0, 2, 7.4], "absolute_tolerance": 1e-12}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "The established Biosigmat implementation returns this four-point MATLAB spline baseline, including its evaluations before position 2 and after position 7.",
+    "commit": "265b3fa3e468645bd3b7f9d63d805c5fb2afb49c",
+    "reference_ids": ["meyer_keiser_ecg_baseline_spline_1977"]
+  }
+}

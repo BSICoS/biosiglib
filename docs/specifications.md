@@ -22,6 +22,7 @@ The current specifications are:
 <!-- BEGIN GENERATED SPECIFICATION TABLE -->
 | Specification | Module | Summary |
 | --- | --- | --- |
+| [`ecg.baselineremove`](generated/specifications/ecg.baselineremove.md) | ECG | Estimates a slowly varying ECG baseline from local means around fiducial positions and subtracts its spline interpolation. |
 | [`ecg.pantompkins`](generated/specifications/ecg.pantompkins.md) | ECG | Detects ordered R-wave occurrence times from a sampled ECG signal and exposes intermediate processing signals for plotting and debugging. |
 | [`ecg.sloperange`](generated/specifications/ecg.sloperange.md) | ECG | Estimates an ECG-derived respiration amplitude series from derivative ECG morphology around detected R waves. |
 | [`hrv.fdmetrics`](generated/specifications/hrv.fdmetrics.md) | HRV | Integrates conventional LF and HF powers or respiration-separated OSP powers on an authoritative frequency grid. |
