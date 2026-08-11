@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.no_valid_fiducials_identity_warning",
+  "specification_id": "ecg.baselineremove",
+  "description": "Return the identity result and one canonical warning when no fiducial position is in range.",
+  "inputs": [
+    {"id": "ecg", "value": [1, 2, 3]},
+    {"id": "fiducial_positions", "value": [10, 12]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {"window_size": 1},
+  "expected_outputs": [
+    {"id": "ecg_detrended", "value": [1, 2, 3], "absolute_tolerance": 0},
+    {"id": "baseline", "value": [0, 0, 0], "absolute_tolerance": 0}
+  ],
+  "expected_warnings": [
+    {"id": "no_valid_fiducial_positions", "affected_ids": ["fiducial_positions"]}
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Both adjusted positions lie above N = 3, so range filtering leaves no position and activates the defined warning fallback."
+  }
+}

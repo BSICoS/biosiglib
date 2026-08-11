@@ -34,6 +34,7 @@ nav:
   - Specifications:
       - Overview: specifications.md
       # BEGIN GENERATED SPECIFICATION NAVIGATION
+      - ecg.baselineremove: generated/specifications/ecg.baselineremove.md
       - ecg.pantompkins: generated/specifications/ecg.pantompkins.md
       - ecg.sloperange: generated/specifications/ecg.sloperange.md
       - hrv.fdmetrics: generated/specifications/hrv.fdmetrics.md
@@ -50,6 +51,7 @@ nav:
       # END GENERATED SPECIFICATION NAVIGATION
   - Scientific Notes:
       - Overview: scientific/index.md
+      - ecg.baselineremove: scientific/ecg.baselineremove.md
       - ecg.sloperange: scientific/ecg.sloperange.md
       - hrv.fillgaps: scientific/hrv.fillgaps.md
       - hrv.ipfm: scientific/hrv.ipfm.md

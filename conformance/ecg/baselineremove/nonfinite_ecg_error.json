@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.nonfinite_ecg_error",
+  "specification_id": "ecg.baselineremove",
+  "description": "Reject a nonfinite ECG sample.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "fixture_id": "ecg.synthetic.baselineremove_nonfinite_inputs",
+      "file_role": "nonfinite_input_table",
+      "column": "nonfinite_values"
+    },
+    {"id": "fiducial_positions", "value": [1, 3]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {"window_size": 1},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "ecg must contain only finite real values."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The normative ECG input explicitly disallows NaN."
+  }
+}

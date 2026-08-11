@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+### Added
+
+- Added the normative `ecg.baselineremove` contract, eight focused shared cases, and a scientific note covering one-based fiducial normalization, half-away-from-zero rounding, post-rounding sorting and deduplication, boundary-truncated local means, even-window expansion, reduced-degree and not-a-knot spline behavior, endpoint extrapolation, explicit zero- and one-valid-fiducial outcomes, and finite-real input requirements.
+- Added the Meyer and Keiser 1977 ECG baseline-noise publication while distinguishing its PR-segment and cubic-spline rationale from empirical Biosigmat compatibility rules.
+
+This is a MINOR change because it adds a compatible `ecg.baselineremove` specification and conformance profile without changing a released contract. Biosigmat and Biosigpy require adaptation and must pass the applicable shared cases before declaring this specification conformant.
+
 ## v1.4.0 - 2026-08-06
 
 ### Added

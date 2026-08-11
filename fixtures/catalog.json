@@ -42,6 +42,31 @@
       ]
     },
     {
+      "id": "ecg.synthetic.baselineremove_nonfinite_inputs",
+      "module": "ecg",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Small synthetic vector containing a NaN marker for ecg.baselineremove finite-real input validation."
+      },
+      "files": [
+        {
+          "role": "nonfinite_input_table",
+          "path": "fixtures/data/ecg/baselineremove_nonfinite_inputs.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "nonfinite_values",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "The same three-value column is used once as an ECG vector and once as a fiducial-position vector so both finite-real input requirements are exercised without duplicating fixture data."
+      ]
+    },
+    {
       "id": "hrv.medicom_mtd.ipfm_expected",
       "module": "hrv",
       "data_kind": "table",

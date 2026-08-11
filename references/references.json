@@ -510,6 +510,29 @@
       "pages": "2386-2397",
       "doi": "10.1109/JBHI.2018.2884644",
       "pmid": "30507541"
+    },
+    {
+      "id": "meyer_keiser_ecg_baseline_spline_1977",
+      "type": "journal_article",
+      "title": "Electrocardiogram baseline noise estimation and removal using cubic splines and state-space computation techniques",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Meyer",
+          "given_names": "C. R."
+        },
+        {
+          "type": "person",
+          "family_name": "Keiser",
+          "given_names": "H. N."
+        }
+      ],
+      "year": 1977,
+      "journal": "Computers and Biomedical Research",
+      "volume": "10",
+      "issue": "5",
+      "pages": "459-470",
+      "doi": "10.1016/0010-4809(77)90021-0"
     }
   ]
 }
