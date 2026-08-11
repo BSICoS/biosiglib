@@ -33,19 +33,21 @@ nav:
   - Ecosystem: ecosystem.md
   - Specifications:
       - Overview: specifications.md
-      - hrv.tdmetrics: generated/specifications/hrv.tdmetrics.md
-      - hrv.fillgaps: generated/specifications/hrv.fillgaps.md
-      - hrv.ipfm: generated/specifications/hrv.ipfm.md
-      - hrv.fdmetrics: generated/specifications/hrv.fdmetrics.md
-      - hrv.osp: generated/specifications/hrv.osp.md
-      - hrv.removefp: generated/specifications/hrv.removefp.md
+      # BEGIN GENERATED SPECIFICATION NAVIGATION
       - ecg.pantompkins: generated/specifications/ecg.pantompkins.md
       - ecg.sloperange: generated/specifications/ecg.sloperange.md
+      - hrv.fdmetrics: generated/specifications/hrv.fdmetrics.md
+      - hrv.fillgaps: generated/specifications/hrv.fillgaps.md
+      - hrv.ipfm: generated/specifications/hrv.ipfm.md
+      - hrv.osp: generated/specifications/hrv.osp.md
+      - hrv.removefp: generated/specifications/hrv.removefp.md
+      - hrv.tdmetrics: generated/specifications/hrv.tdmetrics.md
       - tools.lpd_filter: generated/specifications/tools.lpd_filter.md
       - tools.medfilt_threshold: generated/specifications/tools.medfilt_threshold.md
       - tools.nan_filter: generated/specifications/tools.nan_filter.md
       - tools.nan_filtfilt: generated/specifications/tools.nan_filtfilt.md
       - tools.snap_to_peak: generated/specifications/tools.snap_to_peak.md
+      # END GENERATED SPECIFICATION NAVIGATION
   - Scientific Notes:
       - Overview: scientific/index.md
       - ecg.sloperange: scientific/ecg.sloperange.md

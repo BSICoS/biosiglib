@@ -1,4 +1,4 @@
-"""Generate MkDocs specification pages from Biosiglib JSON specifications."""
+"""Generate MkDocs specification documentation from Biosiglib JSON specifications."""
 
 from __future__ import annotations
 
@@ -10,8 +10,14 @@ from typing import Any
 
 
 GENERATED_SPEC_DIR = Path("docs") / "generated" / "specifications"
+SPECIFICATION_INDEX_PATH = Path("docs") / "specifications.md"
+MKDOCS_PATH = Path("mkdocs.yml")
 SPEC_GLOB = "specs/*/*/spec.json"
 REPOSITORY_URL = "https://github.com/BSICoS/biosiglib"
+SPECIFICATION_TABLE_START = "<!-- BEGIN GENERATED SPECIFICATION TABLE -->"
+SPECIFICATION_TABLE_END = "<!-- END GENERATED SPECIFICATION TABLE -->"
+SPECIFICATION_NAV_START = "      # BEGIN GENERATED SPECIFICATION NAVIGATION"
+SPECIFICATION_NAV_END = "      # END GENERATED SPECIFICATION NAVIGATION"
 
 
 def find_repository_root() -> Path:
@@ -111,6 +117,68 @@ def discover_specs(root: Path) -> list[tuple[Path, dict[str, Any]]]:
             relative_path(item[0], root),
         ),
     )
+
+
+def module_display_name(module: str) -> str:
+    if module in {"ecg", "hrv", "ppg"}:
+        return module.upper()
+    return module.replace("_", " ").title()
+
+
+def specification_index_lines(specs: list[tuple[Path, dict[str, Any]]]) -> list[str]:
+    rows = []
+    for spec_path, spec in specs:
+        metadata = spec.get("metadata", {})
+        informative = spec.get("informative", {})
+        if not isinstance(metadata, dict) or not isinstance(metadata.get("id"), str):
+            raise ValueError(f"{spec_path.as_posix()} is missing metadata.id")
+        if not isinstance(informative, dict):
+            informative = {}
+
+        specification_id = metadata["id"]
+        module = str(metadata.get("module", ""))
+        rows.append(
+            [
+                f"[{inline_code(specification_id)}](generated/specifications/{specification_id}.md)",
+                module_display_name(module),
+                informative.get("summary", ""),
+            ]
+        )
+
+    return table(["Specification", "Module", "Summary"], rows)
+
+
+def specification_navigation_lines(
+    specs: list[tuple[Path, dict[str, Any]]],
+) -> list[str]:
+    lines = []
+    for spec_path, spec in specs:
+        metadata = spec.get("metadata", {})
+        if not isinstance(metadata, dict) or not isinstance(metadata.get("id"), str):
+            raise ValueError(f"{spec_path.as_posix()} is missing metadata.id")
+        specification_id = metadata["id"]
+        lines.append(
+            f"      - {specification_id}: generated/specifications/{specification_id}.md"
+        )
+    return lines
+
+
+def replace_generated_block(
+    source: str,
+    start_marker: str,
+    end_marker: str,
+    generated_lines: list[str],
+    source_name: str,
+) -> str:
+    if source.count(start_marker) != 1 or source.count(end_marker) != 1:
+        raise ValueError(
+            f"{source_name} must contain exactly one '{start_marker}' and one '{end_marker}'"
+        )
+
+    prefix, remainder = source.split(start_marker, maxsplit=1)
+    _, suffix = remainder.split(end_marker, maxsplit=1)
+    generated = "\n".join(generated_lines)
+    return f"{prefix}{start_marker}\n{generated}\n{end_marker}{suffix}"
 
 
 def conformance_cases(root: Path, module: str, algorithm: str) -> list[tuple[Path, str]]:
@@ -331,15 +399,44 @@ def render_spec_page(root: Path, spec_path: Path, spec: dict[str, Any]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
-def generated_pages(root: Path) -> dict[Path, str]:
+def generated_pages(
+    root: Path,
+    specs: list[tuple[Path, dict[str, Any]]],
+) -> dict[Path, str]:
     pages = {}
-    for spec_path, spec in discover_specs(root):
+    for spec_path, spec in specs:
         metadata = spec.get("metadata", {})
         if not isinstance(metadata, dict) or not isinstance(metadata.get("id"), str):
             raise ValueError(f"{relative_path(spec_path, root)} is missing metadata.id")
         output_path = root / GENERATED_SPEC_DIR / f"{metadata['id']}.md"
         pages[output_path] = render_spec_page(root, spec_path, spec)
     return pages
+
+
+def generated_documentation(root: Path) -> dict[Path, str]:
+    specs = discover_specs(root)
+    files = generated_pages(root, specs)
+
+    index_path = root / SPECIFICATION_INDEX_PATH
+    index_source = index_path.read_text(encoding="utf-8")
+    files[index_path] = replace_generated_block(
+        index_source,
+        SPECIFICATION_TABLE_START,
+        SPECIFICATION_TABLE_END,
+        specification_index_lines(specs),
+        relative_path(index_path, root),
+    )
+
+    mkdocs_path = root / MKDOCS_PATH
+    mkdocs_source = mkdocs_path.read_text(encoding="utf-8")
+    files[mkdocs_path] = replace_generated_block(
+        mkdocs_source,
+        SPECIFICATION_NAV_START,
+        SPECIFICATION_NAV_END,
+        specification_navigation_lines(specs),
+        relative_path(mkdocs_path, root),
+    )
+    return files
 
 
 def check_generated(root: Path, pages: dict[Path, str]) -> int:
@@ -376,6 +473,7 @@ def write_generated(root: Path, pages: dict[Path, str]) -> int:
 
     expected_paths = set(pages)
     for path, content in sorted(pages.items()):
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8", newline="\n")
         print(f"Wrote {relative_path(path, root)}")
 
@@ -389,12 +487,12 @@ def write_generated(root: Path, pages: dict[Path, str]) -> int:
 
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Generate MkDocs pages from Biosiglib JSON specifications.",
+        description="Generate MkDocs documentation from Biosiglib JSON specifications.",
     )
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Check that generated documentation is present and up to date.",
+        help="Check that generated pages, the index, and navigation are up to date.",
     )
     return parser
 
@@ -404,7 +502,7 @@ def main(argv: list[str] | None = None) -> int:
     root = find_repository_root()
 
     try:
-        pages = generated_pages(root)
+        pages = generated_documentation(root)
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"Documentation generation failed: {exc}", file=sys.stderr)
         return 1
