@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.empty_ecg_error",
+  "specification_id": "ecg.baselineremove",
+  "description": "Reject an empty ECG vector.",
+  "inputs": [
+    {"id": "ecg", "value": []},
+    {"id": "fiducial_positions", "value": [1, 2]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_value",
+    "description": "ecg must contain at least one sample."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative ECG minimum length."
+  }
+}

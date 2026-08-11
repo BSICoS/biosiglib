@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.invalid_ecg_matrix",
+  "specification_id": "ecg.baselineremove",
+  "description": "Reject an ECG matrix that is not a vector.",
+  "inputs": [
+    {
+      "id": "ecg",
+      "value": [
+        [1, 2],
+        [3, 4]
+      ]
+    },
+    {"id": "fiducial_positions", "value": [1, 2]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_shape",
+    "description": "ecg must be a vector rather than a matrix."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative ECG shape."
+  }
+}
