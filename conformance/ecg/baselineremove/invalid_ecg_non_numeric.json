@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ecg.baselineremove.invalid_ecg_non_numeric",
+  "specification_id": "ecg.baselineremove",
+  "description": "Reject a non-numeric ECG vector.",
+  "inputs": [
+    {"id": "ecg", "value": ["a", "b", "c"]},
+    {"id": "fiducial_positions", "value": [1, 3]},
+    {"id": "offset", "value": 0}
+  ],
+  "parameters": {},
+  "expected_error": {
+    "category": "invalid_type",
+    "description": "ecg must be numeric."
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "This expected-error case follows directly from the normative ECG type."
+  }
+}

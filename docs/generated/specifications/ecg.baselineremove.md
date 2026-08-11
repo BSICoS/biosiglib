@@ -97,8 +97,11 @@ If no valid fiducial position remains, emit no_valid_fiducial_positions and retu
 | Case ID | File |
 | --- | --- |
 | `ecg.baselineremove.boundary_truncated_local_means` | [conformance/ecg/baselineremove/boundary_truncated_local_means.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/boundary_truncated_local_means.json) |
+| `ecg.baselineremove.empty_ecg_error` | [conformance/ecg/baselineremove/empty_ecg_error.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/empty_ecg_error.json) |
 | `ecg.baselineremove.even_window_linear_extrapolation` | [conformance/ecg/baselineremove/even_window_linear_extrapolation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/even_window_linear_extrapolation.json) |
 | `ecg.baselineremove.fractional_positions_quadratic_extrapolation` | [conformance/ecg/baselineremove/fractional_positions_quadratic_extrapolation.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/fractional_positions_quadratic_extrapolation.json) |
+| `ecg.baselineremove.invalid_ecg_matrix` | [conformance/ecg/baselineremove/invalid_ecg_matrix.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/invalid_ecg_matrix.json) |
+| `ecg.baselineremove.invalid_ecg_non_numeric` | [conformance/ecg/baselineremove/invalid_ecg_non_numeric.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/invalid_ecg_non_numeric.json) |
 | `ecg.baselineremove.no_valid_fiducials_identity_warning` | [conformance/ecg/baselineremove/no_valid_fiducials_identity_warning.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/no_valid_fiducials_identity_warning.json) |
 | `ecg.baselineremove.nonfinite_ecg_error` | [conformance/ecg/baselineremove/nonfinite_ecg_error.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/nonfinite_ecg_error.json) |
 | `ecg.baselineremove.nonfinite_fiducial_error` | [conformance/ecg/baselineremove/nonfinite_fiducial_error.json](https://github.com/BSICoS/biosiglib/blob/main/conformance/ecg/baselineremove/nonfinite_fiducial_error.json) |
