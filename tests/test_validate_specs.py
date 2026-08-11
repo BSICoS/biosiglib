@@ -296,6 +296,29 @@ class ExistingNegativeValidationTests(unittest.TestCase):
         self.assertEqual(len(errors), 1)
         self.assertIn("does not match current Biosiglib commit", errors[0])
 
+    def test_rejects_manifest_specification_id_mismatch(self) -> None:
+        errors = validate_specs.validate_manifest_specification_ids(
+            {
+                "specifications": {
+                    "hrv.tdmetrics": {"status": "conformant"},
+                    "tools.unknown": {"status": "planned"},
+                }
+            },
+            Path("conformance.json"),
+            specs_by_id={
+                "ecg.pantompkins": {},
+                "hrv.tdmetrics": {},
+            },
+        )
+
+        self.assertEqual(len(errors), 2)
+        self.assertTrue(
+            any("unknown specification id 'tools.unknown'" in error for error in errors)
+        )
+        self.assertTrue(
+            any("missing specification id 'ecg.pantompkins'" in error for error in errors)
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

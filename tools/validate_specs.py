@@ -1063,6 +1063,12 @@ def validate_manifest_specification_ids(
                 f"{json_path(['specifications', specification_id])}: unknown specification id "
                 f"'{specification_id}'"
             )
+
+    for specification_id in sorted(set(specs_by_id) - set(specifications)):
+        errors.append(
+            f"{display_path(manifest_path)}: $.specifications: "
+            f"missing specification id '{specification_id}'"
+        )
     return errors
 
 

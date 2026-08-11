@@ -4,6 +4,8 @@ Conformance describes how a language-specific implementation declares and valida
 
 Each implementation repository maintains a machine-readable implementation manifest, conventionally named `conformance.json`. The manifest records the implementation identity, implementation version, pinned Biosiglib release and commit, and the support status for each Biosiglib specification.
 
+The manifest specification IDs must exactly match the specification IDs in the pinned Biosiglib commit. Every specification must therefore have an explicit status, including functionality that is only planned or intentionally unsupported. Manifest validation rejects both unknown IDs and omitted specifications.
+
 ## Statuses
 
 Implementation manifests use the following statuses:
