@@ -13,12 +13,12 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Changed
 
-- Simplified implementation conformance manifests to one total declaration against an exact Biosiglib commit. Removed per-specification statuses, entry points, notes, duplicated repository and release metadata, and optional implementation versions.
-- Made the manifest schema URL a checked derivative of the declared Biosiglib commit.
+- Replaced implementation conformance manifests with a one-line `biosiglib.lock` containing the exact tested commit. Conformance is now the invariant for merged implementation code rather than metadata carried by the pin.
+- Removed the implementation-manifest schema and external-manifest mode from the Biosiglib validator; implementation test suites now validate their own lock and execute every shared case through their normal test command.
 - Changed release coordination so Biosiglib can only publish a commit already pinned by both Biosigmat and Biosigpy.
 - Removed unused draft statuses from informative scientific notes and replaced manual specification subsets with the generated authoritative catalog.
 
-This is a MAJOR change because the implementation-manifest schema and release coordination contract are incompatible with previous releases. It also adds the compatible `ecg.baselineremove` specification; Biosigmat and Biosigpy must conform to the complete release target before Biosiglib is published.
+This is a MAJOR change because removing the implementation-manifest schema changes the release coordination contract incompatibly. It also adds the compatible `ecg.baselineremove` specification; Biosigmat and Biosigpy must conform to the complete release target before Biosiglib is published.
 
 ## v1.4.0 - 2026-08-06
 

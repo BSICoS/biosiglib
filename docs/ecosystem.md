@@ -20,7 +20,7 @@ The release path is:
 2. Adapt Biosigmat and Biosigpy to that exact commit and merge both implementations after their complete suites pass.
 3. Release Biosiglib only after both downstream manifests pin the release target commit.
 
-The implementations remain independently versioned. Their conformance manifests record the reproducible commit relationship instead of mirroring the Biosiglib version number.
+The implementations remain independently versioned. Their one-line `biosiglib.lock` files record the reproducible commit relationship instead of mirroring the Biosiglib version number.
 
 ## Source Of Truth
 

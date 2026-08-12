@@ -1,29 +1,27 @@
 # Conformance
 
-Conformance describes how a language-specific implementation declares and validates its relationship to Biosiglib.
+Conformance describes how a language-specific implementation validates its relationship to Biosiglib.
 
-Each implementation repository maintains a machine-readable implementation manifest, conventionally named `conformance.json`. The manifest identifies the implementation and pins the exact Biosiglib commit used for conformance.
+Each implementation repository contains a `biosiglib.lock` file with one exact, lowercase, 40-character Biosiglib commit SHA. The lock has no status, implementation metadata, or schema: its only purpose is to make the tested contract reproducible.
 
-The declaration is total: the implementation conforms to every specification in the pinned commit and must execute every shared conformance case. Partial support, roadmaps, and work in progress belong in issues and pull requests rather than in the conformance manifest.
+Conformance is total: code merged into an implementation must conform to every specification in the pinned commit and must execute every shared conformance case. Partial support, roadmaps, and work in progress belong in issues and pull requests rather than in the lock.
 
-Passing the shared cases is executable evidence for the declaration. It does not make the cases a substitute for the complete normative JSON contracts.
+Passing the shared cases is executable evidence of conformance. It does not make the cases a substitute for the complete normative JSON contracts.
 
 ## Exact Pinning
 
-A downstream manifest pins one exact Biosiglib commit. A semantic version alone is not enough because conformance must be reproducible against the precise specifications, schemas, fixtures, and conformance cases used during validation.
+A downstream lock pins one exact Biosiglib commit. A semantic version alone is not enough because conformance must be reproducible against the precise specifications, schemas, fixtures, and conformance cases used during validation.
 
-The `$schema` URL is derived from the same commit so editors can load the matching schema. Biosiglib's validator rejects a schema URL whose commit differs from `biosiglib.commit`; contributors therefore maintain one normative pin.
-
-Implementation and Biosiglib release versions remain visible in their respective repositories and release notes. They are not duplicated in the conformance manifest.
+Implementation and Biosiglib release versions remain visible in their respective repositories and release notes. They are not duplicated in the lock.
 
 ## Validation Across Implementations
 
-Biosigmat and Biosigpy validate their manifests and behavior against Biosiglib resources. Each implementation can keep its own public API style, internal architecture, error classes, and plotting tools, but its normative outputs and edge-case behavior must match every contract in the pinned commit within the declared tolerances.
+Biosigmat and Biosigpy validate their lock and behavior as part of their normal full test suite. Each implementation can keep its own public API style, internal architecture, error classes, and plotting tools, but its normative outputs and edge-case behavior must match every contract in the pinned commit within the declared tolerances.
 
-The shared Biosiglib validator checks repository specifications and can validate implementation manifests with:
+The Biosiglib validator checks only Biosiglib's own schemas, specifications, fixtures, and cases:
 
 ```bash
-python tools/validate_specs.py --manifest path/to/conformance.json
+python tools/validate_specs.py
 ```
 
 Cross-language conformance is built from shared specifications, shared fixtures, and shared expected results rather than from one implementation copying the other.
