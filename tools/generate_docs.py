@@ -1,35 +1,26 @@
-"""Generate MkDocs specification documentation from Biosiglib JSON specifications."""
+"""Render user-facing method data during the MkDocs build."""
 
 from __future__ import annotations
 
-import argparse
 import json
-import sys
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 
-GENERATED_SPEC_DIR = Path("docs") / "generated" / "specifications"
-SPECIFICATION_INDEX_PATH = Path("docs") / "specifications.md"
-MKDOCS_PATH = Path("mkdocs.yml")
-SPEC_GLOB = "specs/*/*/spec.json"
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY_URL = "https://github.com/BSICoS/biosiglib"
-SPECIFICATION_TABLE_START = "<!-- BEGIN GENERATED SPECIFICATION TABLE -->"
-SPECIFICATION_TABLE_END = "<!-- END GENERATED SPECIFICATION TABLE -->"
-SPECIFICATION_NAV_START = "      # BEGIN GENERATED SPECIFICATION NAVIGATION"
-SPECIFICATION_NAV_END = "      # END GENERATED SPECIFICATION NAVIGATION"
-
-
-def find_repository_root() -> Path:
-    """Find the repository root from this script location."""
-    for candidate in Path(__file__).resolve().parents:
-        if (
-            (candidate / "AGENTS.md").is_file()
-            and (candidate / "schemas").is_dir()
-            and (candidate / "specs").is_dir()
-        ):
-            return candidate
-    raise RuntimeError("Could not locate the Biosiglib repository root.")
+METHOD_INTERFACE_MARKER = "<!-- BIOSIGLIB METHOD INTERFACE -->"
+METHOD_RESOURCES_MARKER = "<!-- BIOSIGLIB METHOD RESOURCES -->"
+METHOD_CATALOG_MARKER = "<!-- BIOSIGLIB METHOD CATALOG -->"
+DESCRIPTION_PATH = REPOSITORY_ROOT / "docs" / "methods" / "descriptions.json"
+MATLAB_NAMES = {
+    "tools.lpd_filter": "lpdfilter",
+    "tools.medfilt_threshold": "medfiltThreshold",
+    "tools.nan_filter": "nanfilter",
+    "tools.nan_filtfilt": "nanfiltfilt",
+    "tools.snap_to_peak": "snaptopeak",
+}
 
 
 def load_json(path: Path) -> Any:
@@ -37,480 +28,266 @@ def load_json(path: Path) -> Any:
         return json.load(handle)
 
 
-def relative_path(path: Path, root: Path) -> str:
-    return path.relative_to(root).as_posix()
+@lru_cache(maxsize=1)
+def repository_data() -> tuple[
+    dict[str, tuple[Path, dict[str, Any]]],
+    dict[str, Any],
+    dict[str, Any],
+]:
+    specs: dict[str, tuple[Path, dict[str, Any]]] = {}
+    for path in sorted((REPOSITORY_ROOT / "specs").rglob("spec.json")):
+        spec = load_json(path)
+        specification_id = spec["metadata"]["id"]
+        specs[specification_id] = (path, spec)
+
+    references = {
+        reference["id"]: reference
+        for reference in load_json(REPOSITORY_ROOT / "references" / "references.json")["references"]
+    }
+    descriptions = load_json(DESCRIPTION_PATH)
+    return specs, references, descriptions
 
 
-def markdown_escape_cell(value: object) -> str:
-    text = "" if value is None else str(value)
-    return text.replace("|", "\\|").replace("\n", "<br>")
+def markdown_escape(value: object) -> str:
+    return str(value).replace("|", "\\|").replace("\n", "<br>")
 
 
-def inline_code(value: object) -> str:
-    return f"`{value}`"
-
-
-def json_scalar(value: Any) -> str:
-    if value is None:
-        return ""
-    if isinstance(value, bool):
-        return "true" if value else "false"
-    if isinstance(value, str):
-        return value
-    return json.dumps(value, sort_keys=True)
-
-
-def format_default(value: Any) -> str:
-    if value is None:
-        return ""
-    return json.dumps(value, sort_keys=True)
-
-
-def format_constraints(value: Any) -> str:
-    if not isinstance(value, dict) or not value:
-        return "None"
-
-    parts = []
-    for key in sorted(value):
-        parts.append(f"{key}={json.dumps(value[key], sort_keys=True)}")
-    return ", ".join(parts)
-
-
-def table(headers: list[str], rows: list[list[object]]) -> list[str]:
+def table(headers: list[str], rows: list[list[object]]) -> str:
     lines = [
         "| " + " | ".join(headers) + " |",
         "| " + " | ".join("---" for _ in headers) + " |",
     ]
-    for row in rows:
-        lines.append("| " + " | ".join(markdown_escape_cell(cell) for cell in row) + " |")
-    return lines
+    lines.extend(
+        "| " + " | ".join(markdown_escape(cell) for cell in row) + " |"
+        for row in rows
+    )
+    return "\n".join(lines)
 
 
-def title_for_key(key: str) -> str:
-    return key.replace("_", " ").capitalize()
+def format_value(value: Any) -> str:
+    if isinstance(value, bool):
+        return "yes" if value else "no"
+    if value is None:
+        return "not applicable"
+    if isinstance(value, (list, dict)):
+        return f"`{json.dumps(value, sort_keys=True)}`"
+    return f"`{value}`"
 
 
-def ordered_behavior_keys(behavior: dict[str, Any]) -> list[str]:
-    preferred = [
-        "nan_handling",
-        "empty_input",
-        "input_orientation",
-        "insufficient_data",
-    ]
-    keys = [key for key in preferred if key in behavior]
-    keys.extend(sorted(key for key in behavior if key not in set(preferred)))
-    return keys
+def format_requirements(entry: dict[str, Any]) -> str:
+    parts = []
+    constraints = entry.get("constraints", {})
+    labels = {
+        "minimum": "minimum",
+        "exclusive_minimum": "greater than",
+        "maximum": "maximum",
+        "exclusive_maximum": "less than",
+        "minimum_length": "minimum length",
+    }
+    for key, value in constraints.items():
+        parts.append(f"{labels.get(key, key.replace('_', ' '))}: {value}")
+    if entry.get("allow_nan") is True:
+        parts.append("NaN allowed")
+    elif entry.get("allow_nan") is False:
+        parts.append("no NaN")
+    if entry.get("allow_inf") is True:
+        parts.append("Inf allowed")
+    elif entry.get("allow_inf") is False:
+        parts.append("finite")
+    return "; ".join(parts) or "not specified"
 
 
-def discover_specs(root: Path) -> list[tuple[Path, dict[str, Any]]]:
-    specs = []
-    for spec_path in sorted(root.glob(SPEC_GLOB)):
-        spec = load_json(spec_path)
-        if not isinstance(spec, dict):
-            raise ValueError(f"{relative_path(spec_path, root)} did not contain a JSON object")
-        specs.append((spec_path, spec))
+def field_rows(
+    specification_id: str,
+    entries: list[dict[str, Any]],
+    *,
+    include_default: bool = False,
+    include_requirements: bool = True,
+) -> list[list[object]]:
+    _, _, descriptions = repository_data()
+    field_descriptions = descriptions[specification_id]
+    rows = []
+    for entry in entries:
+        row: list[object] = [
+            f"`{entry['id']}`",
+            field_descriptions[entry["id"]],
+            entry.get("data_type", "").replace("_", " "),
+            entry.get("unit", "dimensionless"),
+        ]
+        if include_default:
+            row.append(format_value(entry.get("default")))
+        if include_requirements:
+            row.append(format_requirements(entry))
+        rows.append(row)
+    return rows
 
-    return sorted(
-        specs,
-        key=lambda item: (
-            item[1].get("metadata", {}).get("id", ""),
-            relative_path(item[0], root),
-        ),
+
+def format_authors(reference: dict[str, Any]) -> str:
+    names = []
+    for author in reference.get("authors", []):
+        if author.get("type") == "organization":
+            names.append(author["name"])
+        else:
+            names.append(
+                " ".join(
+                    part
+                    for part in (author.get("given_names", ""), author.get("family_name", ""))
+                    if part
+                )
+            )
+    if len(names) > 3:
+        return f"{names[0]} et al."
+    if len(names) == 2:
+        return " and ".join(names)
+    return ", ".join(names)
+
+
+def format_reference(reference: dict[str, Any]) -> str:
+    authors = format_authors(reference)
+    year = reference.get("year", "")
+    title = reference.get("title", "")
+    journal = reference.get("journal")
+    citation = f"{authors} ({year}). *{title}*."
+    if journal:
+        citation += f" {journal}."
+    if doi := reference.get("doi"):
+        citation += f" [doi:{doi}](https://doi.org/{doi})"
+    elif pmid := reference.get("pmid"):
+        citation += f" [PMID:{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid}/)"
+    return citation
+
+
+def code_links(specification_id: str, module: str, algorithm: str) -> str:
+    matlab_name = MATLAB_NAMES.get(specification_id, algorithm)
+    python_path = f"src/biosigpy/{module}/{algorithm}.py"
+    matlab_path = f"src/{module}/{matlab_name}.m"
+    return (
+        f"[Python source](https://github.com/BSICoS/biosigpy/blob/main/{python_path}) | "
+        f"[MATLAB source](https://github.com/BSICoS/biosigmat/blob/main/{matlab_path})"
     )
 
 
-def module_display_name(module: str) -> str:
-    if module in {"ecg", "hrv", "ppg"}:
-        return module.upper()
-    return module.replace("_", " ").title()
+def render_method_interface(specification_id: str) -> str:
+    specs, _, _ = repository_data()
+    _, spec = specs[specification_id]
+    normative = spec["normative"]
+    sections = [
+        f"**Canonical ID:** `{specification_id}`",
+        "",
+        "## Inputs",
+        "",
+        table(
+            ["Name", "Meaning", "Type", "Unit", "Requirements"],
+            field_rows(specification_id, normative["inputs"]),
+        ),
+    ]
+
+    parameters = normative.get("parameters", [])
+    if parameters:
+        sections.extend(
+            [
+                "",
+                "## Parameters",
+                "",
+                table(
+                    ["Name", "Meaning", "Type", "Unit", "Default", "Requirements"],
+                    field_rows(specification_id, parameters, include_default=True),
+                ),
+            ]
+        )
+
+    sections.extend(
+        [
+            "",
+            "## Outputs",
+            "",
+            table(
+                ["Name", "Meaning", "Type", "Unit"],
+                field_rows(
+                    specification_id,
+                    normative["outputs"],
+                    include_requirements=False,
+                ),
+            ),
+        ]
+    )
+
+    return "\n".join(sections)
 
 
-def specification_index_lines(specs: list[tuple[Path, dict[str, Any]]]) -> list[str]:
+def render_method_resources(specification_id: str) -> str:
+    specs, references, _ = repository_data()
+    spec_path, spec = specs[specification_id]
+    metadata = spec["metadata"]
+    module = metadata["module"]
+    algorithm = spec_path.parent.name
+    relative_spec_path = spec_path.relative_to(REPOSITORY_ROOT).as_posix()
+    case_path = f"conformance/{module}/{algorithm}"
+
+    sections = []
+    reference_ids = []
+    for relationship in spec.get("provenance", {}).get("references", []):
+        reference_id = relationship["id"]
+        if reference_id not in reference_ids:
+            reference_ids.append(reference_id)
+    if reference_ids:
+        sections.extend(["## References", ""])
+        sections.extend(
+            f"- {format_reference(references[reference_id])}"
+            for reference_id in reference_ids
+        )
+        sections.append("")
+
+    sections.extend(
+        [
+            "## Implementations and technical resources",
+            "",
+            code_links(specification_id, module, algorithm),
+            "",
+            f"[Normative JSON]({REPOSITORY_URL}/blob/main/{relative_spec_path}) | "
+            f"[Validation cases]({REPOSITORY_URL}/tree/main/{case_path})",
+        ]
+    )
+    return "\n".join(sections)
+
+
+def render_method_catalog() -> str:
+    specs, _, _ = repository_data()
     rows = []
-    for spec_path, spec in specs:
-        metadata = spec.get("metadata", {})
-        informative = spec.get("informative", {})
-        if not isinstance(metadata, dict) or not isinstance(metadata.get("id"), str):
-            raise ValueError(f"{spec_path.as_posix()} is missing metadata.id")
-        if not isinstance(informative, dict):
-            informative = {}
-
-        specification_id = metadata["id"]
-        module = str(metadata.get("module", ""))
+    for specification_id, (_, spec) in sorted(specs.items()):
         rows.append(
             [
-                f"[{inline_code(specification_id)}](generated/specifications/{specification_id}.md)",
-                module_display_name(module),
-                informative.get("summary", ""),
+                f"[{spec['informative']['title']}]({specification_id}.md)",
+                spec["metadata"]["module"].upper(),
+                spec["informative"]["summary"],
             ]
         )
-
-    return table(["Specification", "Module", "Summary"], rows)
-
-
-def specification_navigation_lines(
-    specs: list[tuple[Path, dict[str, Any]]],
-) -> list[str]:
-    lines = []
-    for spec_path, spec in specs:
-        metadata = spec.get("metadata", {})
-        if not isinstance(metadata, dict) or not isinstance(metadata.get("id"), str):
-            raise ValueError(f"{spec_path.as_posix()} is missing metadata.id")
-        specification_id = metadata["id"]
-        lines.append(
-            f"      - {specification_id}: generated/specifications/{specification_id}.md"
-        )
-    return lines
+    return table(["Method", "Area", "What it does"], rows)
 
 
-def replace_generated_block(
-    source: str,
-    start_marker: str,
-    end_marker: str,
-    generated_lines: list[str],
-    source_name: str,
-) -> str:
-    if source.count(start_marker) != 1 or source.count(end_marker) != 1:
-        raise ValueError(
-            f"{source_name} must contain exactly one '{start_marker}' and one '{end_marker}'"
-        )
-
-    prefix, remainder = source.split(start_marker, maxsplit=1)
-    _, suffix = remainder.split(end_marker, maxsplit=1)
-    generated = "\n".join(generated_lines)
-    return f"{prefix}{start_marker}\n{generated}\n{end_marker}{suffix}"
+def replace_marker(markdown: str, marker: str, rendered: str) -> str:
+    if markdown.count(marker) != 1:
+        raise ValueError(f"Expected exactly one {marker!r} marker")
+    return markdown.replace(marker, rendered)
 
 
-def conformance_cases(root: Path, module: str, algorithm: str) -> list[tuple[Path, str]]:
-    case_dir = root / "conformance" / module / algorithm
-    cases = []
-    for case_path in sorted(case_dir.glob("*.json")):
-        case = load_json(case_path)
-        case_id = case.get("id") if isinstance(case, dict) else case_path.stem
-        cases.append((case_path, str(case_id)))
-    return cases
+def on_page_markdown(markdown: str, page: Any, **_: Any) -> str:
+    """MkDocs hook: inject generated data without changing source Markdown."""
 
-
-def github_blob_url(root: Path, path: Path) -> str:
-    return f"{REPOSITORY_URL}/blob/main/{relative_path(path, root)}"
-
-
-def render_spec_page(root: Path, spec_path: Path, spec: dict[str, Any]) -> str:
-    metadata = spec.get("metadata", {})
-    informative = spec.get("informative", {})
-    provenance = spec.get("provenance", {})
-    normative = spec.get("normative", {})
-
-    if not isinstance(metadata, dict):
-        metadata = {}
-    if not isinstance(informative, dict):
-        informative = {}
-    if not isinstance(provenance, dict):
-        provenance = {}
-    if not isinstance(normative, dict):
-        normative = {}
-
-    specification_id = str(metadata.get("id", spec_path.parent.name))
-    module = str(metadata.get("module", ""))
-    algorithm = spec_path.parent.name
-    title = str(informative.get("title", specification_id))
-
-    lines = [
-        f"# {title}",
-        "",
-        "!!! warning \"Generated page\"",
-        "    This page is generated from the Biosiglib JSON specification. Do not edit it manually; update the JSON source and run `python tools/generate_docs.py` instead.",
-        "",
-        "## Metadata",
-        "",
-    ]
-
-    lines.extend(
-        table(
-            ["Field", "Value"],
-            [
-                ["Canonical specification ID", inline_code(specification_id)],
-                ["Module", inline_code(module)],
-                [
-                    "Source JSON",
-                    f"[{relative_path(spec_path, root)}]({github_blob_url(root, spec_path)})",
-                ],
-            ],
-        )
-    )
-
-    summary = informative.get("summary")
-    description = informative.get("description")
-    if summary or description:
-        lines.extend(["", "## Summary", ""])
-        if summary:
-            lines.extend([str(summary), ""])
-        if description:
-            lines.append(str(description))
-
-    keywords = informative.get("keywords", [])
-    if keywords:
-        lines.extend(["", "## Keywords", ""])
-        lines.append(", ".join(inline_code(keyword) for keyword in keywords))
-
-    references = provenance.get("references", []) if isinstance(provenance, dict) else []
-    lines.extend(["", "## Scientific References", ""])
-    if references:
-        rows = []
-        for reference in references:
-            if not isinstance(reference, dict):
-                continue
-            rows.append(
-                [
-                    inline_code(reference.get("id", "")),
-                    reference.get("relation", ""),
-                    reference.get("note", ""),
-                ]
+    source_uri = page.file.src_uri.replace("\\", "/")
+    if source_uri == "methods/index.md":
+        return replace_marker(markdown, METHOD_CATALOG_MARKER, render_method_catalog())
+    if source_uri.startswith("methods/") and source_uri.endswith(".md"):
+        specification_id = Path(source_uri).stem
+        if specification_id in repository_data()[0]:
+            rendered = replace_marker(
+                markdown,
+                METHOD_INTERFACE_MARKER,
+                render_method_interface(specification_id),
             )
-        lines.extend(table(["ID", "Relation", "Note"], rows))
-    else:
-        lines.append("No scientific references are listed in this specification.")
-
-    inputs = normative.get("inputs", []) if isinstance(normative, dict) else []
-    lines.extend(["", "## Inputs", ""])
-    lines.extend(
-        table(
-            ["id", "data_type", "shape", "unit", "allow_nan", "allow_inf", "constraints"],
-            [
-                [
-                    inline_code(entry.get("id", "")),
-                    entry.get("data_type", ""),
-                    entry.get("shape", ""),
-                    entry.get("unit", ""),
-                    json_scalar(entry.get("allow_nan")),
-                    json_scalar(entry.get("allow_inf")),
-                    format_constraints(entry.get("constraints")),
-                ]
-                for entry in inputs
-                if isinstance(entry, dict)
-            ],
-        )
-    )
-
-    parameters = normative.get("parameters", []) if isinstance(normative, dict) else []
-    lines.extend(["", "## Parameters", ""])
-    parameter_rows = [
-        [
-            inline_code(entry.get("id", "")),
-            entry.get("data_type", ""),
-            format_default(entry.get("default")),
-            entry.get("unit", ""),
-            format_constraints(entry.get("constraints")),
-        ]
-        for entry in parameters
-        if isinstance(entry, dict)
-    ]
-    if parameter_rows:
-        lines.extend(table(["id", "data_type", "default", "unit", "constraints"], parameter_rows))
-    else:
-        lines.append("No parameters.")
-
-    outputs = normative.get("outputs", []) if isinstance(normative, dict) else []
-    lines.extend(["", "## Outputs", ""])
-    lines.extend(
-        table(
-            ["id", "data_type", "shape", "unit"],
-            [
-                [
-                    inline_code(entry.get("id", "")),
-                    entry.get("data_type", ""),
-                    entry.get("shape", ""),
-                    entry.get("unit", ""),
-                ]
-                for entry in outputs
-                if isinstance(entry, dict)
-            ],
-        )
-    )
-
-    definitions = normative.get("definitions", []) if isinstance(normative, dict) else []
-    lines.extend(["", "## Normative Definitions", ""])
-    definition_rows = []
-    for definition in definitions:
-        if not isinstance(definition, dict):
-            continue
-        definition_rows.append(
-            [
-                inline_code(definition.get("target", "")),
-                definition.get("text", ""),
-                definition.get("latex", ""),
-            ]
-        )
-    if definition_rows:
-        lines.extend(table(["Target", "Definition", "Formula"], definition_rows))
-    else:
-        lines.append("No normative definitions are listed in this specification.")
-
-    warnings = normative.get("warnings", []) if isinstance(normative, dict) else []
-    if warnings:
-        lines.extend(["", "## Warnings", ""])
-        lines.extend(
-            table(
-                ["id", "condition", "effect", "aggregation"],
-                [
-                    [
-                        inline_code(entry.get("id", "")),
-                        entry.get("condition", ""),
-                        entry.get("effect", ""),
-                        entry.get("aggregation", ""),
-                    ]
-                    for entry in warnings
-                    if isinstance(entry, dict)
-                ],
+            return replace_marker(
+                rendered,
+                METHOD_RESOURCES_MARKER,
+                render_method_resources(specification_id),
             )
-        )
-
-    behavior = normative.get("behavior", {}) if isinstance(normative, dict) else {}
-    lines.extend(["", "## Behavior", ""])
-    if isinstance(behavior, dict) and behavior:
-        for key in ordered_behavior_keys(behavior):
-            lines.extend([f"### {title_for_key(key)}", "", str(behavior[key]), ""])
-        lines.pop()
-    else:
-        lines.append("No behavior notes are listed in this specification.")
-
-    notes = informative.get("notes", []) if isinstance(informative, dict) else []
-    if notes:
-        lines.extend(["", "## Informative Notes", ""])
-        for note in notes:
-            lines.append(f"* {note}")
-
-    lines.extend(["", "## Conformance Cases", ""])
-    cases = conformance_cases(root, module, algorithm)
-    if cases:
-        rows = []
-        for case_path, case_id in cases:
-            display = relative_path(case_path, root)
-            rows.append(
-                [
-                    inline_code(case_id),
-                    f"[{display}]({github_blob_url(root, case_path)})",
-                ]
-            )
-        lines.extend(table(["Case ID", "File"], rows))
-    else:
-        lines.append(f"No conformance cases were found under `conformance/{module}/{algorithm}/`.")
-
-    return "\n".join(lines).rstrip() + "\n"
-
-
-def generated_pages(
-    root: Path,
-    specs: list[tuple[Path, dict[str, Any]]],
-) -> dict[Path, str]:
-    pages = {}
-    for spec_path, spec in specs:
-        metadata = spec.get("metadata", {})
-        if not isinstance(metadata, dict) or not isinstance(metadata.get("id"), str):
-            raise ValueError(f"{relative_path(spec_path, root)} is missing metadata.id")
-        output_path = root / GENERATED_SPEC_DIR / f"{metadata['id']}.md"
-        pages[output_path] = render_spec_page(root, spec_path, spec)
-    return pages
-
-
-def generated_documentation(root: Path) -> dict[Path, str]:
-    specs = discover_specs(root)
-    files = generated_pages(root, specs)
-
-    index_path = root / SPECIFICATION_INDEX_PATH
-    index_source = index_path.read_text(encoding="utf-8")
-    files[index_path] = replace_generated_block(
-        index_source,
-        SPECIFICATION_TABLE_START,
-        SPECIFICATION_TABLE_END,
-        specification_index_lines(specs),
-        relative_path(index_path, root),
-    )
-
-    mkdocs_path = root / MKDOCS_PATH
-    mkdocs_source = mkdocs_path.read_text(encoding="utf-8")
-    files[mkdocs_path] = replace_generated_block(
-        mkdocs_source,
-        SPECIFICATION_NAV_START,
-        SPECIFICATION_NAV_END,
-        specification_navigation_lines(specs),
-        relative_path(mkdocs_path, root),
-    )
-    return files
-
-
-def check_generated(root: Path, pages: dict[Path, str]) -> int:
-    expected_paths = set(pages)
-    existing_paths = set((root / GENERATED_SPEC_DIR).glob("*.md"))
-    stale_paths = sorted(expected_paths | existing_paths)
-
-    failures = []
-    for path in stale_paths:
-        expected = pages.get(path)
-        if expected is None:
-            failures.append(f"stale generated file: {relative_path(path, root)}")
-            continue
-        if not path.exists():
-            failures.append(f"missing generated file: {relative_path(path, root)}")
-            continue
-        actual = path.read_text(encoding="utf-8")
-        if actual != expected:
-            failures.append(f"outdated generated file: {relative_path(path, root)}")
-
-    if failures:
-        print("Generated documentation is stale. Run `python tools/generate_docs.py`.")
-        for failure in failures:
-            print(f"- {failure}")
-        return 1
-
-    print("Generated documentation is up to date.")
-    return 0
-
-
-def write_generated(root: Path, pages: dict[Path, str]) -> int:
-    output_dir = root / GENERATED_SPEC_DIR
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    expected_paths = set(pages)
-    for path, content in sorted(pages.items()):
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(content, encoding="utf-8", newline="\n")
-        print(f"Wrote {relative_path(path, root)}")
-
-    for path in sorted(output_dir.glob("*.md")):
-        if path not in expected_paths:
-            path.unlink()
-            print(f"Removed stale {relative_path(path, root)}")
-
-    return 0
-
-
-def build_argument_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Generate MkDocs documentation from Biosiglib JSON specifications.",
-    )
-    parser.add_argument(
-        "--check",
-        action="store_true",
-        help="Check that generated pages, the index, and navigation are up to date.",
-    )
-    return parser
-
-
-def main(argv: list[str] | None = None) -> int:
-    args = build_argument_parser().parse_args(argv)
-    root = find_repository_root()
-
-    try:
-        pages = generated_documentation(root)
-    except (OSError, json.JSONDecodeError, ValueError) as exc:
-        print(f"Documentation generation failed: {exc}", file=sys.stderr)
-        return 1
-
-    if args.check:
-        return check_generated(root, pages)
-    return write_generated(root, pages)
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+    return markdown

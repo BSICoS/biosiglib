@@ -28,41 +28,32 @@ theme:
 plugins:
   - search
 
+hooks:
+  - tools/generate_docs.py
+
 nav:
   - Home: index.md
-  - Ecosystem: ecosystem.md
-  - Specifications:
-      - Overview: specifications.md
-      # BEGIN GENERATED SPECIFICATION NAVIGATION
-      - ecg.baselineremove: generated/specifications/ecg.baselineremove.md
-      - ecg.pantompkins: generated/specifications/ecg.pantompkins.md
-      - ecg.sloperange: generated/specifications/ecg.sloperange.md
-      - hrv.fdmetrics: generated/specifications/hrv.fdmetrics.md
-      - hrv.fillgaps: generated/specifications/hrv.fillgaps.md
-      - hrv.ipfm: generated/specifications/hrv.ipfm.md
-      - hrv.osp: generated/specifications/hrv.osp.md
-      - hrv.removefp: generated/specifications/hrv.removefp.md
-      - hrv.tdmetrics: generated/specifications/hrv.tdmetrics.md
-      - tools.lpd_filter: generated/specifications/tools.lpd_filter.md
-      - tools.medfilt_threshold: generated/specifications/tools.medfilt_threshold.md
-      - tools.nan_filter: generated/specifications/tools.nan_filter.md
-      - tools.nan_filtfilt: generated/specifications/tools.nan_filtfilt.md
-      - tools.snap_to_peak: generated/specifications/tools.snap_to_peak.md
-      # END GENERATED SPECIFICATION NAVIGATION
-  - Scientific Notes:
-      - Overview: scientific/index.md
-      - ecg.baselineremove: scientific/ecg.baselineremove.md
-      - ecg.sloperange: scientific/ecg.sloperange.md
-      - hrv.fillgaps: scientific/hrv.fillgaps.md
-      - hrv.ipfm: scientific/hrv.ipfm.md
-      - hrv.fdmetrics: scientific/hrv.fdmetrics.md
-      - hrv.osp: scientific/hrv.osp.md
-      - hrv.removefp: scientific/hrv.removefp.md
-      - Template: scientific/template.md
-  - Conformance: conformance.md
-  - Releases: releases.md
-  - Citation: citation.md
-  - Development: development.md
+  - Methods:
+      - Overview: methods/index.md
+      - ECG:
+          - Baseline removal: methods/ecg.baselineremove.md
+          - Pan-Tompkins detector: methods/ecg.pantompkins.md
+          - Slope-range respiration: methods/ecg.sloperange.md
+      - HRV:
+          - Frequency-domain metrics: methods/hrv.fdmetrics.md
+          - Gap filling: methods/hrv.fillgaps.md
+          - IPFM reconstruction: methods/hrv.ipfm.md
+          - Orthogonal subspace projection: methods/hrv.osp.md
+          - False-positive removal: methods/hrv.removefp.md
+          - Time-domain metrics: methods/hrv.tdmetrics.md
+      - Utilities:
+          - LPD filter: methods/tools.lpd_filter.md
+          - Median-filter threshold: methods/tools.medfilt_threshold.md
+          - NaN-aware filter: methods/tools.nan_filter.md
+          - NaN-aware zero-phase filter: methods/tools.nan_filtfilt.md
+          - Snap to peak: methods/tools.snap_to_peak.md
+  - Implementations: implementations.md
+  - Cite: citation.md
 
 markdown_extensions:
   - admonition

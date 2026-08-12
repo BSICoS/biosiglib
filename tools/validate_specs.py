@@ -14,8 +14,10 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 
-SCIENTIFIC_NOTE_DIR = Path("docs") / "scientific"
-SCIENTIFIC_NOTE_SUPPORT_PAGES = {"index.md", "template.md"}
+METHOD_DOC_DIR = Path("docs") / "methods"
+METHOD_INTERFACE_MARKER = "<!-- BIOSIGLIB METHOD INTERFACE -->"
+METHOD_RESOURCES_MARKER = "<!-- BIOSIGLIB METHOD RESOURCES -->"
+METHOD_CATALOG_MARKER = "<!-- BIOSIGLIB METHOD CATALOG -->"
 SNAKE_CASE_IDENTIFIER_RE = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
 DOT_CASE_IDENTIFIER_RE = re.compile(
     r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:_[a-z0-9]+)*)*$"
@@ -378,125 +380,122 @@ def parse_markdown_front_matter(path: Path, root: Path) -> tuple[dict[str, str],
     return front_matter, errors
 
 
-def scientific_note_paths(root: Path) -> list[Path]:
-    scientific_dir = root / SCIENTIFIC_NOTE_DIR
-    if not scientific_dir.is_dir():
-        return []
-
-    return [
-        path
-        for path in sorted(scientific_dir.rglob("*.md"))
-        if path.name not in SCIENTIFIC_NOTE_SUPPORT_PAGES
-    ]
-
-
-def is_scientific_note_discoverable(note_path: Path, root: Path) -> bool:
-    scientific_dir = root / SCIENTIFIC_NOTE_DIR
-    index_path = scientific_dir / "index.md"
-    mkdocs_path = root / "mkdocs.yml"
-    docs_relative = note_path.relative_to(root / "docs").as_posix()
-    scientific_relative = note_path.relative_to(scientific_dir).as_posix()
-    repository_relative = note_path.relative_to(root).as_posix()
-
-    search_targets = [
-        docs_relative,
-        scientific_relative,
-        repository_relative,
-    ]
-
-    for source_path in [index_path, mkdocs_path]:
-        if not source_path.is_file():
-            continue
-        try:
-            source_text = read_text(source_path)
-        except OSError:
-            continue
-        if any(target in source_text for target in search_targets):
-            return True
-
-    return False
-
-
-def validate_scientific_notes(
+def validate_method_documentation(
     root: Path,
     specs_by_id: dict[str, dict[str, Any]],
 ) -> list[str]:
+    """Require one complete, navigable public page for every method contract."""
     errors = []
-    scientific_dir = root / SCIENTIFIC_NOTE_DIR
-    index_path = scientific_dir / "index.md"
-    mkdocs_path = root / "mkdocs.yml"
-
-    if not scientific_dir.exists():
-        return errors
-
-    if not index_path.is_file():
-        errors.append(f"{relative_name(index_path, root)}: scientific-note index page is missing")
-
-    if mkdocs_path.is_file():
-        mkdocs_text = read_text(mkdocs_path)
-        if "scientific/index.md" not in mkdocs_text:
-            errors.append("mkdocs.yml: scientific-note index page is not listed in navigation")
-
-    for note_path in scientific_note_paths(root):
-        print(f"Validating {relative_name(note_path, root)}")
-        front_matter, front_matter_errors = parse_markdown_front_matter(note_path, root)
-        errors.extend(front_matter_errors)
-
-        spec_id = front_matter.get("spec_id")
-        if not spec_id:
-            errors.append(f"{relative_name(note_path, root)}: front matter is missing spec_id")
-        elif spec_id not in specs_by_id:
-            errors.append(
-                f"{relative_name(note_path, root)}: front matter spec_id "
-                f"'{spec_id}' does not match an existing specification"
-            )
-
-        if not is_scientific_note_discoverable(note_path, root):
-            errors.append(
-                f"{relative_name(note_path, root)}: scientific note is not discoverable from "
-                "docs/scientific/index.md or mkdocs.yml"
-            )
-
-    return errors
-
-
-def validate_specification_documentation(
-    root: Path,
-    specs_by_id: dict[str, dict[str, Any]],
-) -> list[str]:
-    """Require every specification page to be generated, indexed, and navigable."""
-    errors = []
-    index_path = root / "docs" / "specifications.md"
+    method_dir = root / METHOD_DOC_DIR
+    index_path = method_dir / "index.md"
+    descriptions_path = method_dir / "descriptions.json"
     mkdocs_path = root / "mkdocs.yml"
 
     index_text = read_text(index_path) if index_path.is_file() else None
     mkdocs_text = read_text(mkdocs_path) if mkdocs_path.is_file() else None
 
     if index_text is None:
-        errors.append(f"{relative_name(index_path, root)}: specification index page is missing")
+        errors.append(f"{relative_name(index_path, root)}: method index page is missing")
+    elif index_text.count(METHOD_CATALOG_MARKER) != 1:
+        errors.append(
+            f"{relative_name(index_path, root)}: expected exactly one method catalog marker"
+        )
     if mkdocs_text is None:
         errors.append(f"{relative_name(mkdocs_path, root)}: MkDocs configuration is missing")
+    elif "tools/generate_docs.py" not in mkdocs_text:
+        errors.append("mkdocs.yml: method documentation hook is missing")
 
-    for specification_id in sorted(specs_by_id):
-        documentation_path = (
-            root / "docs" / "generated" / "specifications" / f"{specification_id}.md"
+    descriptions: dict[str, Any] = {}
+    if not descriptions_path.is_file():
+        errors.append(f"{relative_name(descriptions_path, root)}: field descriptions are missing")
+    else:
+        try:
+            loaded_descriptions = load_json(descriptions_path)
+            if isinstance(loaded_descriptions, dict):
+                descriptions = loaded_descriptions
+            else:
+                errors.append(
+                    f"{relative_name(descriptions_path, root)}: expected a JSON object"
+                )
+        except (OSError, json.JSONDecodeError) as error:
+            errors.append(f"{relative_name(descriptions_path, root)}: {error}")
+
+    unknown_description_ids = sorted(set(descriptions) - set(specs_by_id))
+    for specification_id in unknown_description_ids:
+        errors.append(
+            f"{relative_name(descriptions_path, root)}: descriptions for unknown method "
+            f"'{specification_id}'"
         )
-        documentation_reference = f"generated/specifications/{specification_id}.md"
+
+    for specification_id, spec in sorted(specs_by_id.items()):
+        documentation_path = method_dir / f"{specification_id}.md"
+        documentation_reference = f"methods/{specification_id}.md"
 
         if not documentation_path.is_file():
             errors.append(
                 f"{relative_name(documentation_path, root)}: "
-                f"generated page for specification '{specification_id}' is missing"
+                f"method page for '{specification_id}' is missing"
             )
-        if index_text is not None and documentation_reference not in index_text:
-            errors.append(
-                f"{relative_name(index_path, root)}: specification "
-                f"'{specification_id}' is not listed"
+        else:
+            print(f"Validating {relative_name(documentation_path, root)}")
+            documentation_text = read_text(documentation_path)
+            front_matter, front_matter_errors = parse_markdown_front_matter(
+                documentation_path, root
             )
+            errors.extend(front_matter_errors)
+            if front_matter.get("spec_id") != specification_id:
+                errors.append(
+                    f"{relative_name(documentation_path, root)}: front matter spec_id must be "
+                    f"'{specification_id}'"
+                )
+            for marker, label in (
+                (METHOD_INTERFACE_MARKER, "method interface"),
+                (METHOD_RESOURCES_MARKER, "method resources"),
+            ):
+                if documentation_text.count(marker) != 1:
+                    errors.append(
+                        f"{relative_name(documentation_path, root)}: expected exactly one "
+                        f"{label} marker"
+                    )
+
         if mkdocs_text is not None and documentation_reference not in mkdocs_text:
             errors.append(
-                f"{relative_name(mkdocs_path, root)}: specification "
+                f"{relative_name(mkdocs_path, root)}: method "
                 f"'{specification_id}' is not listed in navigation"
+            )
+
+        expected_fields = set().union(
+            spec.get("input_ids", set()),
+            spec.get("parameter_ids", set()),
+            spec.get("output_ids", set()),
+        )
+        method_descriptions = descriptions.get(specification_id)
+        if not isinstance(method_descriptions, dict):
+            errors.append(
+                f"{relative_name(descriptions_path, root)}: descriptions for method "
+                f"'{specification_id}' are missing or invalid"
+            )
+        else:
+            actual_fields = set(method_descriptions)
+            for field_id in sorted(expected_fields - actual_fields):
+                errors.append(
+                    f"{relative_name(descriptions_path, root)}: method '{specification_id}' "
+                    f"is missing a description for '{field_id}'"
+                )
+            for field_id in sorted(actual_fields - expected_fields):
+                errors.append(
+                    f"{relative_name(descriptions_path, root)}: method '{specification_id}' "
+                    f"describes unknown field '{field_id}'"
+                )
+
+    if method_dir.is_dir():
+        expected_pages = {f"{specification_id}.md" for specification_id in specs_by_id}
+        extra_pages = {
+            path.name for path in method_dir.glob("*.md")
+        } - expected_pages - {"index.md"}
+        for page_name in sorted(extra_pages):
+            errors.append(
+                f"{relative_name(method_dir / page_name, root)}: no matching specification"
             )
 
     return errors
@@ -1041,8 +1040,7 @@ def validate_repository(root: Path) -> tuple[list[str], dict[str, dict[str, Any]
             known_reference_ids,
         )
     )
-    errors.extend(validate_scientific_notes(root, specs_by_id))
-    errors.extend(validate_specification_documentation(root, specs_by_id))
+    errors.extend(validate_method_documentation(root, specs_by_id))
 
     return errors, specs_by_id, validators
 
