@@ -81,9 +81,9 @@ Relative tolerances are not part of the initial design.
 
 22. All local Python tooling in Biosiglib must run inside the repository-local `.venv`. AI agents must create `.venv` when it is absent, invoke the `.venv` Python executable explicitly, and never commit `.venv` or generated Python caches. `requirements-dev.txt` remains the dependency declaration for Biosiglib tooling. CI environments, when introduced later, must install dependencies in a clean environment and must not reuse the local `.venv`. Biosigpy will also use its own independent repository-local `.venv` when its package structure is created.
 
-23. Each implementation repository contains a machine-readable conformance manifest validated against `schemas/implementation-manifest.schema.json`. The manifest pins one exact Biosiglib commit and declares conformance with every specification in that commit. Every shared case must be executed; partial support and implementation roadmaps belong in issues and pull requests. Implementation versions remain independent from Biosiglib versions, and no per-algorithm version is used.
+23. Each implementation repository contains a `biosiglib.lock` file with one exact lowercase Biosiglib commit SHA. Code merged into an implementation must conform to every specification in that commit and execute every shared case; partial support and implementation roadmaps belong in issues and pull requests. Implementation versions remain independent from Biosiglib versions, and no per-algorithm version is used.
 
-24. Implementation manifests must be validated through Biosiglib's `tools/validate_specs.py --manifest PATH` command instead of duplicating schema-validation code in implementation repositories.
+24. Each implementation's normal full test suite must validate the `biosiglib.lock` format, verify the resolved checkout commit, and execute every shared case. Biosiglib does not define or validate downstream implementation metadata.
 
 25. Scientific notes under `docs/scientific/` are explanatory, not normative. They help researchers understand a method's purpose, rationale, assumptions, interpretation, and limitations, but they must not duplicate or replace the JSON specification.
 

@@ -48,13 +48,7 @@ On Windows PowerShell, explicit `.venv` invocations look like:
 
 `mkdocs build --strict` treats warnings as build failures, which keeps broken links and configuration drift visible during review.
 
-Implementation repositories can validate their conformance manifests with:
-
-```bash
-.venv/bin/python tools/validate_specs.py --manifest ../biosigmat/conformance.json
-```
-
-Use the equivalent `.venv\Scripts\python.exe` command on Windows.
+Implementation repositories validate their `biosiglib.lock` and all shared cases through their own normal full test suite. Biosiglib does not interpret downstream metadata.
 
 ## Documentation Workflow
 

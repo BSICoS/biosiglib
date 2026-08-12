@@ -45,7 +45,7 @@ jobs:
           echo "release_target_commit=$release_target_commit" >> "$GITHUB_OUTPUT"
           echo "Release target commit: $release_target_commit"
 
-      - name: Check out Biosigpy conformance declaration
+      - name: Check out Biosigpy lock
         uses: actions/checkout@v4
         with:
           repository: BSICoS/biosigpy
@@ -53,7 +53,7 @@ jobs:
           path: downstream/biosigpy
           persist-credentials: false
 
-      - name: Check out Biosigmat conformance declaration
+      - name: Check out Biosigmat lock
         uses: actions/checkout@v4
         with:
           repository: BSICoS/biosigmat
@@ -66,18 +66,20 @@ jobs:
           RELEASE_TARGET_COMMIT: ${{ steps.release-target.outputs.release_target_commit }}
         run: |
           python - <<'PY'
-          import json
           import os
+          import re
           from pathlib import Path
 
           expected_commit = os.environ["RELEASE_TARGET_COMMIT"]
           for implementation in ("biosigpy", "biosigmat"):
-              manifest_path = Path("downstream") / implementation / "conformance.json"
-              manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-              actual_commit = manifest["biosiglib"]["commit"]
+              lock_path = Path("downstream") / implementation / "biosiglib.lock"
+              raw_lock = lock_path.read_text(encoding="utf-8")
+              if re.fullmatch(r"[0-9a-f]{40}\n?", raw_lock) is None:
+                  raise SystemExit(f"Invalid Biosiglib lock: {lock_path}")
+              actual_commit = raw_lock.strip()
               if actual_commit != expected_commit:
                   raise SystemExit(
-                      f"{implementation} declares conformance with {actual_commit}, "
+                      f"{implementation} pins {actual_commit}, "
                       f"not release target {expected_commit}"
                   )
           PY
@@ -101,10 +103,7 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Validate Biosiglib
-        run: |
-          python tools/validate_specs.py \
-            --manifest downstream/biosigpy/conformance.json \
-            --manifest downstream/biosigmat/conformance.json
+        run: python tools/validate_specs.py
 
       - name: Check generated documentation
         run: python tools/generate_docs.py --check

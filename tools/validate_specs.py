@@ -6,10 +6,8 @@ import argparse
 import csv
 import json
 import re
-import subprocess
 import sys
 from collections import Counter
-from json import JSONDecodeError
 from pathlib import Path
 from typing import Any
 
@@ -23,10 +21,6 @@ DOT_CASE_IDENTIFIER_RE = re.compile(
     r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:_[a-z0-9]+)*)*$"
 )
 FORBIDDEN_IDENTIFIER_FRAGMENT = "r_peak"
-IMPLEMENTATION_MANIFEST_SCHEMA_URL = (
-    "https://raw.githubusercontent.com/BSICoS/biosiglib/"
-    "{commit}/schemas/implementation-manifest.schema.json"
-)
 
 
 def find_repository_root() -> Path:
@@ -62,10 +56,6 @@ def json_path(path_parts: object) -> str:
 
 def relative_name(path: Path, root: Path) -> str:
     return str(path.relative_to(root))
-
-
-def display_path(path: Path) -> str:
-    return str(path)
 
 
 def read_text(path: Path) -> str:
@@ -316,14 +306,7 @@ def make_validator(schema: Any) -> Draft202012Validator:
 
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Validate Biosiglib specifications and optional implementation manifests.",
-    )
-    parser.add_argument(
-        "--manifest",
-        action="append",
-        default=[],
-        metavar="PATH",
-        help="Validate an external implementation manifest.",
+        description="Validate Biosiglib schemas, specifications, fixtures, and cases.",
     )
     return parser
 
@@ -989,143 +972,6 @@ def validate_conformance_references(
     return errors
 
 
-def get_current_git_commit(
-    root: Path,
-    git_command: str = "git",
-) -> tuple[str | None, str | None]:
-    try:
-        result = subprocess.run(
-            [
-                git_command,
-                "-c",
-                f"safe.directory={root.as_posix()}",
-                "-C",
-                str(root),
-                "rev-parse",
-                "HEAD",
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
-    except OSError as exc:
-        return None, f"could not run git to determine the Biosiglib commit: {exc}"
-
-    if result.returncode != 0:
-        message = result.stderr.strip() or result.stdout.strip() or "git rev-parse failed"
-        return None, f"could not determine the Biosiglib commit: {message}"
-
-    commit = result.stdout.strip()
-    if not commit:
-        return None, "could not determine the Biosiglib commit: git returned an empty commit"
-
-    return commit, None
-
-
-def load_external_manifest(path_argument: str) -> tuple[Path, Any | None, list[str]]:
-    manifest_path = Path(path_argument).expanduser()
-    if not manifest_path.is_absolute():
-        manifest_path = (Path.cwd() / manifest_path).resolve()
-    else:
-        manifest_path = manifest_path.resolve()
-
-    if not manifest_path.exists():
-        return manifest_path, None, [f"{display_path(manifest_path)}: manifest file does not exist"]
-    if not manifest_path.is_file():
-        return manifest_path, None, [f"{display_path(manifest_path)}: manifest path is not a regular file"]
-
-    try:
-        return manifest_path, load_json(manifest_path), []
-    except JSONDecodeError as exc:
-        return manifest_path, None, [
-            f"{display_path(manifest_path)}: invalid JSON at line {exc.lineno}, column {exc.colno}: {exc.msg}"
-        ]
-    except OSError as exc:
-        return manifest_path, None, [f"{display_path(manifest_path)}: could not read manifest: {exc}"]
-
-
-def report_external_schema_errors(
-    validator: Draft202012Validator,
-    manifest: Any,
-    manifest_path: Path,
-) -> list[str]:
-    errors = []
-    for error in sorted(validator.iter_errors(manifest), key=lambda item: item.path):
-        errors.append(f"{display_path(manifest_path)}: {json_path(error.path)}: {error.message}")
-    return errors
-
-
-def validate_manifest_schema_reference(
-    manifest: Any,
-    manifest_path: Path,
-) -> list[str]:
-    if not isinstance(manifest, dict):
-        return []
-
-    biosiglib = manifest.get("biosiglib", {})
-    if not isinstance(biosiglib, dict):
-        return []
-
-    declared_commit = biosiglib.get("commit")
-    schema_reference = manifest.get("$schema")
-    if not isinstance(declared_commit, str) or not re.fullmatch(
-        r"[0-9a-f]{40}", declared_commit
-    ):
-        return []
-    if not isinstance(schema_reference, str):
-        return []
-
-    expected_reference = IMPLEMENTATION_MANIFEST_SCHEMA_URL.format(
-        commit=declared_commit
-    )
-    if schema_reference != expected_reference:
-        return [
-            f"{display_path(manifest_path)}: {json_path(['$schema'])}: schema reference "
-            f"'{schema_reference}' does not match Biosiglib commit "
-            f"'{declared_commit}'; expected '{expected_reference}'"
-        ]
-
-    return []
-
-
-def validate_manifest_commit(
-    manifest: Any,
-    manifest_path: Path,
-    current_commit: str | None,
-) -> list[str]:
-    if current_commit is None or not isinstance(manifest, dict):
-        return []
-
-    biosiglib = manifest.get("biosiglib", {})
-    if not isinstance(biosiglib, dict):
-        return []
-
-    declared_commit = biosiglib.get("commit")
-    if isinstance(declared_commit, str) and declared_commit != current_commit:
-        return [
-            f"{display_path(manifest_path)}: $.biosiglib.commit: declared commit "
-            f"'{declared_commit}' does not match current Biosiglib commit '{current_commit}'"
-        ]
-
-    return []
-
-
-def validate_external_manifest(
-    path_argument: str,
-    validator: Draft202012Validator,
-    current_commit: str | None,
-) -> list[str]:
-    manifest_path, manifest, errors = load_external_manifest(path_argument)
-    print(f"Validating {display_path(manifest_path)}")
-    if manifest is None:
-        return errors
-
-    errors.extend(report_external_schema_errors(validator, manifest, manifest_path))
-    errors.extend(validate_manifest_schema_reference(manifest, manifest_path))
-    errors.extend(validate_manifest_commit(manifest, manifest_path, current_commit))
-    return errors
-
-
 def validate_repository(root: Path) -> tuple[list[str], dict[str, dict[str, Any]], dict[str, Draft202012Validator]]:
     errors: list[str] = []
 
@@ -1134,7 +980,6 @@ def validate_repository(root: Path) -> tuple[list[str], dict[str, dict[str, Any]
         "reference": root / "schemas" / "reference-catalog.schema.json",
         "fixture": root / "schemas" / "fixture-catalog.schema.json",
         "conformance": root / "schemas" / "conformance-case.schema.json",
-        "implementation_manifest": root / "schemas" / "implementation-manifest.schema.json",
     }
 
     schemas: dict[str, Any] = {}
@@ -1203,24 +1048,9 @@ def validate_repository(root: Path) -> tuple[list[str], dict[str, dict[str, Any]
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = build_argument_parser().parse_args(argv)
+    build_argument_parser().parse_args(argv)
     root = find_repository_root()
-    errors, specs_by_id, validators = validate_repository(root)
-
-    current_commit = None
-    if args.manifest:
-        current_commit, commit_error = get_current_git_commit(root)
-        if commit_error is not None:
-            errors.append(f"Biosiglib checkout: {commit_error}")
-
-        for manifest_path in args.manifest:
-            errors.extend(
-                validate_external_manifest(
-                    manifest_path,
-                    validators["implementation_manifest"],
-                    current_commit,
-                )
-            )
+    errors, _, _ = validate_repository(root)
 
     if errors:
         print("Validation failed:")

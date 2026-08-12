@@ -286,46 +286,5 @@ class ExistingNegativeValidationTests(unittest.TestCase):
 
         self.assertTrue(any("unknown specification id" in error for error in errors))
 
-    def test_rejects_manifest_commit_mismatch(self) -> None:
-        errors = validate_specs.validate_manifest_commit(
-            {"biosiglib": {"commit": "old-commit"}},
-            Path("conformance.json"),
-            "current-commit",
-        )
-
-        self.assertEqual(len(errors), 1)
-        self.assertIn("does not match current Biosiglib commit", errors[0])
-
-    def test_rejects_manifest_schema_reference_commit_mismatch(self) -> None:
-        commit = "a" * 40
-        errors = validate_specs.validate_manifest_schema_reference(
-            {
-                "$schema": validate_specs.IMPLEMENTATION_MANIFEST_SCHEMA_URL.format(
-                    commit="b" * 40
-                ),
-                "biosiglib": {"commit": commit},
-            },
-            Path("conformance.json"),
-        )
-
-        self.assertEqual(len(errors), 1)
-        self.assertIn("does not match Biosiglib commit", errors[0])
-        self.assertIn(commit, errors[0])
-
-    def test_accepts_manifest_schema_reference_for_declared_commit(self) -> None:
-        commit = "a" * 40
-        errors = validate_specs.validate_manifest_schema_reference(
-            {
-                "$schema": validate_specs.IMPLEMENTATION_MANIFEST_SCHEMA_URL.format(
-                    commit=commit
-                ),
-                "biosiglib": {"commit": commit},
-            },
-            Path("conformance.json"),
-        )
-
-        self.assertEqual(errors, [])
-
-
 if __name__ == "__main__":
     unittest.main()
