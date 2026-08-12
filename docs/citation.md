@@ -1,13 +1,11 @@
-# Citation
+# Cite Biosiglib
 
-Biosiglib will provide project-level software citation metadata in a future `CITATION.cff` file. A Zenodo DOI is also planned for archived software releases.
+When reproducibility matters, cite the repository and the exact commit used by your analysis:
 
-Until that metadata is added, cite the repository and release or commit used in your work as precisely as possible.
+```text
+BSICoS Biosiglib. Biomedical signal-processing method specifications and validation resources. https://github.com/BSICoS/biosiglib, commit <SHA>.
+```
 
-## Software And Scientific Citations
+Also cite the original publication for each method you use. The relevant references are listed on its page in the [method catalog](methods/index.md).
 
-Software citation and original scientific algorithm citation are complementary.
-
-Citing Biosiglib recognizes the software project: its specifications, validation resources, documentation, release process, and maintenance. Citing the original scientific publications recognizes the authorship of the algorithms and methodological foundations implemented by the ecosystem.
-
-For example, using an ECG detector through the Biosiglib ecosystem may require both the Biosiglib software citation and the original Pan-Tompkins method citation when that method is scientifically relevant to the work.
+If you used an executable implementation, identify [Biosigpy or Biosigmat](implementations.md) and its version as well.

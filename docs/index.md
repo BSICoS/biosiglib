@@ -1,29 +1,23 @@
 # Biosiglib
 
-Biosiglib is the language-independent source of truth for the Biosiglib ecosystem. It is not an executable signal-processing library, and it does not provide user-facing MATLAB or Python functions.
+Biosiglib describes biomedical signal-processing methods and provides shared, machine-readable contracts for their Python and MATLAB implementations.
 
-Instead, Biosiglib defines the shared contract that implementations use:
+Use the [method catalog](methods/index.md) to understand what each function does, which inputs it expects, what it returns, and the scientific assumptions behind it. Each method page also links to:
 
-* machine-readable JSON specifications for public algorithm behavior;
-* shared fixtures and metadata;
-* conformance cases and expected outputs;
-* validation resources for specifications, fixtures, references, and implementation manifests.
+- the Python and MATLAB source code;
+- its normative JSON contract;
+- its validation cases;
+- the relevant scientific references.
 
-The language-specific libraries implement those contracts:
+## Run the methods
 
-* [Biosigmat](https://github.com/BSICoS/biosigmat) is the MATLAB implementation.
-* [Biosigpy](https://github.com/BSICoS/biosigpy) is the Python implementation.
+Biosiglib is not an executable package. Choose the implementation for your environment:
 
-## What Lives Here
+- [Biosigpy](https://github.com/BSICoS/biosigpy) for Python;
+- [Biosigmat](https://github.com/BSICoS/biosigmat) for MATLAB.
 
-Biosiglib describes scientific and computational behavior that should remain consistent across programming languages. It records canonical inputs, outputs, units, parameters, defaults, edge-case behavior, numerical comparison rules, fixtures, conformance cases, and scientific provenance.
+See [Implementations](implementations.md) for installation links and the relationship between the two libraries.
 
-The repository is designed so humans can read the behavior while tools can validate it. The JSON files are the normative source. This website is the readable view.
+## Technical contract
 
-## Current Scope
-
-The current documentation covers:
-
-See the generated [specification catalog](specifications.md) for the complete authoritative inventory of current contracts.
-
-The initial pilots established the specification, fixture, conformance, and release patterns before the full Biosiglib scope expands across ECG, PPG, respiration, HRV, and other biomedical signal-processing tools.
+The public pages explain how to use and interpret each method. The JSON specifications and shared validation cases define the exact cross-language behavior. Contributors can access both directly from every method page or browse them in the [Biosiglib repository](https://github.com/BSICoS/biosiglib).

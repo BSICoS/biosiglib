@@ -117,66 +117,90 @@ class ConformanceCaseSchemaTests(unittest.TestCase):
         self.assertNotEqual(list(validator.iter_errors(case)), [])
 
 
-class SpecificationDocumentationValidationTests(unittest.TestCase):
+class MethodDocumentationValidationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary_directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary_directory.cleanup)
         self.root = Path(self.temporary_directory.name)
         self.specification_id = "tools.example"
-        self.documentation_reference = (
-            f"generated/specifications/{self.specification_id}.md"
+        self.documentation_reference = f"methods/{self.specification_id}.md"
+        self.method_dir = self.root / "docs" / "methods"
+        self.documentation_path = self.method_dir / f"{self.specification_id}.md"
+        self.method_dir.mkdir(parents=True)
+        self.documentation_path.write_text(
+            "---\nspec_id: tools.example\n---\n\n# Example\n\n"
+            "<!-- BIOSIGLIB METHOD INTERFACE -->\n\n"
+            "<!-- BIOSIGLIB METHOD RESOURCES -->\n",
+            encoding="utf-8",
         )
-        self.documentation_path = (
-            self.root / "docs" / "generated" / "specifications"
-            / f"{self.specification_id}.md"
+        (self.method_dir / "index.md").write_text(
+            "# Methods\n\n<!-- BIOSIGLIB METHOD CATALOG -->\n", encoding="utf-8"
         )
-        self.documentation_path.parent.mkdir(parents=True)
-        self.documentation_path.write_text("# Example\n", encoding="utf-8")
-        (self.root / "docs" / "specifications.md").write_text(
-            f"[Example]({self.documentation_reference})\n",
+        (self.method_dir / "descriptions.json").write_text(
+            '{"tools.example":{"signal":"Input signal.","result":"Output signal."}}\n',
             encoding="utf-8",
         )
         (self.root / "mkdocs.yml").write_text(
+            "hooks:\n  - tools/generate_docs.py\n"
             f"nav:\n  - Example: {self.documentation_reference}\n",
             encoding="utf-8",
         )
-        self.specs_by_id = {self.specification_id: {}}
+        self.specs_by_id = {
+            self.specification_id: {
+                "input_ids": {"signal"},
+                "parameter_ids": set(),
+                "output_ids": {"result"},
+            }
+        }
 
     def validate(self) -> list[str]:
-        return validate_specs.validate_specification_documentation(
+        return validate_specs.validate_method_documentation(
             self.root,
             self.specs_by_id,
         )
 
-    def test_accepts_generated_indexed_and_navigable_specification(self) -> None:
+    def test_accepts_complete_navigable_method_page(self) -> None:
         self.assertEqual(self.validate(), [])
 
-    def test_rejects_missing_generated_specification_page(self) -> None:
+    def test_rejects_missing_method_page(self) -> None:
         self.documentation_path.unlink()
 
         errors = self.validate()
 
         self.assertTrue(
-            any("generated page" in error and "is missing" in error for error in errors)
+            any("method page" in error and "is missing" in error for error in errors)
         )
 
-    def test_rejects_specification_missing_from_index(self) -> None:
-        (self.root / "docs" / "specifications.md").write_text(
-            "# Specifications\n",
+    def test_rejects_missing_render_marker(self) -> None:
+        self.documentation_path.write_text(
+            "---\nspec_id: tools.example\n---\n\n# Example\n",
             encoding="utf-8",
         )
 
         errors = self.validate()
 
-        self.assertTrue(any("is not listed" in error for error in errors))
+        self.assertTrue(any("method interface marker" in error for error in errors))
 
-    def test_rejects_specification_missing_from_navigation(self) -> None:
-        (self.root / "mkdocs.yml").write_text("nav: []\n", encoding="utf-8")
+    def test_rejects_method_missing_from_navigation(self) -> None:
+        (self.root / "mkdocs.yml").write_text(
+            "hooks:\n  - tools/generate_docs.py\nnav: []\n", encoding="utf-8"
+        )
 
         errors = self.validate()
 
         self.assertTrue(
             any("is not listed in navigation" in error for error in errors)
+        )
+
+    def test_rejects_incomplete_field_descriptions(self) -> None:
+        (self.method_dir / "descriptions.json").write_text(
+            '{"tools.example":{"signal":"Input signal."}}\n', encoding="utf-8"
+        )
+
+        errors = self.validate()
+
+        self.assertTrue(
+            any("missing a description for 'result'" in error for error in errors)
         )
 
 

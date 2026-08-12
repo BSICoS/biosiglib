@@ -1,0 +1,121 @@
+{
+  "ecg.baselineremove": {
+    "ecg": "Sampled ECG signal from which the slowly varying baseline will be removed.",
+    "fiducial_positions": "Sample positions expected to represent a local isoelectric ECG level.",
+    "offset": "Number of samples subtracted from every fiducial before estimating its local level.",
+    "window_size": "Requested local averaging span around each adjusted fiducial.",
+    "ecg_detrended": "ECG after subtracting the estimated baseline.",
+    "baseline": "Estimated baseline aligned sample by sample with the input ECG."
+  },
+  "ecg.pantompkins": {
+    "ecg": "Sampled ECG signal in which R waves will be detected.",
+    "sampling_frequency": "Sampling frequency of the ECG signal.",
+    "bandpass_frequency": "Lower and upper cutoff frequencies of the detection band-pass filter.",
+    "integration_window_size": "Duration of the moving integration window used by the detector.",
+    "minimum_peak_distance": "Minimum accepted temporal separation between candidate R waves.",
+    "snap_to_peak_window_size": "Local search radius used to refine each detection on the ECG.",
+    "r_wave_times": "Detected R-wave occurrence times in ascending order.",
+    "ecg_filtered": "Band-pass-filtered ECG used by the detection chain.",
+    "decg_squared": "Squared derivative signal used to emphasize rapid QRS changes.",
+    "decg_envelope": "Integrated detection envelope used to locate candidate beats."
+  },
+  "ecg.sloperange": {
+    "decg": "Sampled derivative ECG signal.",
+    "r_wave_times": "R-wave occurrence times aligned with the derivative ECG.",
+    "sampling_frequency": "Sampling frequency of the derivative ECG.",
+    "edr": "Beat-to-beat ECG-derived respiration amplitude series.",
+    "upslopes": "Signal-aligned local upslope traces used for inspection.",
+    "downslopes": "Signal-aligned local downslope traces used for inspection.",
+    "upslope_max_positions": "Selected maximum-upslope position for each processed beat.",
+    "downslope_min_positions": "Selected minimum-downslope position for each processed beat."
+  },
+  "hrv.fdmetrics": {
+    "pxx": "Power spectral density used by the conventional LF/HF mode.",
+    "related_pxx": "Spectrum of the HRV component linearly related to respiration.",
+    "unrelated_pxx": "Spectrum of the residual HRV component not represented by respiration.",
+    "f": "Strictly increasing frequency grid shared by the supplied spectrum or spectra.",
+    "limit_hf": "Whether conventional HF integration stops at the represented 0.4 Hz boundary.",
+    "hf": "Integrated conventional high-frequency power.",
+    "lf": "Integrated conventional low-frequency power.",
+    "lfn": "Low-frequency power normalized by the combined LF and HF power.",
+    "lfhf": "Ratio between conventional low-frequency and high-frequency power.",
+    "urlf": "Respiration-unrelated low-frequency power.",
+    "re": "Respiration-related power over the represented analysis range.",
+    "r": "Normalized respiration-unrelated LF index."
+  },
+  "hrv.fillgaps": {
+    "tk": "Strictly increasing event occurrence times after false-positive removal.",
+    "gap_detection_factor": "Multiplier that marks an observed interval as locally long.",
+    "correction_upper_factor": "Upper acceptance bound for reconstructed intervals.",
+    "correction_lower_factor": "Lower acceptance bound used while choosing insertion counts.",
+    "minimum_interval": "Smallest physiologically accepted reconstructed interval.",
+    "max_gap_duration": "Longest gap duration that the method will attempt to reconstruct.",
+    "tn": "Event occurrence times including accepted reconstructed events.",
+    "dtn": "Intervals between output events, with unresolved spans kept explicit."
+  },
+  "hrv.ipfm": {
+    "tn": "Strictly increasing beat or pulse occurrence times.",
+    "fs": "Sampling frequency of the uniform output grid.",
+    "spline_order": "Order of the B-spline used to interpolate cumulative event count.",
+    "ihr": "Uniformly sampled instantaneous heart rate.",
+    "m": "Optional dimensionless TVIPFM modulation relative to the time-varying mean rate."
+  },
+  "hrv.osp": {
+    "m": "Uniformly sampled HRV modulation signal to be decomposed.",
+    "resp": "Respiratory signal sampled on the same grid and time origin as the HRV modulation.",
+    "resp_pxx": "Respiratory power spectrum used to select a dominant respiratory frequency.",
+    "f": "Frequency grid associated with the respiratory spectrum.",
+    "fs": "Common sampling frequency of the HRV modulation and respiratory signals.",
+    "min_resp_frequency": "Lower bound applied to the selected respiratory frequency.",
+    "m_resp": "HRV component represented by the delayed-respiration subspace.",
+    "m_unrelated": "Residual HRV component outside the selected linear respiratory subspace.",
+    "delay": "Adaptive number of respiratory regressors and first aligned output sample."
+  },
+  "hrv.removefp": {
+    "tk": "Strictly increasing event occurrence times that may contain false-positive detections.",
+    "tn": "Event occurrence times after removing detections that follow abnormally short intervals."
+  },
+  "hrv.tdmetrics": {
+    "dtk": "Clean beat-to-beat or pulse-to-pulse intervals.",
+    "mhr": "Mean heart or pulse rate computed from valid intervals.",
+    "sdnn": "Sample standard deviation of valid intervals.",
+    "sdsd": "Sample standard deviation of successive valid interval differences.",
+    "rmssd": "Root mean square of successive valid interval differences.",
+    "pnn50": "Percentage of successive valid interval differences greater than 50 ms."
+  },
+  "tools.lpd_filter": {
+    "sampling_frequency": "Sampling frequency for which the differentiating filter is designed.",
+    "stop_frequency": "Frequency at which the low-pass differentiating response reaches its stop band.",
+    "pass_frequency": "Optional end of the differentiating pass band.",
+    "order": "Even FIR filter order.",
+    "filter_coefficients": "FIR numerator coefficients of the designed differentiating filter.",
+    "delay": "Constant linear-phase delay introduced by the FIR filter."
+  },
+  "tools.medfilt_threshold": {
+    "x": "One-dimensional signal for which an adaptive threshold is required.",
+    "window": "Local median-filter window setting.",
+    "factor": "Multiplier applied to the local median baseline.",
+    "max_threshold": "Upper cap applied to the adaptive threshold.",
+    "threshold": "Sample-aligned capped adaptive threshold."
+  },
+  "tools.nan_filter": {
+    "numerator_coefficients": "Numerator coefficients of the causal digital filter.",
+    "denominator_coefficients": "Denominator coefficients of the causal digital filter.",
+    "signal": "Signal to filter, optionally containing missing-value gaps.",
+    "max_gap": "Largest internal NaN gap that will be interpolated before filtering.",
+    "filtered_signal": "Causally filtered signal with long missing spans preserved."
+  },
+  "tools.nan_filtfilt": {
+    "numerator_coefficients": "Numerator coefficients of the digital filter.",
+    "denominator_coefficients": "Denominator coefficients of the digital filter.",
+    "signal": "Signal to filter, optionally containing missing-value gaps.",
+    "max_gap": "Largest internal NaN gap that will be interpolated before filtering.",
+    "filtered_signal": "Zero-phase filtered signal with long missing spans preserved."
+  },
+  "tools.snap_to_peak": {
+    "ecg": "Sampled ECG signal used to refine candidate detections.",
+    "detections": "Candidate sample positions to move onto nearby ECG maxima.",
+    "window_size": "Search radius around each candidate detection.",
+    "refined_detections": "Detection positions moved to the selected local ECG maxima."
+  }
+}
