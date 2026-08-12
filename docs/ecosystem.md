@@ -4,23 +4,23 @@ Biosiglib coordinates a small ecosystem of repositories with separate responsibi
 
 | Repository | Role |
 | --- | --- |
-| [Biosiglib](https://github.com/BSICoS/biosiglib) | Source of truth for language-independent specifications, shared fixtures, conformance cases, validation tools, and release propagation metadata. |
+| [Biosiglib](https://github.com/BSICoS/biosiglib) | Source of truth for language-independent specifications, shared fixtures, conformance cases, validation tools, and coordinated release policy. |
 | [Biosigmat](https://github.com/BSICoS/biosigmat) | MATLAB implementation of the Biosiglib specifications. |
 | [Biosigpy](https://github.com/BSICoS/biosigpy) | Python implementation of the Biosiglib specifications. |
 
 Biosigmat and Biosigpy may expose idiomatic language-specific APIs. They do not need identical internal architecture, but they must preserve the normative behavior defined by Biosiglib.
 
-## Release Propagation
+## Conformance and Releases
 
-Biosiglib releases are propagated downstream so each implementation can declare exactly which specification release and commit it conforms to.
+Each implementation declares conformance with one exact Biosiglib commit. The declaration covers every specification in that commit; support is not selected algorithm by algorithm.
 
 The release path is:
 
-1. Biosiglib release.
-2. Biosigmat propagation pull request.
-3. Biosigpy propagation pull request.
+1. Prepare and validate the Biosiglib contract commit.
+2. Adapt Biosigmat and Biosigpy to that exact commit and merge both implementations after their complete suites pass.
+3. Release Biosiglib only after both downstream manifests pin the release target commit.
 
-The downstream pull requests update each implementation repository's `conformance.json` file. The implementations remain independently versioned, so a Biosigmat or Biosigpy release declares its supported Biosiglib version instead of sharing the Biosiglib version number.
+The implementations remain independently versioned. Their conformance manifests record the reproducible commit relationship instead of mirroring the Biosiglib version number.
 
 ## Source Of Truth
 

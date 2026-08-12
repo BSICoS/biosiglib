@@ -1,7 +1,6 @@
 ---
 spec_id: ecg.sloperange
 title: Slope-range ECG-derived respiration
-status: draft
 ---
 
 # Slope-range ECG-derived respiration

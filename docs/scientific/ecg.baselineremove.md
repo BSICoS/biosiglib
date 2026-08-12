@@ -1,7 +1,6 @@
 ---
 spec_id: ecg.baselineremove
 title: ECG baseline removal from fiducial isoelectric samples
-status: draft
 ---
 
 # ECG baseline removal from fiducial isoelectric samples

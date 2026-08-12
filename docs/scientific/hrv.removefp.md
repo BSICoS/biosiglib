@@ -1,7 +1,6 @@
 ---
 spec_id: hrv.removefp
 title: False-positive event removal
-status: draft
 ---
 
 # False-positive event removal

@@ -21,7 +21,7 @@ Biosiglib defines the expected scientific and computational behavior of public a
 
 The generated documentation site is available at [https://bsicos.github.io/biosiglib/](https://bsicos.github.io/biosiglib/).
 
-The website is generated from the JSON specifications. The JSON files remain the normative source of truth for algorithm behavior, inputs, outputs, units, defaults, missing-value handling, edge cases, tolerances, and conformance status.
+The website is generated from the JSON specifications. The JSON files remain the normative source of truth for algorithm behavior, inputs, outputs, units, defaults, missing-value handling, edge cases, and tolerances. Implementations declare total conformance with one exact Biosiglib commit.
 
 ## Local validation
 
@@ -29,11 +29,11 @@ See [docs/development.md](docs/development.md) for local setup and validation co
 
 ## Releases
 
-See the [SemVer classification and release-readiness checklist](docs/releases.md) for release semantics and propagation details.
+See the [SemVer classification and release-readiness checklist](docs/releases.md) for release semantics and coordinated conformance details.
 
 ## Project status
 
-Biosiglib is under active development. The first development phase establishes the specification format, validation tooling, generated documentation, shared fixtures, conformance cases, and integration with Biosigmat and Biosigpy.
+Biosiglib is under active development. The generated specification catalog is the authoritative inventory of its current algorithm contracts.
 
 ## License
 

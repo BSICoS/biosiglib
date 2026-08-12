@@ -2,32 +2,23 @@
 
 Conformance describes how a language-specific implementation declares and validates its relationship to Biosiglib.
 
-Each implementation repository maintains a machine-readable implementation manifest, conventionally named `conformance.json`. The manifest records the implementation identity, implementation version, pinned Biosiglib release and commit, and the support status for each Biosiglib specification.
+Each implementation repository maintains a machine-readable implementation manifest, conventionally named `conformance.json`. The manifest identifies the implementation and pins the exact Biosiglib commit used for conformance.
 
-The manifest specification IDs must exactly match the specification IDs in the pinned Biosiglib commit. Every specification must therefore have an explicit status, including functionality that is only planned or intentionally unsupported. Manifest validation rejects both unknown IDs and omitted specifications.
+The declaration is total: the implementation conforms to every specification in the pinned commit and must execute every shared conformance case. Partial support, roadmaps, and work in progress belong in issues and pull requests rather than in the conformance manifest.
 
-## Statuses
-
-Implementation manifests use the following statuses:
-
-| Status | Meaning |
-| --- | --- |
-| `conformant` | The implementation supports the specification and all applicable conformance cases pass for the pinned Biosiglib release and commit. |
-| `implemented` | The implementation has behavior for the specification, but full conformance has not yet been established or declared. |
-| `planned` | Support is intended, but implementation work is not complete. |
-| `unsupported` | The implementation does not support the specification and does not currently plan to expose it. |
-
-`conformant` should only be used after validation has passed for the exact Biosiglib version and commit recorded in the manifest.
+Passing the shared cases is executable evidence for the declaration. It does not make the cases a substitute for the complete normative JSON contracts.
 
 ## Exact Pinning
 
-A downstream manifest must pin an exact Biosiglib commit. A semantic version alone is not enough because conformance must be reproducible against the precise specifications, schemas, fixtures, and conformance cases used during validation.
+A downstream manifest pins one exact Biosiglib commit. A semantic version alone is not enough because conformance must be reproducible against the precise specifications, schemas, fixtures, and conformance cases used during validation.
 
-The pinned release communicates the public release relationship. The pinned commit makes the validation target exact.
+The `$schema` URL is derived from the same commit so editors can load the matching schema. Biosiglib's validator rejects a schema URL whose commit differs from `biosiglib.commit`; contributors therefore maintain one normative pin.
+
+Implementation and Biosiglib release versions remain visible in their respective repositories and release notes. They are not duplicated in the conformance manifest.
 
 ## Validation Across Implementations
 
-Biosigmat and Biosigpy validate their manifests and behavior against Biosiglib resources. Each implementation can keep its own public API style, internal architecture, error classes, and plotting tools, but its normative outputs and edge-case behavior must match the Biosiglib contracts within the declared tolerances.
+Biosigmat and Biosigpy validate their manifests and behavior against Biosiglib resources. Each implementation can keep its own public API style, internal architecture, error classes, and plotting tools, but its normative outputs and edge-case behavior must match every contract in the pinned commit within the declared tolerances.
 
 The shared Biosiglib validator checks repository specifications and can validate implementation manifests with:
 

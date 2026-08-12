@@ -11,7 +11,14 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Added the normative `ecg.baselineremove` contract, eight focused shared cases, and a scientific note covering one-based fiducial normalization, half-away-from-zero rounding, post-rounding sorting and deduplication, boundary-truncated local means, even-window expansion, reduced-degree and not-a-knot spline behavior, endpoint extrapolation, explicit zero- and one-valid-fiducial outcomes, and finite-real input requirements.
 - Added the Meyer and Keiser 1977 ECG baseline-noise publication while distinguishing its PR-segment and cubic-spline rationale from empirical Biosigmat compatibility rules.
 
-This is a MINOR change because it adds a compatible `ecg.baselineremove` specification and conformance profile without changing a released contract. Biosigmat and Biosigpy require adaptation and must pass the applicable shared cases before declaring this specification conformant.
+### Changed
+
+- Simplified implementation conformance manifests to one total declaration against an exact Biosiglib commit. Removed per-specification statuses, entry points, notes, duplicated repository and release metadata, and optional implementation versions.
+- Made the manifest schema URL a checked derivative of the declared Biosiglib commit.
+- Changed release coordination so Biosiglib can only publish a commit already pinned by both Biosigmat and Biosigpy.
+- Removed unused draft statuses from informative scientific notes and replaced manual specification subsets with the generated authoritative catalog.
+
+This is a MAJOR change because the implementation-manifest schema and release coordination contract are incompatible with previous releases. It also adds the compatible `ecg.baselineremove` specification; Biosigmat and Biosigpy must conform to the complete release target before Biosiglib is published.
 
 ## v1.4.0 - 2026-08-06
 
