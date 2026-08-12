@@ -1,7 +1,6 @@
 ---
 spec_id: hrv.fdmetrics
 title: Frequency-domain HRV metrics
-status: draft
 ---
 
 # Frequency-domain HRV metrics

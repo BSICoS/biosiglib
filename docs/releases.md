@@ -1,6 +1,6 @@
 # Releases
 
-Biosiglib uses independent semantic versioning with `MAJOR.MINOR.PATCH`. Biosigmat and Biosigpy also use their own independent versions. Implementation versions do not mirror the Biosiglib version: each implementation release declares the exact Biosiglib release and commit that it supports.
+Biosiglib uses independent semantic versioning with `MAJOR.MINOR.PATCH`. Biosigmat and Biosigpy also use their own independent versions. Implementation versions do not mirror the Biosiglib version: each implementation declares conformance with one exact Biosiglib commit.
 
 ## Release Semantics
 
@@ -11,7 +11,7 @@ A Biosiglib release captures the current language-independent source of truth:
 * fixture catalogs and fixture files;
 * conformance cases and expected outputs;
 * validation tooling;
-* release propagation metadata.
+* coordinated conformance metadata.
 
 Classify the complete change set since the latest release. When several changes have different impacts, use the highest required increment.
 
@@ -19,8 +19,8 @@ Classify the complete change set since the latest release. When several changes 
 
 | Increment | Use when | Typical downstream impact |
 | --- | --- | --- |
-| **MAJOR** | A released normative contract changes incompatibly. This includes required input or output changes, removals or renames, formulas, units, defaults, validation, `NaN` handling, edge cases, output semantics, or incompatible schema and validator changes. It also includes a correction that deliberately replaces released normative behavior. | Previously conformant implementations may stop conforming. Propagation is intentionally blocked until each implementation adapts and passes all applicable cases. |
-| **MINOR** | The source of truth gains a compatible capability: a new specification, fixture, conformance case, optional schema field, or compatible validator rule. A new case may expose a latent implementation defect even when the normative behavior itself is unchanged. | Existing public behavior remains valid, but an implementation may need a defect fix before it can pass newly added coverage. Record whether propagation is immediately mergeable. |
+| **MAJOR** | A released normative contract changes incompatibly. This includes required input or output changes, removals or renames, formulas, units, defaults, validation, `NaN` handling, edge cases, output semantics, or incompatible schema and validator changes. It also includes a correction that deliberately replaces released normative behavior. | Previously conformant implementations must adapt before the Biosiglib release is published. |
+| **MINOR** | The source of truth gains a compatible capability: a new specification, fixture, conformance case, optional schema field, or compatible validator rule. A new case may expose a latent implementation defect even when the normative behavior itself is unchanged. | Existing public behavior remains valid, but both implementations must pass the expanded complete suite before release. |
 | **PATCH** | Normative behavior is unchanged. Examples include informative-only documentation and tooling corrections, provenance metadata corrections, and expected-value corrections that restore an already unambiguous released definition. | No intentional public algorithm change. Downstream metadata or tests may still need a small update. |
 
 Apply these checks before choosing an increment:
@@ -47,21 +47,22 @@ Before tagging a Biosiglib release:
 1. Replace the changelog's `Unreleased` heading with the selected version and release date, and describe breaking or adaptation-requiring changes explicitly.
 2. Regenerate specification pages and pass documentation checks, specification and fixture validation, validator tests, compile checks, strict MkDocs build, and `git diff --check`.
 3. Confirm the release is created from the intended commit on the default branch and that the version tag resolves to that exact commit.
-4. Decide whether each downstream propagation pull request should be immediately mergeable or intentionally blocked for adaptation, and link the relevant implementation issues or pull requests.
-5. Verify downstream manifests will pin the exact Biosiglib release and commit. They may declare a specification `conformant` only after all applicable cases pass.
+4. Verify Biosigmat and Biosigpy have merged their adaptations and complete conformance suites for the release target commit.
+5. Verify both downstream manifests pin that exact commit. The release workflow enforces this invariant before tagging.
 6. Prepare release notes that state the classification, normative impact, exact commit, and downstream readiness.
 
-## Propagation
+## Coordinated Conformance
 
-The expected propagation path is:
+The expected path is:
 
-1. Biosiglib release.
-2. Automated Biosigmat propagation pull request.
-3. Automated Biosigpy propagation pull request.
+1. Merge the reviewed Biosiglib contract commit without releasing it yet.
+2. Update Biosigmat and Biosigpy to that commit, include any required implementation work, and pass their complete suites.
+3. Merge both downstream conformance declarations.
+4. Release the exact Biosiglib commit after the automated downstream-pin gate passes.
 
-The downstream propagation pull requests update `conformance.json` in the implementation repositories. They make the new Biosiglib release visible to implementation maintainers and provide a review point before implementation repositories declare support for the new source of truth.
+For changes that require no implementation adaptation, each downstream repository provides an `Update Biosiglib Pin` workflow that validates the full suite before opening a ready-for-review pull request. Changes requiring implementation work use an ordinary feature or fix pull request that updates the pin together with the code.
 
-A propagation pull request is not proof of conformance. When a release requires adaptation, keep the downstream manifest non-conformant or the propagation pull request blocked until implementation changes and all shared cases pass.
+A pin update is a total conformance declaration, not a roadmap entry. It cannot merge while any specification or shared case in the pinned commit remains unsupported.
 
 ## Documentation Publication
 

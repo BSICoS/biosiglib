@@ -23,6 +23,10 @@ DOT_CASE_IDENTIFIER_RE = re.compile(
     r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:_[a-z0-9]+)*)*$"
 )
 FORBIDDEN_IDENTIFIER_FRAGMENT = "r_peak"
+IMPLEMENTATION_MANIFEST_SCHEMA_URL = (
+    "https://raw.githubusercontent.com/BSICoS/biosiglib/"
+    "{commit}/schemas/implementation-manifest.schema.json"
+)
 
 
 def find_repository_root() -> Path:
@@ -991,7 +995,15 @@ def get_current_git_commit(
 ) -> tuple[str | None, str | None]:
     try:
         result = subprocess.run(
-            [git_command, "-C", str(root), "rev-parse", "HEAD"],
+            [
+                git_command,
+                "-c",
+                f"safe.directory={root.as_posix()}",
+                "-C",
+                str(root),
+                "rev-parse",
+                "HEAD",
+            ],
             check=False,
             capture_output=True,
             text=True,
@@ -1043,33 +1055,37 @@ def report_external_schema_errors(
     return errors
 
 
-def validate_manifest_specification_ids(
+def validate_manifest_schema_reference(
     manifest: Any,
     manifest_path: Path,
-    specs_by_id: dict[str, dict[str, Any]],
 ) -> list[str]:
     if not isinstance(manifest, dict):
         return []
 
-    specifications = manifest.get("specifications", {})
-    if not isinstance(specifications, dict):
+    biosiglib = manifest.get("biosiglib", {})
+    if not isinstance(biosiglib, dict):
         return []
 
-    errors = []
-    for specification_id in specifications:
-        if specification_id not in specs_by_id:
-            errors.append(
-                f"{display_path(manifest_path)}: "
-                f"{json_path(['specifications', specification_id])}: unknown specification id "
-                f"'{specification_id}'"
-            )
+    declared_commit = biosiglib.get("commit")
+    schema_reference = manifest.get("$schema")
+    if not isinstance(declared_commit, str) or not re.fullmatch(
+        r"[0-9a-f]{40}", declared_commit
+    ):
+        return []
+    if not isinstance(schema_reference, str):
+        return []
 
-    for specification_id in sorted(set(specs_by_id) - set(specifications)):
-        errors.append(
-            f"{display_path(manifest_path)}: $.specifications: "
-            f"missing specification id '{specification_id}'"
-        )
-    return errors
+    expected_reference = IMPLEMENTATION_MANIFEST_SCHEMA_URL.format(
+        commit=declared_commit
+    )
+    if schema_reference != expected_reference:
+        return [
+            f"{display_path(manifest_path)}: {json_path(['$schema'])}: schema reference "
+            f"'{schema_reference}' does not match Biosiglib commit "
+            f"'{declared_commit}'; expected '{expected_reference}'"
+        ]
+
+    return []
 
 
 def validate_manifest_commit(
@@ -1097,7 +1113,6 @@ def validate_manifest_commit(
 def validate_external_manifest(
     path_argument: str,
     validator: Draft202012Validator,
-    specs_by_id: dict[str, dict[str, Any]],
     current_commit: str | None,
 ) -> list[str]:
     manifest_path, manifest, errors = load_external_manifest(path_argument)
@@ -1106,7 +1121,7 @@ def validate_external_manifest(
         return errors
 
     errors.extend(report_external_schema_errors(validator, manifest, manifest_path))
-    errors.extend(validate_manifest_specification_ids(manifest, manifest_path, specs_by_id))
+    errors.extend(validate_manifest_schema_reference(manifest, manifest_path))
     errors.extend(validate_manifest_commit(manifest, manifest_path, current_commit))
     return errors
 
@@ -1203,7 +1218,6 @@ def main(argv: list[str] | None = None) -> int:
                 validate_external_manifest(
                     manifest_path,
                     validators["implementation_manifest"],
-                    specs_by_id,
                     current_commit,
                 )
             )

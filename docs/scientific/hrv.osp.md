@@ -1,7 +1,6 @@
 ---
 spec_id: hrv.osp
 title: Respiratory decomposition by orthogonal subspace projection
-status: draft
 ---
 
 # Respiratory decomposition by orthogonal subspace projection

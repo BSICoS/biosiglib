@@ -38,7 +38,7 @@ The current specifications are:
 | [`tools.snap_to_peak`](generated/specifications/tools.snap_to_peak.md) | Tools | Refines detection sample positions by moving each detection to the maximum signal sample in a NaN-aware local search window. |
 <!-- END GENERATED SPECIFICATION TABLE -->
 
-These specifications are not the final Biosiglib scope. The initial pilots established the specification format, validation rules, fixtures, conformance cases, documentation structure, and release propagation pattern that later specifications reuse.
+These specifications are not the final Biosiglib scope. The generated catalog expands as new contracts and their complete cross-language conformance work become ready together.
 
 ## Generated Pages
 

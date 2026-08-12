@@ -1,7 +1,6 @@
 ---
 spec_id: hrv.ipfm
 title: IPFM heart-timing reconstruction and TVIPFM modulation
-status: draft
 ---
 
 # IPFM heart-timing reconstruction and TVIPFM modulation

@@ -6,8 +6,7 @@
   "required": [
     "$schema",
     "implementation",
-    "biosiglib",
-    "specifications"
+    "biosiglib"
   ],
   "properties": {
     "$schema": {
@@ -29,13 +28,6 @@
         "language": {
           "type": "string",
           "minLength": 1
-        },
-        "version": {
-          "$ref": "#/$defs/semver"
-        },
-        "repository": {
-          "type": "string",
-          "format": "uri"
         }
       }
     },
@@ -43,64 +35,12 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "repository",
         "commit"
       ],
       "properties": {
-        "repository": {
-          "type": "string",
-          "format": "uri"
-        },
         "commit": {
           "type": "string",
           "pattern": "^[0-9a-f]{40}$"
-        },
-        "release": {
-          "$ref": "#/$defs/semver"
-        }
-      }
-    },
-    "specifications": {
-      "type": "object",
-      "minProperties": 1,
-      "propertyNames": {
-        "minLength": 1
-      },
-      "additionalProperties": {
-        "$ref": "#/$defs/specification_entry"
-      }
-    }
-  },
-  "$defs": {
-    "semver": {
-      "type": "string",
-      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$"
-    },
-    "specification_entry": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "status"
-      ],
-      "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "conformant",
-            "implemented",
-            "planned",
-            "unsupported"
-          ]
-        },
-        "entry_point": {
-          "type": "string",
-          "minLength": 1
-        },
-        "notes": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       }
     }

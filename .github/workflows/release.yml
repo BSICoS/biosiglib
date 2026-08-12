@@ -45,6 +45,43 @@ jobs:
           echo "release_target_commit=$release_target_commit" >> "$GITHUB_OUTPUT"
           echo "Release target commit: $release_target_commit"
 
+      - name: Check out Biosigpy conformance declaration
+        uses: actions/checkout@v4
+        with:
+          repository: BSICoS/biosigpy
+          ref: main
+          path: downstream/biosigpy
+          persist-credentials: false
+
+      - name: Check out Biosigmat conformance declaration
+        uses: actions/checkout@v4
+        with:
+          repository: BSICoS/biosigmat
+          ref: main
+          path: downstream/biosigmat
+          persist-credentials: false
+
+      - name: Verify downstream conformance pins
+        env:
+          RELEASE_TARGET_COMMIT: ${{ steps.release-target.outputs.release_target_commit }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          expected_commit = os.environ["RELEASE_TARGET_COMMIT"]
+          for implementation in ("biosigpy", "biosigmat"):
+              manifest_path = Path("downstream") / implementation / "conformance.json"
+              manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+              actual_commit = manifest["biosiglib"]["commit"]
+              if actual_commit != expected_commit:
+                  raise SystemExit(
+                      f"{implementation} declares conformance with {actual_commit}, "
+                      f"not release target {expected_commit}"
+                  )
+          PY
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -64,7 +101,10 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Validate Biosiglib
-        run: python tools/validate_specs.py
+        run: |
+          python tools/validate_specs.py \
+            --manifest downstream/biosigpy/conformance.json \
+            --manifest downstream/biosigmat/conformance.json
 
       - name: Check generated documentation
         run: python tools/generate_docs.py --check
@@ -99,59 +139,3 @@ jobs:
             echo "Release tag $VERSION points to $tag_commit, expected $RELEASE_TARGET_COMMIT" >&2
             exit 1
           fi
-
-      - name: Dispatch Biosigmat propagation
-        env:
-          GH_TOKEN: ${{ secrets.BIOSIGLIB_PROPAGATION_TOKEN }}
-          RELEASE_TARGET_COMMIT: ${{ steps.release-target.outputs.release_target_commit }}
-          VERSION: ${{ inputs.version }}
-        run: |
-          if [[ -z "${GH_TOKEN:-}" ]]; then
-            echo "BIOSIGLIB_PROPAGATION_TOKEN is required to dispatch Biosigmat propagation" >&2
-            exit 1
-          fi
-          python - <<'PY' > dispatch-payload.json
-          import json
-          import os
-          import sys
-
-          json.dump(
-              {
-                  "event_type": "biosiglib-release",
-                  "client_payload": {
-                      "release": os.environ["VERSION"],
-                      "commit": os.environ["RELEASE_TARGET_COMMIT"],
-                  },
-              },
-              sys.stdout,
-          )
-          PY
-          gh api --method POST /repos/BSICoS/biosigmat/dispatches --input dispatch-payload.json
-
-      - name: Dispatch Biosigpy propagation
-        env:
-          GH_TOKEN: ${{ secrets.BIOSIGPY_PROPAGATION_TOKEN }}
-          RELEASE_TARGET_COMMIT: ${{ steps.release-target.outputs.release_target_commit }}
-          VERSION: ${{ inputs.version }}
-        run: |
-          if [[ -z "${GH_TOKEN:-}" ]]; then
-            echo "BIOSIGPY_PROPAGATION_TOKEN is required to dispatch Biosigpy propagation" >&2
-            exit 1
-          fi
-          python - <<'PY' > dispatch-payload.json
-          import json
-          import os
-          import sys
-
-          json.dump(
-              {
-                  "event_type": "biosiglib-release",
-                  "client_payload": {
-                      "release": os.environ["VERSION"],
-                      "commit": os.environ["RELEASE_TARGET_COMMIT"],
-                  },
-              },
-              sys.stdout,
-          )
-          PY
-          gh api --method POST /repos/BSICoS/biosigpy/dispatches --input dispatch-payload.json

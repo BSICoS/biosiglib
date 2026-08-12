@@ -1,7 +1,6 @@
 ---
 spec_id: hrv.fillgaps
 title: Missing-event gap filling
-status: draft
 ---
 
 # Missing-event gap filling

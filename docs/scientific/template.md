@@ -8,7 +8,6 @@ Do not duplicate the full normative input, parameter, output, tolerance, or edge
 ---
 spec_id: ecg.example
 title: Human-readable method title
-status: draft
 ---
 
 # Human-readable method title

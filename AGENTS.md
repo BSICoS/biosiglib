@@ -63,10 +63,7 @@ Relative tolerances are not part of the initial design.
 - examples and workflows remain under examples/;
 - all current public functions are considered stable.
 
-17. Current pilot specifications:
-- hrv.tdmetrics;
-- ecg.pantompkins;
-- ecg.sloperange.
+17. The generated specification catalog is the authoritative inventory. Do not maintain manual subsets of current specification IDs in policy or overview documents.
 
 18. For hrv.tdmetrics:
 - the canonical input dtk is the cleaned beat-to-beat or pulse-to-pulse interval sequence in seconds;
@@ -84,7 +81,7 @@ Relative tolerances are not part of the initial design.
 
 22. All local Python tooling in Biosiglib must run inside the repository-local `.venv`. AI agents must create `.venv` when it is absent, invoke the `.venv` Python executable explicitly, and never commit `.venv` or generated Python caches. `requirements-dev.txt` remains the dependency declaration for Biosiglib tooling. CI environments, when introduced later, must install dependencies in a clean environment and must not reuse the local `.venv`. Biosigpy will also use its own independent repository-local `.venv` when its package structure is created.
 
-23. Each implementation repository will contain a machine-readable conformance manifest validated against `schemas/implementation-manifest.schema.json`. The manifest must pin an exact Biosiglib commit. Its `specifications` field is an object keyed by canonical Biosiglib specification ID; each value contains the implementation status and optional implementation-specific metadata, and object keys guarantee one entry per specification ID. `conformant` may only be declared after all applicable conformance cases pass. Implementation versions remain independent from Biosiglib versions, and no per-algorithm version is used at this stage.
+23. Each implementation repository contains a machine-readable conformance manifest validated against `schemas/implementation-manifest.schema.json`. The manifest pins one exact Biosiglib commit and declares conformance with every specification in that commit. Every shared case must be executed; partial support and implementation roadmaps belong in issues and pull requests. Implementation versions remain independent from Biosiglib versions, and no per-algorithm version is used.
 
 24. Implementation manifests must be validated through Biosiglib's `tools/validate_specs.py --manifest PATH` command instead of duplicating schema-validation code in implementation repositories.
 
