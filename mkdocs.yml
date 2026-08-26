@@ -53,7 +53,6 @@ nav:
           - NaN-aware zero-phase filter: methods/tools.nan_filtfilt.md
           - Snap to peak: methods/tools.snap_to_peak.md
   - Implementations: implementations.md
-  - Cite: citation.md
 
 markdown_extensions:
   - admonition
