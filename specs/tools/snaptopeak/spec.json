@@ -1,0 +1,96 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.snaptopeak",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Snap detections to local maxima",
+    "summary": "Refines detection sample positions by moving each detection to the maximum signal sample in a NaN-aware local search window.",
+    "description": "This tool defines local-maximum snapping used by ECG detection pipelines to refine approximate detections onto nearby R-wave maxima while treating NaN ECG samples as signal gaps.",
+    "notes": [
+      "Canonical detection positions are one-based sample positions, matching existing Biosiglib r_wave_samples fixtures and the public sample-coordinate convention.",
+      "NaN values are accepted in ecg as hard signal-gap boundaries and in detections as missing detection markers.",
+      "Inf and -Inf values in ecg or detections are invalid."
+    ],
+    "keywords": [
+      "peak refinement",
+      "sample position",
+      "ECG",
+      "R wave",
+      "local maximum"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "ecg",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 2
+        }
+      },
+      {
+        "id": "detections",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "sample",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "window_size",
+        "data_type": "real_scalar",
+        "default": 20,
+        "unit": "sample",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "refined_detections",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "sample"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "effective_window_size",
+        "text": "window_size is rounded to the nearest integer number of samples before constructing search windows."
+      },
+      {
+        "target": "finite_ecg_segment",
+        "text": "A finite ECG segment is a maximal contiguous run of ecg samples that are neither NaN nor infinite. NaN samples are hard boundaries between finite ECG segments; Inf and -Inf samples are invalid inputs."
+      },
+      {
+        "target": "search_window",
+        "text": "For each finite valid detection d that falls on a finite ECG sample, search from max(1, segment_start, d - effective_window_size) through min(length(ecg), segment_end, d + effective_window_size), inclusive on the one-based sample grid, where segment_start and segment_end are the boundaries of the finite_ecg_segment containing d."
+      },
+      {
+        "target": "refined_detection",
+        "text": "The refined detection is the one-based sample position of the first maximum-valued ECG sample inside the clipped finite search_window for that detection. If the corresponding detection is NaN, or if a finite detection falls on a NaN ECG sample, the refined detection is NaN."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaN values in ecg are allowed and act as hard segment boundaries. Snapping for a finite valid detection must search only inside the contiguous finite ECG segment containing that detection and must not omit NaNs in a way that crosses gaps. NaN values in detections are allowed missing detection markers and produce NaN in the corresponding refined_detections element. If a finite detection falls on a NaN ECG sample, the corresponding refined_detections element is NaN. Inf and -Inf values in either ecg or detections are invalid.",
+      "empty_input": "Empty ecg input is invalid. Empty detections input returns an empty refined_detections vector.",
+      "input_orientation": "Row and column vectors represent the same canonical ecg and detections sequences. refined_detections is a one-dimensional ordered vector aligned with detections.",
+      "insufficient_data": "Finite detection positions less than 1 or greater than length(ecg) are invalid. Search windows near signal boundaries or NaN ECG gaps are clipped to valid finite ECG sample positions."
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nanfiltfilt.long_nan_gap_segmentation",
+  "specification_id": "tools.nanfiltfilt",
+  "description": "Preserve a long NaN gap and zero-phase filter valid segments independently.",
+  "inputs": [
+    {
+      "id": "numerator_coefficients",
+      "value": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "denominator_coefficients",
+      "value": [
+        1
+      ]
+    },
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "pulse_case_table",
+      "column": "x_long_gap_filtfilt_filterable_segments"
+    }
+  ],
+  "parameters": {
+    "max_gap": 1
+  },
+  "expected_outputs": [
+    {
+      "id": "filtered_signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "pulse_case_table",
+      "column": "nan_filtfilt_long_gap_filterable_segments",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "filter_order = max(length([0.5, 0.5]) - 1, length([1]) - 1) = 1. The two finite segments each have length four, so they are independently filterable while the two-sample NaN gap is preserved for max_gap = 1."
+  }
+}

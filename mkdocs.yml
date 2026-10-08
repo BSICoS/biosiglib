@@ -48,11 +48,11 @@ nav:
           - Time-domain metrics: methods/hrv.tdmetrics.md
       - Utilities:
           - Expand NaN gaps: methods/tools.expandnans.md
-          - LPD filter: methods/tools.lpd_filter.md
+          - LPD filter: methods/tools.lpdfilter.md
           - Median-filter threshold: methods/tools.medfilt_threshold.md
-          - NaN-aware filter: methods/tools.nan_filter.md
-          - NaN-aware zero-phase filter: methods/tools.nan_filtfilt.md
-          - Snap to peak: methods/tools.snap_to_peak.md
+          - NaN-aware filter: methods/tools.nanfilter.md
+          - NaN-aware zero-phase filter: methods/tools.nanfiltfilt.md
+          - Snap to peak: methods/tools.snaptopeak.md
           - Trim boundary NaNs: methods/tools.trimnans.md
   - Implementations: implementations.md
   - Cite: citation.md

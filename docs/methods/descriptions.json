@@ -83,7 +83,7 @@
     "rmssd": "Root mean square of successive valid interval differences.",
     "pnn50": "Percentage of successive valid interval differences greater than 50 ms."
   },
-  "tools.lpd_filter": {
+  "tools.lpdfilter": {
     "sampling_frequency": "Sampling frequency for which the differentiating filter is designed.",
     "stop_frequency": "Frequency at which the low-pass differentiating response reaches its stop band.",
     "pass_frequency": "Optional end of the differentiating pass band.",
@@ -98,21 +98,21 @@
     "max_threshold": "Upper cap applied to the adaptive threshold.",
     "threshold": "Sample-aligned capped adaptive threshold."
   },
-  "tools.nan_filter": {
+  "tools.nanfilter": {
     "numerator_coefficients": "Numerator coefficients of the causal digital filter.",
     "denominator_coefficients": "Denominator coefficients of the causal digital filter.",
     "signal": "Signal to filter, optionally containing missing-value gaps.",
     "max_gap": "Largest internal NaN gap that will be interpolated before filtering.",
     "filtered_signal": "Causally filtered signal with long missing spans preserved."
   },
-  "tools.nan_filtfilt": {
+  "tools.nanfiltfilt": {
     "numerator_coefficients": "Numerator coefficients of the digital filter.",
     "denominator_coefficients": "Denominator coefficients of the digital filter.",
     "signal": "Signal to filter, optionally containing missing-value gaps.",
     "max_gap": "Largest internal NaN gap that will be interpolated before filtering.",
     "filtered_signal": "Zero-phase filtered signal with long missing spans preserved."
   },
-  "tools.snap_to_peak": {
+  "tools.snaptopeak": {
     "ecg": "Sampled ECG signal used to refine candidate detections.",
     "detections": "Candidate sample positions to move onto nearby ECG maxima.",
     "window_size": "Search radius around each candidate detection.",
