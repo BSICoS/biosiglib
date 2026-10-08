@@ -591,6 +591,68 @@
         "detection_nan_table analytically covers NaN detections returning NaN while finite detections are refined normally.",
         "detection_on_nan_ecg_signal_table and detection_on_nan_ecg_expected_table analytically cover finite detections that point to NaN ECG samples."
       ]
+    },
+    {
+      "id": "tools.synthetic.trimnans_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Analytical signals for boundary trimming, internal missing samples, and a single retained finite sample."
+      },
+      "files": [
+        {
+          "role": "case_table",
+          "path": "fixtures/data/tools/trimnans_cases.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "boundary_signal",
+          "unit": "a.u."
+        },
+        {
+          "id": "internal_signal",
+          "unit": "a.u."
+        },
+        {
+          "id": "single_signal",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Signals are specified directly; expected outputs follow by selecting the inclusive first-to-last finite span."
+      ]
+    },
+    {
+      "id": "tools.synthetic.expandnans_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Analytical signals for symmetric expansion of original NaN gaps and boundary clipping."
+      },
+      "files": [
+        {
+          "role": "case_table",
+          "path": "fixtures/data/tools/expandnans_cases.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "internal_signal",
+          "unit": "a.u."
+        },
+        {
+          "id": "boundary_signal",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Expected masks are the union of clipped radius neighborhoods around the original NaN positions."
+      ]
     }
   ]
 }

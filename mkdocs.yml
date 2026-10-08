@@ -47,11 +47,13 @@ nav:
           - False-positive removal: methods/hrv.removefp.md
           - Time-domain metrics: methods/hrv.tdmetrics.md
       - Utilities:
+          - Expand NaN gaps: methods/tools.expandnans.md
           - LPD filter: methods/tools.lpd_filter.md
           - Median-filter threshold: methods/tools.medfilt_threshold.md
           - NaN-aware filter: methods/tools.nan_filter.md
           - NaN-aware zero-phase filter: methods/tools.nan_filtfilt.md
           - Snap to peak: methods/tools.snap_to_peak.md
+          - Trim boundary NaNs: methods/tools.trimnans.md
   - Implementations: implementations.md
   - Cite: citation.md
 

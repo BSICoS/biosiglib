@@ -117,5 +117,15 @@
     "detections": "Candidate sample positions to move onto nearby ECG maxima.",
     "window_size": "Search radius around each candidate detection.",
     "refined_detections": "Detection positions moved to the selected local ECG maxima."
+  },
+  "tools.trimnans": {
+    "signal": "Signal whose leading and trailing missing samples will be removed.",
+    "trimmed_signal": "Unchanged span from the first through the last finite sample, preserving internal gaps."
+  },
+  "tools.expandnans": {
+    "signal": "Signal whose original missing spans will be expanded.",
+    "sampling_frequency": "Sampling frequency of the signal.",
+    "expansion_duration": "Time margin applied on each side of every original missing span.",
+    "expanded_signal": "Signal with enlarged missing spans, preserving length and sample alignment."
   }
 }

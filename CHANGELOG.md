@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+- Added tools.expandnans with analytical cases for gap expansion, boundary clipping, overlapping neighborhoods, and half-way rounding.
+
+- Added tools.trimnans with analytical shared cases and method documentation.
+
 ## v2.0.0 - 2026-08-12
 
 ### Added

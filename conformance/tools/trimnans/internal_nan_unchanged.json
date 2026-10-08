@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.trimnans.internal_nan_unchanged",
+  "specification_id": "tools.trimnans",
+  "description": "Retain the complete signal when both endpoints are finite, including its internal NaN.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.trimnans_cases",
+      "file_role": "case_table",
+      "column": "internal_signal"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "trimmed_signal",
+      "value": [
+        1,
+        2,
+        "NaN",
+        3,
+        4,
+        5,
+        6
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Select the inclusive span between the first and last finite samples and copy its values unchanged."
+  }
+}

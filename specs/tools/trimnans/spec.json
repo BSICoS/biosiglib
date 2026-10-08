@@ -1,0 +1,61 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.trimnans",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Trim boundary NaN samples",
+    "summary": "Removes leading and trailing NaN samples while preserving internal missing samples.",
+    "description": "Extracts the unchanged contiguous span from the first through the last finite sample of a one-dimensional signal.",
+    "notes": [
+      "Trimming does not interpolate gaps or remove internal NaN samples.",
+      "The output does not retain the original time offset."
+    ],
+    "keywords": [
+      "NaN",
+      "missing data",
+      "trimming"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "signal",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false
+      }
+    ],
+    "parameters": [],
+    "outputs": [
+      {
+        "id": "trimmed_signal",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      }
+    ],
+    "definitions": [
+      {
+        "target": "retained_span",
+        "text": "If signal contains finite samples, retain every sample from the first finite sample through the last finite sample, inclusive, without changing values or order."
+      },
+      {
+        "target": "trimmed_signal",
+        "text": "Return the retained span, including every internal NaN. If signal is empty or contains only NaN samples, return an empty vector. A single finite sample is sufficient."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Remove only leading and trailing NaN runs. Preserve internal NaN samples exactly. Inf, -Inf, and complex data are invalid.",
+      "empty_input": "An empty signal returns an empty trimmed_signal without warnings.",
+      "input_orientation": "Row and column vectors represent the same canonical one-dimensional sequence. Matrix and higher-dimensional inputs are outside the normative contract. trimmed_signal is a one-dimensional ordered vector; its physical orientation is implementation-specific.",
+      "insufficient_data": "An all-NaN signal returns an empty vector without warnings. One finite sample returns a one-element vector without warnings."
+    }
+  }
+}
