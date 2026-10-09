@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.spline_two_knots",
+  "specification_id": "tools.interpgap",
+  "description": "Only two finite knots are available; interpolate the straight line at both missing positions.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "two_knots",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 2
+    }
+  ],
+  "parameters": {
+    "method": "spline"
+  },
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Only two finite knots are available; interpolate the straight line at both missing positions."
+  }
+}

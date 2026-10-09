@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.pchip_original_support",
+  "specification_id": "tools.interpgap",
+  "description": "Original knots lie on x squared at positions 0,2,4,6; Hermite slopes are 0,3,7.5,12. Reconstructed samples never become support.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "multiple",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 1
+    }
+  ],
+  "parameters": {
+    "method": "pchip"
+  },
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        0,
+        1.25,
+        4,
+        8.875,
+        16,
+        24.875,
+        36
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Original knots lie on x squared at positions 0,2,4,6; Hermite slopes are 0,3,7.5,12. Reconstructed samples never become support."
+  }
+}

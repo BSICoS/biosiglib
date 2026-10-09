@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+- Added tools.interpgap with shared analytical cases for four interpolation methods, original neighboring support, and isolation across long gaps.
+
 - Breaking: renamed tools.nan_filter, tools.nan_filtfilt, tools.lpd_filter, and tools.snap_to_peak to tools.nanfilter, tools.nanfiltfilt, tools.lpdfilter, and tools.snaptopeak. Updated method pages, shared case IDs, and references without changing numerical behavior or expected outputs.
 
 - Added tools.expandnans with analytical cases for gap expansion, boundary clipping, overlapping neighborhoods, and half-way rounding.

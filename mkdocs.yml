@@ -48,6 +48,7 @@ nav:
           - Time-domain metrics: methods/hrv.tdmetrics.md
       - Utilities:
           - Expand NaN gaps: methods/tools.expandnans.md
+          - Interpolate short NaN gaps: methods/tools.interpgap.md
           - LPD filter: methods/tools.lpdfilter.md
           - Median-filter threshold: methods/tools.medfilt_threshold.md
           - NaN-aware filter: methods/tools.nanfilter.md

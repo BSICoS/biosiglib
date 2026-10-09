@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.nearest_tie_right",
+  "specification_id": "tools.interpgap",
+  "description": "The missing position is equidistant from 2 and 9; choose the right value 9.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "nonlinear",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 1
+    }
+  ],
+  "parameters": {
+    "method": "nearest"
+  },
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        0,
+        2,
+        9,
+        9,
+        20
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The missing position is equidistant from 2 and 9; choose the right value 9."
+  }
+}

@@ -127,5 +127,11 @@
     "sampling_frequency": "Sampling frequency of the signal.",
     "expansion_duration": "Time margin applied on each side of every original missing span.",
     "expanded_signal": "Signal with enlarged missing spans, preserving length and sample alignment."
+  },
+  "tools.interpgap": {
+    "signal": "Regularly sampled real signal with missing samples marked as NaN.",
+    "max_gap": "Maximum number of consecutive missing samples to reconstruct.",
+    "method": "Interpolation method: linear, nearest, pchip, or spline.",
+    "interpolated_signal": "Signal with eligible gaps reconstructed, preserving original measurements and sample alignment."
   }
 }

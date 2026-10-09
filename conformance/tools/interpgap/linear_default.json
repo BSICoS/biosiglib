@@ -1,0 +1,37 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.linear_default",
+  "specification_id": "tools.interpgap",
+  "description": "The midpoint of the bounding values 2 and 9 is 5.5.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "nonlinear",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 1
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        0,
+        2,
+        5.5,
+        9,
+        20
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The midpoint of the bounding values 2 and 9 is 5.5."
+  }
+}

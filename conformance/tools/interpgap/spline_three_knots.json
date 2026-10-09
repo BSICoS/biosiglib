@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.spline_three_knots",
+  "specification_id": "tools.interpgap",
+  "description": "With three knots on x squared, spline interpolation uses the unique quadratic and returns 1.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "three_knots",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 1
+    }
+  ],
+  "parameters": {
+    "method": "spline"
+  },
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        0,
+        1,
+        4,
+        9
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "With three knots on x squared, spline interpolation uses the unique quadratic and returns 1."
+  }
+}

@@ -653,6 +653,56 @@
       "processing": [
         "Expected masks are the union of clipped radius neighborhoods around the original NaN positions."
       ]
+    },
+    {
+      "id": "tools.synthetic.interpgap_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Analytical signals distinguishing interpolation methods, support isolation, and short-gap eligibility."
+      },
+      "files": [
+        {
+          "role": "nonlinear",
+          "path": "fixtures/data/tools/interpgap_nonlinear.csv",
+          "format": "csv"
+        },
+        {
+          "role": "boundary",
+          "path": "fixtures/data/tools/interpgap_boundary.csv",
+          "format": "csv"
+        },
+        {
+          "role": "multiple",
+          "path": "fixtures/data/tools/interpgap_multiple.csv",
+          "format": "csv"
+        },
+        {
+          "role": "barrier",
+          "path": "fixtures/data/tools/interpgap_barrier.csv",
+          "format": "csv"
+        },
+        {
+          "role": "two_knots",
+          "path": "fixtures/data/tools/interpgap_two_knots.csv",
+          "format": "csv"
+        },
+        {
+          "role": "three_knots",
+          "path": "fixtures/data/tools/interpgap_three_knots.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "signal",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Expected values follow from straight lines, nearest distances, rational Hermite slopes, and polynomial interpolation through the original finite samples."
+      ]
     }
   ]
 }

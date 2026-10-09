@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.spline_long_gap_barrier",
+  "specification_id": "tools.interpgap",
+  "description": "The two-sample gap separates a four-knot cubic from a three-knot quadratic 1000+x squared. Neither segment uses support from the other.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "barrier",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 1
+    }
+  ],
+  "parameters": {
+    "method": "spline"
+  },
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        0,
+        2,
+        4.0,
+        9,
+        20,
+        "NaN",
+        "NaN",
+        1000,
+        1001,
+        1004,
+        1009
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The two-sample gap separates a four-knot cubic from a three-knot quadratic 1000+x squared. Neither segment uses support from the other."
+  }
+}
