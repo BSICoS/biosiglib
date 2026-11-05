@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.findsequences.empty",
+  "specification_id": "tools.findsequences",
+  "description": "Empty input returns all four output components empty.",
+  "inputs": [
+    {
+      "id": "signal",
+      "value": []
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "values",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "start_positions",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "end_positions",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "lengths",
+      "value": [],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Empty input returns all four output components empty."
+  }
+}

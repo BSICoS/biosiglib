@@ -1,0 +1,92 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.findsequences",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Find repeated adjacent values",
+    "summary": "Locates maximal runs of at least two equal adjacent samples.",
+    "description": "Returns repeated values and inclusive run boundaries, retaining the established category order.",
+    "notes": [
+      "MATLAB uses one-based indices; Python uses zero-based indices. Shared cases express canonical one-based positions.",
+      "Matrix input is an optional MATLAB extension; the normative contract is a vector."
+    ],
+    "keywords": [
+      "runs",
+      "repeated values",
+      "NaN",
+      "indices"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "signal",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": true
+      }
+    ],
+    "parameters": [],
+    "outputs": [
+      {
+        "id": "values",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      },
+      {
+        "id": "start_positions",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "sample"
+      },
+      {
+        "id": "end_positions",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "sample"
+      },
+      {
+        "id": "lengths",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "sample"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "run",
+        "text": "A maximal contiguous span of at least two equal adjacent samples. Use exact numeric equality with no tolerance. Adjacent NaNs belong to the same run. Positive and negative infinity are distinct values; positive and negative zero compare equal. Omit isolated samples."
+      },
+      {
+        "target": "output_order",
+        "text": "List all nonzero finite-valued runs first, in increasing start position; then zero runs, NaN runs, positive-infinity runs, and negative-infinity runs, in that category order. Within each category use increasing start position. Do not globally sort by position or value."
+      },
+      {
+        "target": "positions",
+        "text": "start_positions and end_positions identify the first and last sample of each run, both inclusive. Implementations use native index origins: MATLAB one-based, Python zero-based. Shared conformance cases use canonical one-based coordinates; normalize implementation positions before comparison. lengths = end_positions - start_positions + 1, independently of origin."
+      },
+      {
+        "target": "values",
+        "text": "The repeated value of each run, with NaN, positive infinity, and negative infinity retained. Values are paired with their corresponding boundaries and lengths in output_order."
+      },
+      {
+        "target": "empty_result",
+        "text": "If no run exists, every output component is an empty vector. This includes empty inputs, single samples, and vectors containing only isolated values. All requested outputs must be assigned. Physical empty-array shape is implementation-specific."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Accept real numeric values including NaN, Inf and -Inf. NaN equality is special-cased for run detection. Nonnumeric inputs are invalid; complex input is outside the normative contract.",
+      "empty_input": "Return empty output vectors without warnings.",
+      "input_orientation": "Row and column vectors describe the same ordered sequence. Result components are vectors of equal length; language-specific APIs may combine them into rows [value, start, end, length]. Matrix support and physical orientation are implementation-specific.",
+      "insufficient_data": "At least two adjacent equal samples are needed for a run. A one-sample vector returns empty outputs. No interpolation, rounding or approximate equality is performed."
+    }
+  }
+}

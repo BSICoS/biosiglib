@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.findsequences.isolated_special_values",
+  "specification_id": "tools.findsequences",
+  "description": "Separated occurrences of special values are not adjacent and do not form runs.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.findsequences_cases",
+      "file_role": "separated_special",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "values",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "start_positions",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "end_positions",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "lengths",
+      "value": [],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Separated occurrences of special values are not adjacent and do not form runs."
+  }
+}

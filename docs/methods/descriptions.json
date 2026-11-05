@@ -133,5 +133,12 @@
     "max_gap": "Maximum number of consecutive missing samples to reconstruct.",
     "method": "Interpolation method: linear, nearest, pchip, or spline.",
     "interpolated_signal": "Signal with eligible gaps reconstructed, preserving original measurements and sample alignment."
+  },
+  "tools.findsequences": {
+    "signal": "Real sample sequence; NaN and both signs of infinity are accepted.",
+    "values": "Repeated values in category order.",
+    "start_positions": "Inclusive start positions using the native index origin; shared cases use one-based positions.",
+    "end_positions": "Inclusive end positions using the native index origin; shared cases use one-based positions.",
+    "lengths": "Number of samples in each maximal repeated run."
   }
 }

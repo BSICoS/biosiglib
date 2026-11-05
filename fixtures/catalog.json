@@ -703,6 +703,60 @@
       "processing": [
         "Expected values follow from straight lines, nearest distances, rational Hermite slopes, and polynomial interpolation through the original finite samples."
       ]
+    },
+    {
+      "id": "tools.synthetic.findsequences_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Exact repeated runs covering category order, maximal spans, special values and floating-point inequality."
+      },
+      "files": [
+        {
+          "role": "mixed",
+          "path": "fixtures/data/tools/findsequences_mixed.csv",
+          "format": "csv"
+        },
+        {
+          "role": "maximal",
+          "path": "fixtures/data/tools/findsequences_maximal.csv",
+          "format": "csv"
+        },
+        {
+          "role": "separated_special",
+          "path": "fixtures/data/tools/findsequences_separated_special.csv",
+          "format": "csv"
+        },
+        {
+          "role": "near_equal",
+          "path": "fixtures/data/tools/findsequences_near_equal.csv",
+          "format": "csv"
+        },
+        {
+          "role": "all_missing",
+          "path": "fixtures/data/tools/findsequences_all_missing.csv",
+          "format": "csv"
+        },
+        {
+          "role": "category_expected",
+          "path": "fixtures/data/tools/findsequences_category_expected.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "signal",
+          "unit": "a.u."
+        },
+        {
+          "id": "expected_values",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Expected runs are enumerated directly, with inclusive one-based canonical positions and category order."
+      ]
     }
   ]
 }

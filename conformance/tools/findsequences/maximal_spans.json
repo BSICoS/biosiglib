@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.findsequences.maximal_spans",
+  "specification_id": "tools.findsequences",
+  "description": "Find maximal runs including input boundaries, omit isolated values, and keep separated runs of the same value distinct.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.findsequences_cases",
+      "file_role": "maximal",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "values",
+      "value": [
+        5,
+        3,
+        5
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "start_positions",
+      "value": [
+        1,
+        5,
+        8
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "end_positions",
+      "value": [
+        3,
+        6,
+        9
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "lengths",
+      "value": [
+        3,
+        2,
+        2
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Find maximal runs including input boundaries, omit isolated values, and keep separated runs of the same value distinct."
+  }
+}
