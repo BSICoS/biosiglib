@@ -149,5 +149,11 @@
     "use_last": "Include an uncovered final window with NaN padding.",
     "window_samples": "Window samples in chronological window order, exposed as columns in MATLAB or rows in Python.",
     "time_centers": "Nominal time center of each window, in seconds from the first sample."
+  },
+  "tools.localmax": {
+    "signal": "Real vector or two-dimensional matrix of search signals.",
+    "axis": "Axis along which to search. By default, search the first non-singleton axis.",
+    "peak_values": "Highest local peak value per analyzed signal, or NaN.",
+    "peak_positions": "Original sample position per analyzed signal, using the language-native index origin, or NaN."
   }
 }

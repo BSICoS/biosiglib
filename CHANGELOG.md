@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+- Added tools.localmax with highest interior peak selection, axis semantics, and shared vector and matrix cases.
+
 - Added tools.slicesignal with shared window selection, padding and time-center cases.
 
 - Added tools.findsequences with exact equality, preserved category ordering, native implementation index origins, and shared analytical cases.

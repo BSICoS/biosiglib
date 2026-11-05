@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.localmax.empty",
+  "specification_id": "tools.localmax",
+  "description": "An empty signal is invalid.",
+  "inputs": [
+    {
+      "id": "signal",
+      "value": []
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "An empty signal is invalid."
+  },
+  "expected_error": {
+    "category": "invalid_value"
+  }
+}

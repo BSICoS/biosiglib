@@ -1,0 +1,64 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.localmax.matrix_default_columns",
+  "specification_id": "tools.localmax",
+  "description": "Search columns by default and return one result per column.",
+  "inputs": [
+    {
+      "id": "signal",
+      "value": [
+        [
+          0,
+          2,
+          0,
+          5,
+          1
+        ],
+        [
+          2,
+          1,
+          4,
+          1,
+          3
+        ],
+        [
+          1,
+          0,
+          2,
+          6,
+          4
+        ]
+      ]
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "Search columns by default and return one result per column."
+  },
+  "expected_outputs": [
+    {
+      "id": "peak_values",
+      "value": [
+        2,
+        "NaN",
+        4,
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "peak_positions",
+      "value": [
+        2,
+        "NaN",
+        2,
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

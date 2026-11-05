@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.localmax.even_plateau",
+  "specification_id": "tools.localmax",
+  "description": "Choose the earlier of two middle plateau samples.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.localmax_cases",
+      "file_role": "even_plateau",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "Choose the earlier of two middle plateau samples."
+  },
+  "expected_outputs": [
+    {
+      "id": "peak_values",
+      "value": [
+        5
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "peak_positions",
+      "value": [
+        2
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

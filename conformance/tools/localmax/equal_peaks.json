@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.localmax.equal_peaks",
+  "specification_id": "tools.localmax",
+  "description": "Equal peak heights select the first peak.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.localmax_cases",
+      "file_role": "ties",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "Equal peak heights select the first peak."
+  },
+  "expected_outputs": [
+    {
+      "id": "peak_values",
+      "value": [
+        5
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "peak_positions",
+      "value": [
+        2
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

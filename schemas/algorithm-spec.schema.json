@@ -192,6 +192,7 @@
       "enum": [
         "real_scalar",
         "real_vector",
+        "real_vector_or_matrix",
         "integer_scalar",
         "boolean",
         "string"
@@ -201,7 +202,8 @@
       "type": "string",
       "enum": [
         "scalar",
-        "vector"
+        "vector",
+        "vector_or_matrix"
       ]
     },
     "constraints": {

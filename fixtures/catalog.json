@@ -797,6 +797,61 @@
       "processing": [
         "Expected values follow from the window starts and nominal center positions."
       ]
+    },
+    {
+      "id": "tools.synthetic.localmax_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Small signals for exact local peak selection."
+      },
+      "files": [
+        {
+          "role": "highest",
+          "path": "fixtures/data/tools/localmax_highest.csv",
+          "format": "csv"
+        },
+        {
+          "role": "even_plateau",
+          "path": "fixtures/data/tools/localmax_even_plateau.csv",
+          "format": "csv"
+        },
+        {
+          "role": "missing_plateau",
+          "path": "fixtures/data/tools/localmax_missing_plateau.csv",
+          "format": "csv"
+        },
+        {
+          "role": "ties",
+          "path": "fixtures/data/tools/localmax_ties.csv",
+          "format": "csv"
+        },
+        {
+          "role": "boundary_plateau",
+          "path": "fixtures/data/tools/localmax_boundary_plateau.csv",
+          "format": "csv"
+        },
+        {
+          "role": "missing_endpoint",
+          "path": "fixtures/data/tools/localmax_missing_endpoint.csv",
+          "format": "csv"
+        },
+        {
+          "role": "infinite_neighbors",
+          "path": "fixtures/data/tools/localmax_infinite_neighbors.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "signal",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Expected heights and original positions are determined directly from neighboring samples."
+      ]
     }
   ]
 }

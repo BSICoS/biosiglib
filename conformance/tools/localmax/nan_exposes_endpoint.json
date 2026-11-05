@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.localmax.nan_exposes_endpoint",
+  "specification_id": "tools.localmax",
+  "description": "Ignoring the first missing sample exposes a boundary, not a peak.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.localmax_cases",
+      "file_role": "missing_endpoint",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "Ignoring the first missing sample exposes a boundary, not a peak."
+  },
+  "expected_outputs": [
+    {
+      "id": "peak_values",
+      "value": [
+        "NaN"
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "peak_positions",
+      "value": [
+        "NaN"
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.localmax.boundary_plateau",
+  "specification_id": "tools.localmax",
+  "description": "A plateau at a signal boundary is not a peak.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.localmax_cases",
+      "file_role": "boundary_plateau",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "A plateau at a signal boundary is not a peak."
+  },
+  "expected_outputs": [
+    {
+      "id": "peak_values",
+      "value": [
+        "NaN"
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "peak_positions",
+      "value": [
+        "NaN"
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

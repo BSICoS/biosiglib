@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.localmax",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Find the highest local maximum",
+    "summary": "Returns one peak value and position per signal along the search axis.",
+    "notes": [
+      "MATLAB uses one-based dimensions and sample positions; Python uses zero-based axes and indices.",
+      "NaN samples do not participate in peak detection, but positions refer to the original input."
+    ],
+    "keywords": [
+      "local maxima",
+      "peaks",
+      "plateaus"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "signal",
+        "data_type": "real_vector_or_matrix",
+        "shape": "vector_or_matrix",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": true
+      }
+    ],
+    "parameters": [
+      {
+        "id": "axis",
+        "data_type": "integer_scalar",
+        "default": null
+      }
+    ],
+    "outputs": [
+      {
+        "id": "peak_values",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      },
+      {
+        "id": "peak_positions",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "sample"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "search_axis",
+        "text": "Analyze each vector along the selected axis independently. If omitted, use the first axis of length greater than one, or the first axis if all are singleton. For matrices, the first axis searches each column and the second searches each row. MATLAB dimensions are numbered 1 and 2, Python axes 0 and 1. A one-dimensional Python vector has only axis 0. Shared cases express the axis as a one-based dimension."
+      },
+      {
+        "target": "peak_candidates",
+        "text": "Omit NaNs before comparing neighbors. A maximal run of one or more equal values is a peak only when it has a strictly lower adjacent value on each side in the remaining sequence. Therefore endpoints and plateaus touching an endpoint are excluded. Compare positive and negative infinity as ordered values."
+      },
+      {
+        "target": "plateau_position",
+        "text": "Select the middle sample of the peak run in the sequence after omitting NaNs. For an even run length, select the earlier of its two middle samples. Map that sample back to its original position along the selected axis."
+      },
+      {
+        "target": "peak_values",
+        "text": "For each vector, choose the peak of greatest height. For equal heights, choose the first peak in signal order. Return NaN if no peak exists. Do not filter candidates by prominence or separation."
+      },
+      {
+        "target": "peak_positions",
+        "text": "Return the original position along the search axis, one-based in MATLAB and zero-based in Python. Return NaN when there is no peak. Shared cases use one-based positions; normalize finite Python indices before comparison."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Ignore NaNs in candidate detection while preserving original sample coordinates. Real finite values and both signs of infinity are accepted.",
+      "empty_input": "Reject empty signals and matrices with an empty axis.",
+      "input_orientation": "Accept vectors and two-dimensional matrices. Outputs are listed in the order of the unsearched axis. MATLAB preserves the unsearched orientation and reduces the search dimension to length one; Python removes the searched axis and returns scalars for a one-dimensional vector. Shared output vectors have one element per analyzed signal, including length one for a single vector.",
+      "insufficient_data": "If fewer than three samples remain after removing NaNs, or if no interior peak exists, return NaN for both outputs of that signal."
+    }
+  }
+}

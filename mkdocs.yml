@@ -50,6 +50,7 @@ nav:
           - Expand NaN gaps: methods/tools.expandnans.md
           - Find repeated values: methods/tools.findsequences.md
           - Interpolate short NaN gaps: methods/tools.interpgap.md
+          - Find the highest local maximum: methods/tools.localmax.md
           - LPD filter: methods/tools.lpdfilter.md
           - Median-filter threshold: methods/tools.medfilt_threshold.md
           - NaN-aware filter: methods/tools.nanfilter.md
