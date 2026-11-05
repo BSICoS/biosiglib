@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+- Added tools.slicesignal with shared window selection, padding and time-center cases.
+
 - Added tools.findsequences with exact equality, preserved category ordering, native implementation index origins, and shared analytical cases.
 
 - Added tools.interpgap with shared analytical cases for four interpolation methods, original neighboring support, and isolation across long gaps.

@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.slicesignal.exact_coverage",
+  "specification_id": "tools.slicesignal",
+  "description": "The last complete window ends at sample 8; do not append an overlap-only window.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.slicesignal_cases",
+      "file_role": "exact",
+      "column": "signal"
+    },
+    {
+      "id": "window_length",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 2
+    }
+  ],
+  "parameters": {
+    "use_last": true
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The last complete window ends at sample 8; do not append an overlap-only window."
+  },
+  "expected_outputs": [
+    {
+      "id": "window_samples",
+      "value": [
+        1,
+        2,
+        3,
+        4,
+        3,
+        4,
+        5,
+        6,
+        5,
+        6,
+        7,
+        8
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

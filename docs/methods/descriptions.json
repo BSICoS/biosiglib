@@ -140,5 +140,14 @@
     "start_positions": "Inclusive start positions using the native index origin; shared cases use one-based positions.",
     "end_positions": "Inclusive end positions using the native index origin; shared cases use one-based positions.",
     "lengths": "Number of samples in each maximal repeated run."
+  },
+  "tools.slicesignal": {
+    "signal": "Nonempty sampled signal.",
+    "window_length": "Number of samples per window.",
+    "overlap": "Number of samples shared by consecutive windows.",
+    "sampling_frequency": "Optional sampling frequency, required to calculate time centers.",
+    "use_last": "Include an uncovered final window with NaN padding.",
+    "window_samples": "Window samples in chronological window order, exposed as columns in MATLAB or rows in Python.",
+    "time_centers": "Nominal time center of each window, in seconds from the first sample."
   }
 }

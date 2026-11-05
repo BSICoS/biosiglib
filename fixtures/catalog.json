@@ -757,6 +757,46 @@
       "processing": [
         "Expected runs are enumerated directly, with inclusive one-based canonical positions and category order."
       ]
+    },
+    {
+      "id": "tools.synthetic.slicesignal_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Small signals for exact window selection, padding and time-center checks."
+      },
+      "files": [
+        {
+          "role": "tail",
+          "path": "fixtures/data/tools/slicesignal_tail.csv",
+          "format": "csv"
+        },
+        {
+          "role": "exact",
+          "path": "fixtures/data/tools/slicesignal_exact.csv",
+          "format": "csv"
+        },
+        {
+          "role": "short",
+          "path": "fixtures/data/tools/slicesignal_short.csv",
+          "format": "csv"
+        },
+        {
+          "role": "missing",
+          "path": "fixtures/data/tools/slicesignal_missing.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "signal",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Expected values follow from the window starts and nominal center positions."
+      ]
     }
   ]
 }

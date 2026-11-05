@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.slicesignal.shorter_than_overlap",
+  "specification_id": "tools.slicesignal",
+  "description": "The nonempty signal is shorter than the overlap; pad exactly one initial window.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.slicesignal_cases",
+      "file_role": "short",
+      "column": "signal"
+    },
+    {
+      "id": "window_length",
+      "value": 5
+    },
+    {
+      "id": "overlap",
+      "value": 3
+    }
+  ],
+  "parameters": {
+    "use_last": true
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The nonempty signal is shorter than the overlap; pad exactly one initial window."
+  },
+  "expected_outputs": [
+    {
+      "id": "window_samples",
+      "value": [
+        1,
+        2,
+        "NaN",
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

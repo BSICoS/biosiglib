@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.slicesignal.preserve_nan_and_zero_center",
+  "specification_id": "tools.slicesignal",
+  "description": "Single-sample windows preserve original NaNs, and the first center is zero.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.slicesignal_cases",
+      "file_role": "missing",
+      "column": "signal"
+    },
+    {
+      "id": "window_length",
+      "value": 1
+    },
+    {
+      "id": "overlap",
+      "value": 0
+    }
+  ],
+  "parameters": {
+    "sampling_frequency": 4
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Single-sample windows preserve original NaNs, and the first center is zero."
+  },
+  "expected_outputs": [
+    {
+      "id": "window_samples",
+      "value": [
+        1,
+        "NaN",
+        3
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "time_centers",
+      "value": [
+        0,
+        0.25,
+        0.5
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true
+}

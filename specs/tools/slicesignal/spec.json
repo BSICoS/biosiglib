@@ -1,0 +1,118 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.slicesignal",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Slice a signal into windows",
+    "summary": "Extracts equally spaced, optionally overlapping windows from a sampled signal.",
+    "notes": [
+      "MATLAB stores one window per column; Python stores one window per row.",
+      "The conformance representation concatenates samples one window at a time, in signal order."
+    ],
+    "keywords": [
+      "windows",
+      "overlap",
+      "segmentation"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "signal",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": true,
+        "constraints": {
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "window_length",
+        "data_type": "integer_scalar",
+        "shape": "scalar",
+        "unit": "sample",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 1
+        }
+      },
+      {
+        "id": "overlap",
+        "data_type": "integer_scalar",
+        "shape": "scalar",
+        "unit": "sample",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "Hz",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "use_last",
+        "data_type": "boolean",
+        "default": false
+      }
+    ],
+    "outputs": [
+      {
+        "id": "window_samples",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      },
+      {
+        "id": "time_centers",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "window_grid",
+        "text": "Let W = window_length and N = length(signal). Require finite integer W > 0 and 0 <= overlap < W. Start the first window at the first sample and advance by S = W - overlap samples. List windows in ascending start order."
+      },
+      {
+        "target": "complete_windows",
+        "text": "For N >= W, return 1 + floor((N - W) / S) complete windows. If use_last is true and the last complete window does not reach the last sample, append exactly one more window at the next grid start, padding its right side with NaN. Do not append a window when the final complete window already reaches the last sample."
+      },
+      {
+        "target": "short_signal",
+        "text": "For 0 < N < W, return one window starting at the first sample and padded to length W with NaN if use_last is true, even when N <= overlap. Otherwise reject the input as insufficient_data."
+      },
+      {
+        "target": "window_samples",
+        "text": "Copy samples in their original order, including existing NaNs and infinities. Each logical window contains W samples. For conformance, concatenate the windows in order, with all W samples of one window before the next. MATLAB exposes columns and Python exposes rows."
+      },
+      {
+        "target": "time_centers",
+        "text": "For zero-based window number k, the center in seconds is (k*S + (W-1)/2) / sampling_frequency. The first input sample is at time zero. A padded window uses the center of the nominal W-sample grid. Sampling frequency must be finite and positive when supplied and is required to request centers. It does not affect window samples."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Original NaNs and infinities are copied unchanged. Only right padding adds NaN samples. No interpolation is performed.",
+      "empty_input": "An empty input is invalid even when use_last is true.",
+      "input_orientation": "Row and column inputs describe the same one-dimensional signal. MATLAB returns a W-by-window_count matrix, Python a window_count-by-W array. Each center corresponds to one window.",
+      "insufficient_data": "A nonempty signal shorter than the window requires use_last=true; otherwise no complete window exists and the function rejects the input."
+    }
+  }
+}

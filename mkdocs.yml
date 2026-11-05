@@ -54,6 +54,7 @@ nav:
           - Median-filter threshold: methods/tools.medfilt_threshold.md
           - NaN-aware filter: methods/tools.nanfilter.md
           - NaN-aware zero-phase filter: methods/tools.nanfiltfilt.md
+          - Slice a signal into windows: methods/tools.slicesignal.md
           - Snap to peak: methods/tools.snaptopeak.md
           - Trim boundary NaNs: methods/tools.trimnans.md
   - Implementations: implementations.md
