@@ -6,6 +6,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v3.0.0-beta - 2026-11-13
+
+- Added stable and beta release support with the same exact downstream-pin requirements.
+
 - Added tools.peakedness and tools.ispeaky with unrestricted reference frequencies, finite nonnegative spectra and shared analytical cases.
 
 - Added tools.nanpwelch with explicit one-sided PSD normalization, short-FFT folding, window weighting, and NaN/channel conformance cases.
