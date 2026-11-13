@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.expandnans.boundary_clipping_and_overlap",
+  "specification_id": "tools.expandnans",
+  "description": "Clip at the first sample and unite overlapping expansions without extending signal length.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.expandnans_cases",
+      "file_role": "case_table",
+      "column": "boundary_signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 10
+    },
+    {
+      "id": "expansion_duration",
+      "value": 0.4
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "expanded_signal",
+      "value": [
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        14
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The rounded radius is 4; take the union of clipped neighborhoods around the original missing samples and retain every other input value."
+  }
+}

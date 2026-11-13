@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.findsequences.exact_equality",
+  "specification_id": "tools.findsequences",
+  "description": "One and the next representable double do not match; signed zeros do match and are returned in the zero category.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.findsequences_cases",
+      "file_role": "near_equal",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "values",
+      "value": [
+        2,
+        0
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "start_positions",
+      "value": [
+        3,
+        5
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "end_positions",
+      "value": [
+        4,
+        6
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "lengths",
+      "value": [
+        2,
+        2
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "One and the next representable double do not match; signed zeros do match and are returned in the zero category."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.ispeaky.inclusive_thresholds",
+  "specification_id": "tools.ispeaky",
+  "description": "Equality passes and both criteria must pass.",
+  "inputs": [
+    {
+      "id": "pkl",
+      "value": [
+        45,
+        44,
+        60,
+        45
+      ]
+    },
+    {
+      "id": "akl",
+      "value": [
+        85,
+        90,
+        84,
+        86
+      ]
+    }
+  ],
+  "parameters": {
+    "pkl_threshold": 45,
+    "akl_threshold": 85
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Equality passes and both criteria must pass."
+  },
+  "expected_outputs": [
+    {
+      "id": "is_peaky",
+      "value": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

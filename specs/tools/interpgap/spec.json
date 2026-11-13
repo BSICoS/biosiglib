@@ -1,0 +1,98 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.interpgap",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Interpolate short NaN gaps",
+    "summary": "Reconstructs short internal missing spans using original neighboring samples.",
+    "description": "Interpolates eligible gaps independently within segments separated by long missing spans.",
+    "notes": [
+      "The normative contract is one-dimensional.",
+      "Cubic methods use the original finite samples throughout each segment."
+    ],
+    "keywords": [
+      "NaN",
+      "interpolation",
+      "missing data"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "signal",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false
+      },
+      {
+        "id": "max_gap",
+        "data_type": "integer_scalar",
+        "shape": "scalar",
+        "unit": "sample",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "method",
+        "data_type": "string",
+        "default": "linear"
+      }
+    ],
+    "outputs": [
+      {
+        "id": "interpolated_signal",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      }
+    ],
+    "definitions": [
+      {
+        "target": "eligible_gap",
+        "text": "An original contiguous NaN run is eligible only when bounded by finite samples and its number of missing samples is at most max_gap. Boundary runs and longer runs remain NaN."
+      },
+      {
+        "target": "interpolation_support",
+        "text": "Preserved NaN runs split the input into independent segments. Use all original finite samples in the same segment, at their original integer sample positions. Never use reconstructed samples as support, or support across a preserved gap."
+      },
+      {
+        "target": "linear",
+        "text": "Piecewise linear interpolation between the two finite samples bounding each missing position."
+      },
+      {
+        "target": "nearest",
+        "text": "Choose the closest original finite sample in the segment. Equal distances select the sample at the larger index."
+      },
+      {
+        "target": "pchip",
+        "text": "Shape-preserving piecewise cubic Hermite interpolation. For knots x_i, values y_i, widths h_i and secant slopes delta_i, an interior derivative is zero if adjacent secants differ in sign or either is zero; otherwise use the weighted harmonic mean (w1+w2)/(w1/delta_(i-1)+w2/delta_i), with w1=2*h_i+h_(i-1), w2=h_i+2*h_(i-1). The first derivative is ((2*h_0+h_1)*delta_0-h_0*delta_1)/(h_0+h_1), set to zero if its sign differs from delta_0 and limited to 3*delta_0 when the first two secants differ in sign and its magnitude exceeds 3*abs(delta_0). Apply the mirrored rule at the last knot. Evaluate the cubic Hermite polynomial between knots. With two knots, use linear interpolation."
+      },
+      {
+        "target": "spline",
+        "text": "Interpolate using a cubic spline with not-a-knot boundary conditions: the first two polynomial pieces coincide and the last two coincide. With three knots, use the unique quadratic through them; with two knots, use linear interpolation."
+      },
+      {
+        "target": "interpolated_signal",
+        "text": "Copy signal and replace only eligible missing samples. All original finite values and all preserved NaNs remain unchanged. Preserve sample order and length."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Accept real finite samples and NaN; reject infinity and complex data. Validate all inputs even on identity paths. max_gap must be finite, integral and nonnegative; method must be one of the four supported methods.",
+      "empty_input": "An empty signal returns an empty interpolated_signal without warnings.",
+      "input_orientation": "Row and column vectors represent the same canonical one-dimensional sequence. Physical orientation is implementation-specific; matrices are outside the normative contract.",
+      "insufficient_data": "Empty, all-NaN and NaN-free signals, max_gap=0, and segments with fewer than two finite samples retain their original values without warnings. Two finite knots permit every supported method; spline uses a quadratic with three knots."
+    }
+  }
+}

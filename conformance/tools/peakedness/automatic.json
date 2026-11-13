@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.automatic",
+  "specification_id": "tools.peakedness",
+  "description": "The automatic center is 0.25 Hz: narrow power 8 and wide power 17.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "pxx"
+    },
+    {
+      "id": "f",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "f"
+    }
+  ],
+  "parameters": {
+    "window": 0.5
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The automatic center is 0.25 Hz: narrow power 8 and wide power 17."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        47.05882352941177
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        100
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

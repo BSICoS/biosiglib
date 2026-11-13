@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.first_tied_maximum",
+  "specification_id": "tools.peakedness",
+  "description": "The first of the tied maxima centers a band with power 5, rather than the second band with power 6.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "ties"
+    },
+    {
+      "id": "f",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "f"
+    }
+  ],
+  "parameters": {
+    "window": 0.5
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The first of the tied maxima centers a band with power 5, rather than the second band with power 6."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        80
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        100
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

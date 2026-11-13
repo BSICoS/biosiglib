@@ -1,0 +1,101 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.hjorth",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Compute Hjorth descriptors",
+    "summary": "Returns mean signal power, mobility, and a frequency-spread descriptor from finite differences.",
+    "notes": [
+      "The input is not centered internally. Remove the baseline beforehand when its contribution to power is not wanted.",
+      "Complexity here is a frequency-scale descriptor, not the dimensionless ratio of mobilities."
+    ],
+    "keywords": [
+      "Hjorth",
+      "signal power",
+      "mobility",
+      "frequency spread"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "hjorth_1970",
+        "relation": "scientific_context",
+        "note": "Introduces the time-domain descriptor framework; the discrete energy estimator and edge cases are defined here."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "signal",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [],
+    "outputs": [
+      {
+        "id": "activity",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "a.u.^2"
+      },
+      {
+        "id": "mobility",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz"
+      },
+      {
+        "id": "complexity",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "difference_energies",
+        "text": "For a finite real vector x of length N, let e0 = sum(x^2), e1 = sum(diff(x)^2), and e2 = sum(diff(diff(x))^2), where powers are elementwise and diff takes consecutive forward differences. Do not center the signal, extend the boundaries, or join samples across missing data. Compute differences in floating point."
+      },
+      {
+        "target": "activity",
+        "text": "Return e0 / N, the mean-square power of the input, without a 2*pi factor. A finite singleton has activity equal to its squared value."
+      },
+      {
+        "target": "mobility",
+        "text": "For N >= 2 and e0 > 0, return sqrt(e1/e0) * sampling_frequency/(2*pi). Otherwise return NaN."
+      },
+      {
+        "target": "complexity",
+        "text": "For N >= 3, e0 > 0 and e1 > 0, return sqrt(abs(e2/e1 - e1/e0)) * sampling_frequency/(2*pi). Otherwise return NaN. The absolute value applies to the full difference of ratios, including when the difference is negative."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Validate inputs first. If any signal sample is NaN, return NaN for all three outputs; do not omit or interpolate missing samples. Infinite and complex inputs are invalid.",
+      "empty_input": "Reject empty signals.",
+      "input_orientation": "Row and column vectors describe the same sample sequence. All outputs are scalars.",
+      "insufficient_data": "A finite singleton returns its squared value and two NaNs. A length-two signal has undefined complexity. An all-zero signal has zero activity and NaN mobility and complexity. A nonzero constant of length at least two has finite positive activity, zero mobility, and NaN complexity."
+    }
+  }
+}

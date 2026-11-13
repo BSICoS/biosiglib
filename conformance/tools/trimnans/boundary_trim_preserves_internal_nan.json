@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.trimnans.boundary_trim_preserves_internal_nan",
+  "specification_id": "tools.trimnans",
+  "description": "Trim asymmetric boundary NaN runs without removing the internal missing sample.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.trimnans_cases",
+      "file_role": "case_table",
+      "column": "boundary_signal"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "trimmed_signal",
+      "value": [
+        1,
+        2,
+        "NaN",
+        3
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Select the inclusive span between the first and last finite samples and copy its values unchanged."
+  }
+}

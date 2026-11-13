@@ -1,0 +1,8 @@
+boundary_signal,internal_signal,single_signal
+NaN,1,NaN
+NaN,2,NaN
+1,NaN,NaN
+2,3,5
+NaN,4,NaN
+3,5,NaN
+NaN,6,NaN

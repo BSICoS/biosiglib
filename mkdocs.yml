@@ -39,6 +39,8 @@ nav:
           - Baseline removal: methods/ecg.baselineremove.md
           - Pan-Tompkins detector: methods/ecg.pantompkins.md
           - Slope-range respiration: methods/ecg.sloperange.md
+      - PPG:
+          - Hjorth artifact detection: methods/ppg.hjorth_artifacts.md
       - HRV:
           - Frequency-domain metrics: methods/hrv.fdmetrics.md
           - Gap filling: methods/hrv.fillgaps.md
@@ -47,11 +49,21 @@ nav:
           - False-positive removal: methods/hrv.removefp.md
           - Time-domain metrics: methods/hrv.tdmetrics.md
       - Utilities:
-          - LPD filter: methods/tools.lpd_filter.md
+          - Expand NaN gaps: methods/tools.expandnans.md
+          - Find repeated values: methods/tools.findsequences.md
+          - Compute Hjorth descriptors: methods/tools.hjorth.md
+          - Interpolate short NaN gaps: methods/tools.interpgap.md
+          - Find the highest local maximum: methods/tools.localmax.md
+          - LPD filter: methods/tools.lpdfilter.md
           - Median-filter threshold: methods/tools.medfilt_threshold.md
-          - NaN-aware filter: methods/tools.nan_filter.md
-          - NaN-aware zero-phase filter: methods/tools.nan_filtfilt.md
-          - Snap to peak: methods/tools.snap_to_peak.md
+          - NaN-aware filter: methods/tools.nanfilter.md
+          - NaN-aware zero-phase filter: methods/tools.nanfiltfilt.md
+          - Slice a signal into windows: methods/tools.slicesignal.md
+          - Measure spectral peakedness: methods/tools.peakedness.md
+          - Classify spectral peakedness: methods/tools.ispeaky.md
+          - PSD across NaN gaps: methods/tools.nanpwelch.md
+          - Snap to peak: methods/tools.snaptopeak.md
+          - Trim boundary NaNs: methods/tools.trimnans.md
   - Implementations: implementations.md
 
 markdown_extensions:

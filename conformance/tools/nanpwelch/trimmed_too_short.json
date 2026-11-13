@@ -1,0 +1,61 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nanpwelch.trimmed_too_short",
+  "specification_id": "tools.nanpwelch",
+  "description": "Boundary trimming leaves two samples, shorter than a full window.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nanpwelch_cases",
+      "file_role": "trim_short",
+      "column": "signal"
+    },
+    {
+      "id": "window",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 0
+    },
+    {
+      "id": "nfft",
+      "value": 4
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "psd",
+      "value": [],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "frequencies",
+      "value": [],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "window_psd",
+      "value": [],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Boundary trimming leaves two samples, shorter than a full window."
+  },
+  "expected_warnings": [
+    {
+      "id": "signal_too_short",
+      "affected_ids": [
+        "signal"
+      ]
+    }
+  ]
+}

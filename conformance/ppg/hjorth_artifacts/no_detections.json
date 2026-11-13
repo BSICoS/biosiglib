@@ -1,0 +1,81 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.hjorth_artifacts.no_detections",
+  "specification_id": "ppg.hjorth_artifacts",
+  "description": "Wide margins admit all finite windows.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "ppg.synthetic.hjorth_artifacts_cases",
+      "file_role": "clean",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 1
+    },
+    {
+      "id": "window_duration",
+      "value": 3.0
+    },
+    {
+      "id": "step_duration",
+      "value": 3.0
+    },
+    {
+      "id": "margins",
+      "value": [
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ]
+      ]
+    }
+  ],
+  "parameters": {
+    "median_filter_order": 3
+  },
+  "expected_outputs": [
+    {
+      "id": "artifact_mask",
+      "value": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "artifact_starts",
+      "value": [],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "artifact_ends",
+      "value": [],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Wide margins admit all finite windows."
+  }
+}

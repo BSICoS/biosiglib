@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.slicesignal.empty_with_padding",
+  "specification_id": "tools.slicesignal",
+  "description": "Padding does not create a window for an empty signal.",
+  "inputs": [
+    {
+      "id": "signal",
+      "value": []
+    },
+    {
+      "id": "window_length",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 2
+    }
+  ],
+  "parameters": {
+    "use_last": true
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Padding does not create a window for an empty signal."
+  },
+  "expected_error": {
+    "category": "invalid_value"
+  }
+}

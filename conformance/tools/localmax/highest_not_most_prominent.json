@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.localmax.highest_not_most_prominent",
+  "specification_id": "tools.localmax",
+  "description": "The higher interior peak wins, irrespective of prominence.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.localmax_cases",
+      "file_role": "highest",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "The higher interior peak wins, irrespective of prominence."
+  },
+  "expected_outputs": [
+    {
+      "id": "peak_values",
+      "value": [
+        8
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "peak_positions",
+      "value": [
+        4
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

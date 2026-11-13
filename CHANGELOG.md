@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## Unreleased
+
+## v3.0.0-beta - 2026-11-13
+
+- Added stable and beta release support with the same exact downstream-pin requirements.
+
+- Added tools.peakedness and tools.ispeaky with unrestricted reference frequencies, finite nonnegative spectra and shared analytical cases.
+
+- Added tools.nanpwelch with explicit one-sided PSD normalization, short-FFT folding, window weighting, and NaN/channel conformance cases.
+
+- Added ppg.hjorth_artifacts with temporal merging, NaN-window exclusion and shared analytical cases.
+
+- Updated tools.snaptopeak to specify native index origins: one-based MATLAB positions and zero-based Python positions, with canonical shared-case normalization.
+
+- Added tools.hjorth with mean-square activity, difference-energy ratios, and shared analytical edge cases.
+
+- Added tools.localmax with highest interior peak selection, axis semantics, and shared vector and matrix cases.
+
+- Added tools.slicesignal with shared window selection, padding and time-center cases.
+
+- Added tools.findsequences with exact equality, preserved category ordering, native implementation index origins, and shared analytical cases.
+
+- Added tools.interpgap with shared analytical cases for four interpolation methods, original neighboring support, and isolation across long gaps.
+
+- Breaking: renamed tools.nan_filter, tools.nan_filtfilt, tools.lpd_filter, and tools.snap_to_peak to tools.nanfilter, tools.nanfiltfilt, tools.lpdfilter, and tools.snaptopeak. Updated method pages, shared case IDs, and references without changing numerical behavior or expected outputs.
+
+- Added tools.expandnans with analytical cases for gap expansion, boundary clipping, overlapping neighborhoods, and half-way rounding.
+
+- Added tools.trimnans with analytical shared cases and method documentation.
+
 ## v2.0.0 - 2026-08-12
 
 ### Added

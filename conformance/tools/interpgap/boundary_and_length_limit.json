@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.boundary_and_length_limit",
+  "specification_id": "tools.interpgap",
+  "description": "Only the internal single missing sample is eligible. Preserve both boundary gaps and the two-sample internal gap.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "boundary",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 1
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        "NaN",
+        0,
+        2,
+        4,
+        "NaN",
+        "NaN",
+        10,
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Only the internal single missing sample is eligible. Preserve both boundary gaps and the two-sample internal gap."
+  }
+}

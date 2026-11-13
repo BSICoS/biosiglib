@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.findsequences.single_sample",
+  "specification_id": "tools.findsequences",
+  "description": "A single sample cannot form a repeated run.",
+  "inputs": [
+    {
+      "id": "signal",
+      "value": [
+        7
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "values",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "start_positions",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "end_positions",
+      "value": [],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "lengths",
+      "value": [],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "A single sample cannot form a repeated run."
+  }
+}

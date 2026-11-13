@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.localmax.matrix_rows",
+  "specification_id": "tools.localmax",
+  "description": "Search rows when the second axis is requested.",
+  "inputs": [
+    {
+      "id": "signal",
+      "value": [
+        [
+          0,
+          2,
+          0,
+          5,
+          1
+        ],
+        [
+          2,
+          1,
+          4,
+          1,
+          3
+        ],
+        [
+          1,
+          0,
+          2,
+          6,
+          4
+        ]
+      ]
+    }
+  ],
+  "parameters": {
+    "axis": 2
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Search rows when the second axis is requested."
+  },
+  "expected_outputs": [
+    {
+      "id": "peak_values",
+      "value": [
+        5,
+        4,
+        6
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "peak_positions",
+      "value": [
+        4,
+        3,
+        4
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

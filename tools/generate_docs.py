@@ -15,11 +15,7 @@ METHOD_RESOURCES_MARKER = "<!-- BIOSIGLIB METHOD RESOURCES -->"
 METHOD_CATALOG_MARKER = "<!-- BIOSIGLIB METHOD CATALOG -->"
 DESCRIPTION_PATH = REPOSITORY_ROOT / "docs" / "methods" / "descriptions.json"
 MATLAB_NAMES = {
-    "tools.lpd_filter": "lpdfilter",
     "tools.medfilt_threshold": "medfiltThreshold",
-    "tools.nan_filter": "nanfilter",
-    "tools.nan_filtfilt": "nanfiltfilt",
-    "tools.snap_to_peak": "snaptopeak",
 }
 
 

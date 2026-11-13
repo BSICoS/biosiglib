@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.hjorth.energy_ratios",
+  "specification_id": "tools.hjorth",
+  "description": "Energies are 6, 4 and 4, and fs/(2*pi) is 2.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.hjorth_cases",
+      "file_role": "oscillating",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 12.566370614359172
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "Energies are 6, 4 and 4, and fs/(2*pi) is 2."
+  },
+  "expected_outputs": [
+    {
+      "id": "activity",
+      "value": 1.2,
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "mobility",
+      "value": 1.632993161855452,
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "complexity",
+      "value": 1.1547005383792515,
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true
+}

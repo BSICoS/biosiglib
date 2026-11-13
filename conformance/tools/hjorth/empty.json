@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.hjorth.empty",
+  "specification_id": "tools.hjorth",
+  "description": "An empty signal is invalid.",
+  "inputs": [
+    {
+      "id": "signal",
+      "value": []
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 6.283185307179586
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "An empty signal is invalid."
+  },
+  "expected_error": {
+    "category": "invalid_value"
+  }
+}

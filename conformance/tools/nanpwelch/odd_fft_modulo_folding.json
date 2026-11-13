@@ -1,0 +1,64 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nanpwelch.odd_fft_modulo_folding",
+  "specification_id": "tools.nanpwelch",
+  "description": "Four ones fold to [2,1,1]. The non-DC retained bin is doubled.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nanpwelch_cases",
+      "file_role": "constant",
+      "column": "signal"
+    },
+    {
+      "id": "window",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 0
+    },
+    {
+      "id": "nfft",
+      "value": 3
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "psd",
+      "value": [
+        1,
+        0.125
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "frequencies",
+      "value": [
+        0,
+        1.3333333333333333
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "window_psd",
+      "value": [
+        1,
+        0.125,
+        1,
+        0.125
+      ],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Four ones fold to [2,1,1]. The non-DC retained bin is doubled."
+  }
+}

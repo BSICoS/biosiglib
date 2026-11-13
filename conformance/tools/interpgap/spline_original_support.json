@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.spline_original_support",
+  "specification_id": "tools.interpgap",
+  "description": "All original knots lie on x squared, so the not-a-knot spline recovers that polynomial at every missing position.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "multiple",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 1
+    }
+  ],
+  "parameters": {
+    "method": "spline"
+  },
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        0,
+        1,
+        4,
+        9,
+        16,
+        25,
+        36
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "All original knots lie on x squared, so the not-a-knot spline recovers that polynomial at every missing position."
+  }
+}

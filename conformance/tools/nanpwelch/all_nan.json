@@ -1,0 +1,53 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nanpwelch.all_nan",
+  "specification_id": "tools.nanpwelch",
+  "description": "All missing data returns empty outputs silently.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nanpwelch_cases",
+      "file_role": "all_nan",
+      "column": "signal"
+    },
+    {
+      "id": "window",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 0
+    },
+    {
+      "id": "nfft",
+      "value": 4
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "psd",
+      "value": [],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "frequencies",
+      "value": [],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "window_psd",
+      "value": [],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "All missing data returns empty outputs silently."
+  }
+}

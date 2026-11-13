@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.trimnans.single_finite_span",
+  "specification_id": "tools.trimnans",
+  "description": "Retain one finite sample surrounded by NaN runs.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.trimnans_cases",
+      "file_role": "case_table",
+      "column": "single_signal"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "trimmed_signal",
+      "value": [
+        5
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Select the inclusive span between the first and last finite samples and copy its values unchanged."
+  }
+}

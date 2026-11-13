@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.interpgap.pchip_neighbor_support",
+  "specification_id": "tools.interpgap",
+  "description": "Hermite endpoint derivatives at the gap are 42/17 and 231/41; its midpoint is 11/2+(42/17-231/41)/4.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.interpgap_cases",
+      "file_role": "nonlinear",
+      "column": "signal"
+    },
+    {
+      "id": "max_gap",
+      "value": 1
+    }
+  ],
+  "parameters": {
+    "method": "pchip"
+  },
+  "expected_outputs": [
+    {
+      "id": "interpolated_signal",
+      "value": [
+        0,
+        2,
+        4.709110473457676,
+        9,
+        20
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Hermite endpoint derivatives at the gap are 42/17 and 231/41; its midpoint is 11/2+(42/17-231/41)/4."
+  }
+}

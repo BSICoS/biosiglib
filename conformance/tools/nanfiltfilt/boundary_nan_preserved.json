@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nanfiltfilt.boundary_nan_preserved",
+  "specification_id": "tools.nanfiltfilt",
+  "description": "Preserve boundary NaN gaps as NaN and do not linearly extrapolate them before zero-phase filtering.",
+  "inputs": [
+    {
+      "id": "numerator_coefficients",
+      "value": [
+        1
+      ]
+    },
+    {
+      "id": "denominator_coefficients",
+      "value": [
+        1
+      ]
+    },
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "pulse_case_table",
+      "column": "x_boundary_nan"
+    }
+  ],
+  "parameters": {
+    "max_gap": 1
+  },
+  "expected_outputs": [
+    {
+      "id": "filtered_signal",
+      "fixture_id": "tools.synthetic.nan_filtering_cases",
+      "file_role": "pulse_case_table",
+      "column": "nan_filtfilt_boundary_nan",
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The identity zero-phase filter preserves finite samples, and boundary NaN gaps are preserved by definition."
+  }
+}

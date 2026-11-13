@@ -1,0 +1,168 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "ppg.hjorth_artifacts",
+    "module": "ppg"
+  },
+  "informative": {
+    "title": "Detect artifacts using Hjorth descriptors",
+    "summary": "Compares windowed Hjorth descriptors with local median baselines and merges detected sample intervals.",
+    "notes": [
+      "Margins are absolute offsets, not multiplicative factors.",
+      "The signal is centered globally, not separately inside each window."
+    ],
+    "keywords": [
+      "PPG",
+      "artifacts",
+      "Hjorth"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "hjorth_1970",
+        "relation": "scientific_context"
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "signal",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "window_duration",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "s",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "step_duration",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "s",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "margins",
+        "data_type": "real_vector_or_matrix",
+        "shape": "vector_or_matrix",
+        "unit": "mixed",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "min_segment_separation",
+        "data_type": "real_scalar",
+        "default": 0,
+        "unit": "s",
+        "constraints": {
+          "minimum": 0
+        }
+      },
+      {
+        "id": "median_filter_order",
+        "data_type": "integer_scalar",
+        "default": 300,
+        "unit": "window",
+        "constraints": {
+          "minimum": 1
+        }
+      },
+      {
+        "id": "negative",
+        "data_type": "boolean",
+        "default": false
+      }
+    ],
+    "outputs": [
+      {
+        "id": "artifact_mask",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "1"
+      },
+      {
+        "id": "artifact_starts",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      },
+      {
+        "id": "artifact_ends",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "analysis_windows",
+        "text": "Let W=floor(window_duration*sampling_frequency) and S=floor(step_duration*sampling_frequency). Require W>=3, S>=1 and at least W input samples. Analyze full windows starting at zero-based positions k*S for k=0,...,floor((N-W)/S). Do not pad or analyze an incomplete tail. Steps longer than windows are allowed; uncovered samples are unmarked unless spanned by merging."
+      },
+      {
+        "target": "hjorth_descriptors",
+        "text": "Subtract the global mean of all non-NaN samples before windowing. If all samples are NaN, retain NaNs. Apply tools.hjorth independently to each complete window. Do not center each window again."
+      },
+      {
+        "target": "median_baseline",
+        "text": "For each descriptor sequence, at zero-based index k use indices max(0,k-floor(order/2)) through min(last,k+floor((order-1)/2)), inclusive. Truncate at boundaries, omit NaNs, and use the arithmetic mean of the two middle values when the remaining count is even. An empty remaining set gives NaN. Do not shorten the requested order to sequence length."
+      },
+      {
+        "target": "margins",
+        "text": "Require a finite nonnegative 3-by-2 matrix with lower and upper absolute margins for activity, mobility and complexity. Subtract/add each margin from/to its own median baseline. Replace activity lower thresholds <=0 with 0.0001; no floor applies to mobility or complexity."
+      },
+      {
+        "target": "window_decision",
+        "text": "Mark a window if any descriptor is strictly below its lower threshold or above its upper threshold. Comparisons involving NaN are false. If negative=true, invert this threshold decision. Independently of negative, always mark any window containing at least one NaN input sample. Undefined descriptors in windows without NaNs keep comparison behavior; do not automatically mark such windows solely because a ratio is undefined."
+      },
+      {
+        "target": "interval_merging",
+        "text": "Convert each marked window to its inclusive sample interval and process in start order. Merge overlapping or contiguous intervals. For separated intervals compute gap_samples = next_start-current_end-1 and merge if gap_samples/sampling_frequency < min_segment_separation, strictly. Filling such a gap marks its samples as artifacts. Zero separation merges only overlap and contiguity."
+      },
+      {
+        "target": "outputs",
+        "text": "artifact_mask has input length and binary values indicating the union of merged intervals. Interval start/end times are the first and last included sample coordinates divided by sampling_frequency on the zero-origin time grid. Intervals are ordered, disjoint and maximal under the merging rule. No detections returns a zero mask and empty starts/ends. MATLAB may expose a numeric 0/1 mask and combined interval matrix; Python exposes a boolean mask and an (n,2) interval array."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Allow NaN samples and mark every full window containing them, even in negative mode. Infinite and complex inputs are invalid. Exclude NaNs from the global mean and median baselines.",
+      "empty_input": "Reject empty signals.",
+      "input_orientation": "Row and column input vectors describe the same sequence. MATLAB preserves mask orientation; Python returns a one-dimensional mask. Interval times are independent of sample index origin.",
+      "insufficient_data": "Reject signals shorter than a complete window, W<3 and S<1. Finite degenerate windows use the undefined descriptor rules from tools.hjorth, ordinary comparisons, and the activity threshold floor."
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.hjorth_artifacts.default_separation",
+  "specification_id": "ppg.hjorth_artifacts",
+  "description": "NaNs mark two windows; the three intervening samples remain unmarked at default zero separation.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "ppg.synthetic.hjorth_artifacts_cases",
+      "file_role": "separated",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 2
+    },
+    {
+      "id": "window_duration",
+      "value": 1.5
+    },
+    {
+      "id": "step_duration",
+      "value": 1.5
+    },
+    {
+      "id": "margins",
+      "value": [
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ]
+      ]
+    }
+  ],
+  "parameters": {
+    "median_filter_order": 3
+  },
+  "expected_outputs": [
+    {
+      "id": "artifact_mask",
+      "value": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "artifact_starts",
+      "value": [
+        0.0,
+        3.0
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "artifact_ends",
+      "value": [
+        1.0,
+        4.0
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "NaNs mark two windows; the three intervening samples remain unmarked at default zero separation."
+  }
+}

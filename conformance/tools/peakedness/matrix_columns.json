@@ -1,0 +1,82 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.matrix_columns",
+  "specification_id": "tools.peakedness",
+  "description": "Process nonzero and zero spectra independently, preserving column order.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "value": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          2,
+          4,
+          0
+        ],
+        [
+          8,
+          0,
+          0
+        ],
+        [
+          4,
+          1,
+          0
+        ],
+        [
+          2,
+          4,
+          0
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "f",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "f"
+    }
+  ],
+  "parameters": {
+    "window": 0.5
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Process nonzero and zero spectra independently, preserving column order."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        47.05882352941177,
+        80,
+        0
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        100,
+        100,
+        0
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.findsequences.all_nan",
+  "specification_id": "tools.findsequences",
+  "description": "All missing samples form one maximal NaN run.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.findsequences_cases",
+      "file_role": "all_missing",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "values",
+      "value": [
+        "NaN"
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "start_positions",
+      "value": [
+        1
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "end_positions",
+      "value": [
+        3
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "lengths",
+      "value": [
+        3
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "All missing samples form one maximal NaN run."
+  }
+}

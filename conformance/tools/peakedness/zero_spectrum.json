@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.zero_spectrum",
+  "specification_id": "tools.peakedness",
+  "description": "A zero spectrum returns both measures as zero.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "zero"
+    },
+    {
+      "id": "f",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "f"
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "A zero spectrum returns both measures as zero."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        0
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        0
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

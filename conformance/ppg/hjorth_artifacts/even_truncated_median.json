@@ -1,0 +1,82 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.hjorth_artifacts.even_truncated_median",
+  "specification_id": "ppg.hjorth_artifacts",
+  "description": "Order two uses the previous and current values; the first window is unchanged and only the high middle power exceeds the upper margin.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "ppg.synthetic.hjorth_artifacts_cases",
+      "file_role": "power",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 1
+    },
+    {
+      "id": "window_duration",
+      "value": 3.0
+    },
+    {
+      "id": "step_duration",
+      "value": 3.0
+    },
+    {
+      "id": "margins",
+      "value": [
+        [
+          100,
+          0.1
+        ],
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ]
+      ]
+    }
+  ],
+  "parameters": {
+    "median_filter_order": 2
+  },
+  "expected_outputs": [
+    {
+      "id": "artifact_mask",
+      "value": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "artifact_starts",
+      "value": [
+        3.0
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "artifact_ends",
+      "value": [
+        5.0
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Order two uses the previous and current values; the first window is unchanged and only the high middle power exceeds the upper margin."
+  }
+}

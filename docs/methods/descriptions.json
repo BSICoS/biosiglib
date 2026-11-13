@@ -83,7 +83,7 @@
     "rmssd": "Root mean square of successive valid interval differences.",
     "pnn50": "Percentage of successive valid interval differences greater than 50 ms."
   },
-  "tools.lpd_filter": {
+  "tools.lpdfilter": {
     "sampling_frequency": "Sampling frequency for which the differentiating filter is designed.",
     "stop_frequency": "Frequency at which the low-pass differentiating response reaches its stop band.",
     "pass_frequency": "Optional end of the differentiating pass band.",
@@ -98,24 +98,108 @@
     "max_threshold": "Upper cap applied to the adaptive threshold.",
     "threshold": "Sample-aligned capped adaptive threshold."
   },
-  "tools.nan_filter": {
+  "tools.nanfilter": {
     "numerator_coefficients": "Numerator coefficients of the causal digital filter.",
     "denominator_coefficients": "Denominator coefficients of the causal digital filter.",
     "signal": "Signal to filter, optionally containing missing-value gaps.",
     "max_gap": "Largest internal NaN gap that will be interpolated before filtering.",
     "filtered_signal": "Causally filtered signal with long missing spans preserved."
   },
-  "tools.nan_filtfilt": {
+  "tools.nanfiltfilt": {
     "numerator_coefficients": "Numerator coefficients of the digital filter.",
     "denominator_coefficients": "Denominator coefficients of the digital filter.",
     "signal": "Signal to filter, optionally containing missing-value gaps.",
     "max_gap": "Largest internal NaN gap that will be interpolated before filtering.",
     "filtered_signal": "Zero-phase filtered signal with long missing spans preserved."
   },
-  "tools.snap_to_peak": {
+  "tools.snaptopeak": {
     "ecg": "Sampled ECG signal used to refine candidate detections.",
-    "detections": "Candidate sample positions to move onto nearby ECG maxima.",
+    "detections": "Candidate sample positions, one-based in MATLAB and zero-based in Python.",
     "window_size": "Search radius around each candidate detection.",
-    "refined_detections": "Detection positions moved to the selected local ECG maxima."
+    "refined_detections": "Refined sample positions using the same native index origin as the input detections."
+  },
+  "tools.trimnans": {
+    "signal": "Signal whose leading and trailing missing samples will be removed.",
+    "trimmed_signal": "Unchanged span from the first through the last finite sample, preserving internal gaps."
+  },
+  "tools.expandnans": {
+    "signal": "Signal whose original missing spans will be expanded.",
+    "sampling_frequency": "Sampling frequency of the signal.",
+    "expansion_duration": "Time margin applied on each side of every original missing span.",
+    "expanded_signal": "Signal with enlarged missing spans, preserving length and sample alignment."
+  },
+  "tools.interpgap": {
+    "signal": "Regularly sampled real signal with missing samples marked as NaN.",
+    "max_gap": "Maximum number of consecutive missing samples to reconstruct.",
+    "method": "Interpolation method: linear, nearest, pchip, or spline.",
+    "interpolated_signal": "Signal with eligible gaps reconstructed, preserving original measurements and sample alignment."
+  },
+  "tools.findsequences": {
+    "signal": "Real sample sequence; NaN and both signs of infinity are accepted.",
+    "values": "Repeated values in category order.",
+    "start_positions": "Inclusive start positions using the native index origin; shared cases use one-based positions.",
+    "end_positions": "Inclusive end positions using the native index origin; shared cases use one-based positions.",
+    "lengths": "Number of samples in each maximal repeated run."
+  },
+  "tools.slicesignal": {
+    "signal": "Nonempty sampled signal.",
+    "window_length": "Number of samples per window.",
+    "overlap": "Number of samples shared by consecutive windows.",
+    "sampling_frequency": "Optional sampling frequency, required to calculate time centers.",
+    "use_last": "Include an uncovered final window with NaN padding.",
+    "window_samples": "Window samples in chronological window order, exposed as columns in MATLAB or rows in Python.",
+    "time_centers": "Nominal time center of each window, in seconds from the first sample."
+  },
+  "tools.localmax": {
+    "signal": "Real vector or two-dimensional matrix of search signals.",
+    "axis": "Axis along which to search. By default, search the first non-singleton axis.",
+    "peak_values": "Highest local peak value per analyzed signal, or NaN.",
+    "peak_positions": "Original sample position per analyzed signal, using the language-native index origin, or NaN."
+  },
+  "tools.hjorth": {
+    "signal": "Nonempty real signal vector, optionally with NaNs.",
+    "sampling_frequency": "Finite positive sampling frequency.",
+    "activity": "Mean-square power of the input samples.",
+    "mobility": "First-difference energy relative to signal energy, scaled to Hz.",
+    "complexity": "Frequency-spread descriptor from first- and second-difference energy ratios."
+  },
+  "ppg.hjorth_artifacts": {
+    "signal": "Nonempty real signal, optionally containing NaN.",
+    "sampling_frequency": "Sampling frequency in Hz.",
+    "window_duration": "Duration of each full analysis window in seconds.",
+    "step_duration": "Advance between window starts in seconds.",
+    "margins": "Three rows of absolute lower and upper margins for activity, mobility, and complexity.",
+    "min_segment_separation": "Merge uncovered gaps strictly shorter than this duration; zero merges overlap and contiguity only.",
+    "median_filter_order": "Median baseline length measured in analysis windows.",
+    "negative": "Invert the threshold decision while always excluding NaN windows.",
+    "artifact_mask": "Binary sample mask of the merged artifact intervals.",
+    "artifact_starts": "Times of the first included samples, in seconds from signal start.",
+    "artifact_ends": "Times of the last included samples, in seconds from signal start."
+  },
+  "tools.nanpwelch": {
+    "signal": "Real signal vector or matrix with channels in columns and NaNs marking gaps.",
+    "window": "Positive integer rectangular-window length or exact finite window coefficients.",
+    "overlap": "Number of overlapping samples between consecutive windows.",
+    "nfft": "Positive integer DFT length; shorter transforms use modulo folding.",
+    "sampling_frequency": "Finite positive sampling frequency in Hz.",
+    "max_gap": "Maximum internal NaN run to interpolate, in samples; zero disables interpolation.",
+    "psd": "Mean window PSD, preserving matrix channel columns.",
+    "frequencies": "Shared one-sided frequency grid in Hz.",
+    "window_psd": "Individual-window spectra in window order, grouped by channel for matrices."
+  },
+  "tools.peakedness": {
+    "pxx": "Nonnegative, finite PSD vector or matrix with spectra in columns.",
+    "f": "Strictly increasing finite frequency grid shared by all spectra.",
+    "reference_freq": "Band center in Hz; omitted or null selects each global maximum.",
+    "window": "Wide-band width in Hz; the narrow-band width is 40 percent of this.",
+    "pkl": "Narrow-band to wide-band spectral sum, in percent.",
+    "akl": "Wide-band to global maximum, in percent."
+  },
+  "tools.ispeaky": {
+    "pkl": "Power-concentration peakedness measures.",
+    "akl": "Relative-maximum peakedness measures with the same shape as PKL.",
+    "pkl_threshold": "Inclusive lower threshold for PKL, between zero and 100.",
+    "akl_threshold": "Inclusive lower threshold for AKL, between zero and 100.",
+    "is_peaky": "Whether both thresholds are met at each position."
   }
 }

@@ -1,0 +1,90 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.ispeaky",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Classify spectral peakedness",
+    "summary": "Tests both spectral peakedness measures against inclusive percentage thresholds."
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "kontaxis_edr_af_2020",
+        "relation": "metric_definition",
+        "note": "Equation (14) combines the concentration and relative-maximum measures with two inclusive thresholds."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "pkl",
+        "data_type": "real_vector_or_matrix",
+        "shape": "vector_or_matrix",
+        "unit": "%",
+        "allow_nan": true,
+        "allow_inf": true
+      },
+      {
+        "id": "akl",
+        "data_type": "real_vector_or_matrix",
+        "shape": "vector_or_matrix",
+        "unit": "%",
+        "allow_nan": true,
+        "allow_inf": true
+      }
+    ],
+    "parameters": [
+      {
+        "id": "pkl_threshold",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "%",
+        "constraints": {
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      {
+        "id": "akl_threshold",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "%",
+        "constraints": {
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "is_peaky",
+        "data_type": "boolean",
+        "shape": "vector_or_matrix",
+        "unit": "1"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "thresholds",
+        "text": "Both thresholds are required finite real scalars in [0,100]."
+      },
+      {
+        "target": "is_peaky",
+        "text": "At each position, return (pkl >= pkl_threshold) AND (akl >= akl_threshold). Equality passes. NaN comparisons are false. Compare infinities as ordered values; do not clip the supplied measures."
+      },
+      {
+        "target": "dimensions",
+        "text": "Require identical input shapes and preserve that shape. Scalar inputs are accepted. Do not broadcast row, column or scalar inputs against differently shaped data."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "A NaN in either measure returns false at that position without affecting other elements.",
+      "empty_input": "Reject empty measure arrays.",
+      "input_orientation": "Accept real numeric scalars, vectors and matrices of matching shape. Preserve input shape; Python scalar inputs return a bool. Shared output comparisons flatten matrices in column order.",
+      "insufficient_data": "A single pair of measures is sufficient."
+    }
+  }
+}

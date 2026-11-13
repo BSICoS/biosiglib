@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.slicesignal.short_without_padding",
+  "specification_id": "tools.slicesignal",
+  "description": "No complete window fits when padding is disabled.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.slicesignal_cases",
+      "file_role": "short",
+      "column": "signal"
+    },
+    {
+      "id": "window_length",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 2
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "No complete window fits when padding is disabled."
+  },
+  "expected_error": {
+    "category": "insufficient_data"
+  }
+}

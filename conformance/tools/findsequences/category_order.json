@@ -1,0 +1,68 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.findsequences.category_order",
+  "specification_id": "tools.findsequences",
+  "description": "Ordinary finite runs precede zero, NaN, positive infinity and negative infinity; each category retains positional order.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.findsequences_cases",
+      "file_role": "mixed",
+      "column": "signal"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "values",
+      "fixture_id": "tools.synthetic.findsequences_cases",
+      "file_role": "category_expected",
+      "column": "expected_values",
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "start_positions",
+      "value": [
+        3,
+        7,
+        13,
+        5,
+        1,
+        9,
+        11
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "end_positions",
+      "value": [
+        4,
+        8,
+        14,
+        6,
+        2,
+        10,
+        12
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "lengths",
+      "value": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Ordinary finite runs precede zero, NaN, positive infinity and negative infinity; each category retains positional order."
+  }
+}

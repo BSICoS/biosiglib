@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.slicesignal.complete_windows",
+  "specification_id": "tools.slicesignal",
+  "description": "Start at samples 1 and 3; omit the incomplete next window by default.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.slicesignal_cases",
+      "file_role": "tail",
+      "column": "signal"
+    },
+    {
+      "id": "window_length",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 2
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "Start at samples 1 and 3; omit the incomplete next window by default."
+  },
+  "expected_outputs": [
+    {
+      "id": "window_samples",
+      "value": [
+        1,
+        2,
+        3,
+        4,
+        3,
+        4,
+        5,
+        6
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}
