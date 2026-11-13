@@ -114,9 +114,9 @@
   },
   "tools.snaptopeak": {
     "ecg": "Sampled ECG signal used to refine candidate detections.",
-    "detections": "Candidate sample positions to move onto nearby ECG maxima.",
+    "detections": "Candidate sample positions, one-based in MATLAB and zero-based in Python.",
     "window_size": "Search radius around each candidate detection.",
-    "refined_detections": "Detection positions moved to the selected local ECG maxima."
+    "refined_detections": "Refined sample positions using the same native index origin as the input detections."
   },
   "tools.trimnans": {
     "signal": "Signal whose leading and trailing missing samples will be removed.",

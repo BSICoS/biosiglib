@@ -17,6 +17,8 @@ Use it to refine approximate ECG detections after a detector has identified the 
 
 ## Interpretation and limitations
 
+Detection inputs and outputs use the native index origin: 1 in MATLAB and 0 in Python. Fractional detections and the search radius round to the nearest integer, with half-way values rounded upward. Bounds are checked before rounding.
+
 The method assumes the desired fiducial is the local maximum. Wide windows can jump to a neighboring wave, while narrow windows may not reach the intended peak. Missing samples inside the search region are ignored according to the defined NaN behavior.
 
 <!-- BIOSIGLIB METHOD RESOURCES -->

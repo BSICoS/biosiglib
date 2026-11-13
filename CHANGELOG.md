@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+- Updated tools.snaptopeak to specify native index origins: one-based MATLAB positions and zero-based Python positions, with canonical shared-case normalization.
+
 - Added tools.hjorth with mean-square activity, difference-energy ratios, and shared analytical edge cases.
 
 - Added tools.localmax with highest interior peak selection, axis semantics, and shared vector and matrix cases.
