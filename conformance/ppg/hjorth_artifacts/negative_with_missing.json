@@ -1,0 +1,86 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.hjorth_artifacts.negative_with_missing",
+  "specification_id": "ppg.hjorth_artifacts",
+  "description": "Negative mode marks finite accepted windows and still excludes NaN windows.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "ppg.synthetic.hjorth_artifacts_cases",
+      "file_role": "separated",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 1
+    },
+    {
+      "id": "window_duration",
+      "value": 3.0
+    },
+    {
+      "id": "step_duration",
+      "value": 3.0
+    },
+    {
+      "id": "margins",
+      "value": [
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ]
+      ]
+    }
+  ],
+  "parameters": {
+    "negative": true,
+    "median_filter_order": 3
+  },
+  "expected_outputs": [
+    {
+      "id": "artifact_mask",
+      "value": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "artifact_starts",
+      "value": [
+        0.0
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "artifact_ends",
+      "value": [
+        11.0
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Negative mode marks finite accepted windows and still excludes NaN windows."
+  }
+}

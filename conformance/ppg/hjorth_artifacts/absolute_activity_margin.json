@@ -1,0 +1,82 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.hjorth_artifacts.absolute_activity_margin",
+  "specification_id": "ppg.hjorth_artifacts",
+  "description": "Activity powers after global centering are 19/81, 76/81 and 19/81. An upper margin 0.1 rejects only the middle window.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "ppg.synthetic.hjorth_artifacts_cases",
+      "file_role": "power",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 1
+    },
+    {
+      "id": "window_duration",
+      "value": 3.0
+    },
+    {
+      "id": "step_duration",
+      "value": 3.0
+    },
+    {
+      "id": "margins",
+      "value": [
+        [
+          100,
+          0.1
+        ],
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ]
+      ]
+    }
+  ],
+  "parameters": {
+    "median_filter_order": 3
+  },
+  "expected_outputs": [
+    {
+      "id": "artifact_mask",
+      "value": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "artifact_starts",
+      "value": [
+        3.0
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "artifact_ends",
+      "value": [
+        5.0
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Activity powers after global centering are 19/81, 76/81 and 19/81. An upper margin 0.1 rejects only the middle window."
+  }
+}

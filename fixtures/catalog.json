@@ -917,6 +917,66 @@
       "processing": [
         "Expected values are derived from the original samples and exact first and second differences."
       ]
+    },
+    {
+      "id": "ppg.synthetic.hjorth_artifacts_cases",
+      "module": "ppg",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Analytical window and artifact-merging examples."
+      },
+      "files": [
+        {
+          "role": "clean",
+          "path": "fixtures/data/ppg/hjorth_artifacts_clean.csv",
+          "format": "csv"
+        },
+        {
+          "role": "separated",
+          "path": "fixtures/data/ppg/hjorth_artifacts_separated.csv",
+          "format": "csv"
+        },
+        {
+          "role": "overlap",
+          "path": "fixtures/data/ppg/hjorth_artifacts_overlap.csv",
+          "format": "csv"
+        },
+        {
+          "role": "contiguous",
+          "path": "fixtures/data/ppg/hjorth_artifacts_contiguous.csv",
+          "format": "csv"
+        },
+        {
+          "role": "all_nan",
+          "path": "fixtures/data/ppg/hjorth_artifacts_all_nan.csv",
+          "format": "csv"
+        },
+        {
+          "role": "constant",
+          "path": "fixtures/data/ppg/hjorth_artifacts_constant.csv",
+          "format": "csv"
+        },
+        {
+          "role": "power",
+          "path": "fixtures/data/ppg/hjorth_artifacts_power.csv",
+          "format": "csv"
+        },
+        {
+          "role": "tail",
+          "path": "fixtures/data/ppg/hjorth_artifacts_tail.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "signal",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Expected masks are exact unions of selected full windows and any explicitly bridged gaps."
+      ]
     }
   ]
 }

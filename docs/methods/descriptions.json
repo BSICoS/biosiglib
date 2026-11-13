@@ -162,5 +162,18 @@
     "activity": "Mean-square power of the input samples.",
     "mobility": "First-difference energy relative to signal energy, scaled to Hz.",
     "complexity": "Frequency-spread descriptor from first- and second-difference energy ratios."
+  },
+  "ppg.hjorth_artifacts": {
+    "signal": "Nonempty real signal, optionally containing NaN.",
+    "sampling_frequency": "Sampling frequency in Hz.",
+    "window_duration": "Duration of each full analysis window in seconds.",
+    "step_duration": "Advance between window starts in seconds.",
+    "margins": "Three rows of absolute lower and upper margins for activity, mobility, and complexity.",
+    "min_segment_separation": "Merge uncovered gaps strictly shorter than this duration; zero merges overlap and contiguity only.",
+    "median_filter_order": "Median baseline length measured in analysis windows.",
+    "negative": "Invert the threshold decision while always excluding NaN windows.",
+    "artifact_mask": "Binary sample mask of the merged artifact intervals.",
+    "artifact_starts": "Times of the first included samples, in seconds from signal start.",
+    "artifact_ends": "Times of the last included samples, in seconds from signal start."
   }
 }

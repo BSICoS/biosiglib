@@ -39,6 +39,8 @@ nav:
           - Baseline removal: methods/ecg.baselineremove.md
           - Pan-Tompkins detector: methods/ecg.pantompkins.md
           - Slope-range respiration: methods/ecg.sloperange.md
+      - PPG:
+          - Hjorth artifact detection: methods/ppg.hjorth_artifacts.md
       - HRV:
           - Frequency-domain metrics: methods/hrv.fdmetrics.md
           - Gap filling: methods/hrv.fillgaps.md

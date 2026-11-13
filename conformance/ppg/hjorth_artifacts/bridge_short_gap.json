@@ -1,0 +1,86 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.hjorth_artifacts.bridge_short_gap",
+  "specification_id": "ppg.hjorth_artifacts",
+  "description": "A three-sample gap at 2 Hz is bridged with a threshold above 1.5 seconds.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "ppg.synthetic.hjorth_artifacts_cases",
+      "file_role": "separated",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 2
+    },
+    {
+      "id": "window_duration",
+      "value": 1.5
+    },
+    {
+      "id": "step_duration",
+      "value": 1.5
+    },
+    {
+      "id": "margins",
+      "value": [
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ],
+        [
+          100,
+          100
+        ]
+      ]
+    }
+  ],
+  "parameters": {
+    "min_segment_separation": 1.6,
+    "median_filter_order": 3
+  },
+  "expected_outputs": [
+    {
+      "id": "artifact_mask",
+      "value": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "absolute_tolerance": 0
+    },
+    {
+      "id": "artifact_starts",
+      "value": [
+        0.0
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "artifact_ends",
+      "value": [
+        4.0
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "A three-sample gap at 2 Hz is bridged with a threshold above 1.5 seconds."
+  }
+}
