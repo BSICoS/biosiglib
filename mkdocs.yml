@@ -65,7 +65,6 @@ nav:
           - Snap to peak: methods/tools.snaptopeak.md
           - Trim boundary NaNs: methods/tools.trimnans.md
   - Implementations: implementations.md
-  - Cite: citation.md
 
 markdown_extensions:
   - admonition
