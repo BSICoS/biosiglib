@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.hjorth.constant_nonzero",
+  "specification_id": "tools.hjorth",
+  "description": "A nonzero constant has power nine and zero mobility, but no defined complexity.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.hjorth_cases",
+      "file_role": "constant",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 6.283185307179586
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "A nonzero constant has power nine and zero mobility, but no defined complexity."
+  },
+  "expected_outputs": [
+    {
+      "id": "activity",
+      "value": 9,
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "mobility",
+      "value": 0,
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "complexity",
+      "value": "NaN",
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true
+}

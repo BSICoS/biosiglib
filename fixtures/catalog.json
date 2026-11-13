@@ -852,6 +852,71 @@
       "processing": [
         "Expected heights and original positions are determined directly from neighboring samples."
       ]
+    },
+    {
+      "id": "tools.synthetic.hjorth_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Small signals with analytically known power and difference energies."
+      },
+      "files": [
+        {
+          "role": "oscillating",
+          "path": "fixtures/data/tools/hjorth_oscillating.csv",
+          "format": "csv"
+        },
+        {
+          "role": "shifted",
+          "path": "fixtures/data/tools/hjorth_shifted.csv",
+          "format": "csv"
+        },
+        {
+          "role": "ramp",
+          "path": "fixtures/data/tools/hjorth_ramp.csv",
+          "format": "csv"
+        },
+        {
+          "role": "pair",
+          "path": "fixtures/data/tools/hjorth_pair.csv",
+          "format": "csv"
+        },
+        {
+          "role": "singleton",
+          "path": "fixtures/data/tools/hjorth_singleton.csv",
+          "format": "csv"
+        },
+        {
+          "role": "constant",
+          "path": "fixtures/data/tools/hjorth_constant.csv",
+          "format": "csv"
+        },
+        {
+          "role": "zeros",
+          "path": "fixtures/data/tools/hjorth_zeros.csv",
+          "format": "csv"
+        },
+        {
+          "role": "missing",
+          "path": "fixtures/data/tools/hjorth_missing.csv",
+          "format": "csv"
+        },
+        {
+          "role": "infinite",
+          "path": "fixtures/data/tools/hjorth_infinite.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "signal",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Expected values are derived from the original samples and exact first and second differences."
+      ]
     }
   ]
 }

@@ -49,6 +49,7 @@ nav:
       - Utilities:
           - Expand NaN gaps: methods/tools.expandnans.md
           - Find repeated values: methods/tools.findsequences.md
+          - Compute Hjorth descriptors: methods/tools.hjorth.md
           - Interpolate short NaN gaps: methods/tools.interpgap.md
           - Find the highest local maximum: methods/tools.localmax.md
           - LPD filter: methods/tools.lpdfilter.md

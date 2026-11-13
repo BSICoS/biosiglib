@@ -237,7 +237,7 @@
         {
           "type": "person",
           "family_name": "Kontaxis",
-          "given_names": "Stylianos"
+          "given_names": "Spyridon"
         },
         {
           "type": "person",
@@ -310,7 +310,7 @@
         {
           "type": "person",
           "family_name": "Kontaxis",
-          "given_names": "Stylianos"
+          "given_names": "Spyridon"
         },
         {
           "type": "person",
@@ -533,6 +533,24 @@
       "issue": "5",
       "pages": "459-470",
       "doi": "10.1016/0010-4809(77)90021-0"
+    },
+    {
+      "id": "hjorth_1970",
+      "type": "journal_article",
+      "title": "EEG analysis based on time domain properties",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "Hjorth",
+          "given_names": "Bo"
+        }
+      ],
+      "year": 1970,
+      "journal": "Electroencephalography and Clinical Neurophysiology",
+      "volume": "29",
+      "issue": "3",
+      "pages": "306-310",
+      "doi": "10.1016/0013-4694(70)90143-4"
     }
   ]
 }

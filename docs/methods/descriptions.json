@@ -155,5 +155,12 @@
     "axis": "Axis along which to search. By default, search the first non-singleton axis.",
     "peak_values": "Highest local peak value per analyzed signal, or NaN.",
     "peak_positions": "Original sample position per analyzed signal, using the language-native index origin, or NaN."
+  },
+  "tools.hjorth": {
+    "signal": "Nonempty real signal vector, optionally with NaNs.",
+    "sampling_frequency": "Finite positive sampling frequency.",
+    "activity": "Mean-square power of the input samples.",
+    "mobility": "First-difference energy relative to signal energy, scaled to Hz.",
+    "complexity": "Frequency-spread descriptor from first- and second-difference energy ratios."
   }
 }

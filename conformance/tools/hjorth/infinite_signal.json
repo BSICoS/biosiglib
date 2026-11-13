@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.hjorth.infinite_signal",
+  "specification_id": "tools.hjorth",
+  "description": "An infinite sample is invalid.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.hjorth_cases",
+      "file_role": "infinite",
+      "column": "signal"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 6.283185307179586
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "An infinite sample is invalid."
+  },
+  "expected_error": {
+    "category": "invalid_value"
+  }
+}
