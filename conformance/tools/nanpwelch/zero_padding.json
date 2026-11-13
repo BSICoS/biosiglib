@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nanpwelch.zero_padding",
+  "specification_id": "tools.nanpwelch",
+  "description": "Zero padding samples the four-point rectangular-window spectrum on eight DFT points.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nanpwelch_cases",
+      "file_role": "constant",
+      "column": "signal"
+    },
+    {
+      "id": "window",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 0
+    },
+    {
+      "id": "nfft",
+      "value": 8
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "psd",
+      "value": [
+        1,
+        0.8535533905932737,
+        0,
+        0.1464466094067262,
+        0
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "frequencies",
+      "value": [
+        0,
+        0.5,
+        1,
+        1.5,
+        2
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "window_psd",
+      "value": [
+        1,
+        0.8535533905932737,
+        0,
+        0.1464466094067262,
+        0,
+        1,
+        0.8535533905932737,
+        0,
+        0.1464466094067262,
+        0
+      ],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Zero padding samples the four-point rectangular-window spectrum on eight DFT points."
+  }
+}

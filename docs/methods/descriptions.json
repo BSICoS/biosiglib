@@ -175,5 +175,16 @@
     "artifact_mask": "Binary sample mask of the merged artifact intervals.",
     "artifact_starts": "Times of the first included samples, in seconds from signal start.",
     "artifact_ends": "Times of the last included samples, in seconds from signal start."
+  },
+  "tools.nanpwelch": {
+    "signal": "Real signal vector or matrix with channels in columns and NaNs marking gaps.",
+    "window": "Positive integer rectangular-window length or exact finite window coefficients.",
+    "overlap": "Number of overlapping samples between consecutive windows.",
+    "nfft": "Positive integer DFT length; shorter transforms use modulo folding.",
+    "sampling_frequency": "Finite positive sampling frequency in Hz.",
+    "max_gap": "Maximum internal NaN run to interpolate, in samples; zero disables interpolation.",
+    "psd": "Mean window PSD, preserving matrix channel columns.",
+    "frequencies": "Shared one-sided frequency grid in Hz.",
+    "window_psd": "Individual-window spectra in window order, grouped by channel for matrices."
   }
 }

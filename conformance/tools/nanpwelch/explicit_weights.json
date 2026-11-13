@@ -1,0 +1,73 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nanpwelch.explicit_weights",
+  "specification_id": "tools.nanpwelch",
+  "description": "The weight energy is 10; DFT magnitudes squared are 36,2,0 at the retained bins.",
+  "inputs": [
+    {
+      "id": "signal",
+      "fixture_id": "tools.synthetic.nanpwelch_cases",
+      "file_role": "constant",
+      "column": "signal"
+    },
+    {
+      "id": "window",
+      "value": [
+        1,
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "overlap",
+      "value": 0
+    },
+    {
+      "id": "nfft",
+      "value": 4
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "psd",
+      "value": [
+        0.9,
+        0.1,
+        0
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "frequencies",
+      "value": [
+        0,
+        1,
+        2
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "window_psd",
+      "value": [
+        0.9,
+        0.1,
+        0,
+        0.9,
+        0.1,
+        0
+      ],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The weight energy is 10; DFT magnitudes squared are 36,2,0 at the retained bins."
+  }
+}

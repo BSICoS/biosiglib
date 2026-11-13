@@ -1,0 +1,119 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.nanpwelch.missing_middle_channel",
+  "specification_id": "tools.nanpwelch",
+  "description": "The missing middle channel retains its PSD column without shifting the last signal.",
+  "inputs": [
+    {
+      "id": "signal",
+      "value": [
+        [
+          1,
+          "NaN",
+          2
+        ],
+        [
+          1,
+          "NaN",
+          2
+        ],
+        [
+          1,
+          "NaN",
+          2
+        ],
+        [
+          1,
+          "NaN",
+          2
+        ],
+        [
+          1,
+          "NaN",
+          2
+        ],
+        [
+          1,
+          "NaN",
+          2
+        ],
+        [
+          1,
+          "NaN",
+          2
+        ],
+        [
+          1,
+          "NaN",
+          2
+        ]
+      ]
+    },
+    {
+      "id": "window",
+      "value": 4
+    },
+    {
+      "id": "overlap",
+      "value": 0
+    },
+    {
+      "id": "nfft",
+      "value": 4
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 4
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "psd",
+      "value": [
+        1,
+        0,
+        0,
+        "NaN",
+        "NaN",
+        "NaN",
+        4,
+        0,
+        0
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "frequencies",
+      "value": [
+        0,
+        1,
+        2
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "window_psd",
+      "value": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        4,
+        0,
+        0,
+        4,
+        0,
+        0
+      ],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The missing middle channel retains its PSD column without shifting the last signal."
+  }
+}

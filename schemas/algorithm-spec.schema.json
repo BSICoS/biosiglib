@@ -191,6 +191,7 @@
       "type": "string",
       "enum": [
         "real_scalar",
+        "real_scalar_or_vector",
         "real_vector",
         "real_vector_or_matrix",
         "integer_scalar",
@@ -202,6 +203,7 @@
       "type": "string",
       "enum": [
         "scalar",
+        "scalar_or_vector",
         "vector",
         "vector_or_matrix"
       ]

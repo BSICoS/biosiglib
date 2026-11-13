@@ -1,0 +1,158 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.nanpwelch",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Estimate PSD across NaN gaps",
+    "summary": "Averages window periodograms within independent valid signal stretches.",
+    "notes": [
+      "A scalar window selects a rectangular window; no mean removal or detrending is applied.",
+      "Individual periodograms represent analysis windows, not one spectrum per NaN-separated stretch."
+    ],
+    "keywords": [
+      "PSD",
+      "Welch",
+      "NaN",
+      "periodogram"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "signal",
+        "data_type": "real_vector_or_matrix",
+        "shape": "vector_or_matrix",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false
+      },
+      {
+        "id": "window",
+        "data_type": "real_scalar_or_vector",
+        "shape": "scalar_or_vector",
+        "unit": "1",
+        "allow_nan": false,
+        "allow_inf": false
+      },
+      {
+        "id": "overlap",
+        "data_type": "integer_scalar",
+        "shape": "scalar",
+        "unit": "sample",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0
+        }
+      },
+      {
+        "id": "nfft",
+        "data_type": "integer_scalar",
+        "shape": "scalar",
+        "unit": "sample",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 1
+        }
+      },
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "max_gap",
+        "data_type": "integer_scalar",
+        "default": 0,
+        "unit": "sample",
+        "constraints": {
+          "minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "psd",
+        "data_type": "real_vector_or_matrix",
+        "shape": "vector_or_matrix",
+        "unit": "a.u.^2/Hz"
+      },
+      {
+        "id": "frequencies",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "Hz"
+      },
+      {
+        "id": "window_psd",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.^2/Hz"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "window",
+        "text": "A scalar is a positive finite integer length W and selects W rectangular weights equal to one. Otherwise use the supplied real finite vector as the exact weights, with W equal to its length. Require sum(weights^2)>0, 0<=overlap<W, and W no larger than the original signal length along the sample axis. A scalar window denotes a length, not a single coefficient."
+      },
+      {
+        "target": "valid_stretches",
+        "text": "For each channel independently apply tools.trimnans, optionally fill internal NaN runs of at most max_gap samples using tools.interpgap with linear interpolation, and split at remaining NaNs. Omitted, empty or zero max_gap disables interpolation. Each valid stretch starts a fresh window grid; do not carry overlap across gaps."
+      },
+      {
+        "target": "analysis_windows",
+        "text": "Within each stretch of at least W samples use tools.slicesignal with the requested overlap and no tail padding. Ignore shorter stretches and incomplete window tails. Keep the resulting windows in original signal order."
+      },
+      {
+        "target": "periodogram",
+        "text": "Multiply each window by the weights without centering or detrending. For nfft>=W, zero-pad to nfft. For nfft<W, fold the weighted samples modulo nfft by summing all samples with the same remainder; do not truncate the input. Compute abs(DFT)^2 / (sampling_frequency*sum(weights^2)). Keep bins k=0,...,floor(nfft/2). Double every retained bin except DC and, for even nfft, Nyquist. This is a one-sided power spectral density."
+      },
+      {
+        "target": "averaging",
+        "text": "psd is the arithmetic mean of all analysis-window periodograms for that channel. Each window has equal weight, so a stretch providing more windows contributes more than a short stretch. Frequencies are k*sampling_frequency/nfft for k=0,...,floor(nfft/2)."
+      },
+      {
+        "target": "channel_alignment",
+        "text": "Vectors of either orientation are one signal. A genuine matrix has samples in rows and channels in columns in both languages. Keep one PSD column per channel whenever any channel yields an estimate; missing estimates are NaN columns. Return a per-channel collection of individual-window spectra for matrices, including an empty entry for channels with no valid window. The frequency grid is shared. Shared cases concatenate PSD columns in channel order, with all frequency bins of one channel before the next."
+      },
+      {
+        "target": "window_psd",
+        "text": "For one channel MATLAB exposes a frequency-by-window matrix and Python a window-by-frequency array. Shared cases concatenate one window spectrum at a time; for matrices concatenate channels in input order, skipping empty window collections. The PSD matrix itself has frequency rows and channel columns in both languages."
+      }
+    ],
+    "warnings": [
+      {
+        "id": "signal_too_short",
+        "condition": "A nonempty trimmed signal has fewer than W samples.",
+        "effect": "Return empty results for that channel, or a NaN PSD column when other channels have estimates.",
+        "aggregation": "One warning for each affected channel."
+      },
+      {
+        "id": "no_valid_segments",
+        "condition": "The trimmed signal is long enough but no valid stretch provides a full window after optional interpolation.",
+        "effect": "Return empty results for that channel, or a NaN PSD column when other channels have estimates.",
+        "aggregation": "One warning for each affected channel."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Trim boundary NaNs, interpolate only permitted short gaps, and separate stretches at all remaining NaNs. An all-NaN channel produces no warning. Reject infinite and complex input.",
+      "empty_input": "Reject an empty signal. A nonempty signal with original sample length below W is invalid, before NaN handling. If no channel yields a window, return empty PSD and frequency arrays and empty per-channel window spectra.",
+      "input_orientation": "Row and column vectors are equivalent. Genuine matrices contain independent signal columns. A single-channel PSD and frequency output is a vector; optional individual-window outputs follow language-native layouts.",
+      "insufficient_data": "An all-NaN channel returns empty spectra silently. Warn signal_too_short if boundary trimming leaves a nonempty sequence shorter than W, or no_valid_segments if every stretch is too short after interpolation. Mixed matrices preserve channel identity with NaN columns for channels without spectra."
+    }
+  }
+}
