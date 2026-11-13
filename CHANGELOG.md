@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+- Added tools.peakedness and tools.ispeaky with unrestricted reference frequencies, finite nonnegative spectra and shared analytical cases.
+
 - Added tools.nanpwelch with explicit one-sided PSD normalization, short-FFT folding, window weighting, and NaN/channel conformance cases.
 
 - Added ppg.hjorth_artifacts with temporal merging, NaN-window exclusion and shared analytical cases.

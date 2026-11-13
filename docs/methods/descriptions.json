@@ -186,5 +186,20 @@
     "psd": "Mean window PSD, preserving matrix channel columns.",
     "frequencies": "Shared one-sided frequency grid in Hz.",
     "window_psd": "Individual-window spectra in window order, grouped by channel for matrices."
+  },
+  "tools.peakedness": {
+    "pxx": "Nonnegative, finite PSD vector or matrix with spectra in columns.",
+    "f": "Strictly increasing finite frequency grid shared by all spectra.",
+    "reference_freq": "Band center in Hz; omitted or null selects each global maximum.",
+    "window": "Wide-band width in Hz; the narrow-band width is 40 percent of this.",
+    "pkl": "Narrow-band to wide-band spectral sum, in percent.",
+    "akl": "Wide-band to global maximum, in percent."
+  },
+  "tools.ispeaky": {
+    "pkl": "Power-concentration peakedness measures.",
+    "akl": "Relative-maximum peakedness measures with the same shape as PKL.",
+    "pkl_threshold": "Inclusive lower threshold for PKL, between zero and 100.",
+    "akl_threshold": "Inclusive lower threshold for AKL, between zero and 100.",
+    "is_peaky": "Whether both thresholds are met at each position."
   }
 }

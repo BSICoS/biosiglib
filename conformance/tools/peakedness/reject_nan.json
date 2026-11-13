@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.reject_nan",
+  "specification_id": "tools.peakedness",
+  "description": "A NaN spectral value is invalid even when other columns are valid.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "value": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          "NaN"
+        ]
+      ]
+    },
+    {
+      "id": "f",
+      "value": [
+        0,
+        1
+      ]
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "A NaN spectral value is invalid even when other columns are valid."
+  },
+  "expected_error": {
+    "category": "invalid_value"
+  }
+}

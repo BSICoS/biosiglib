@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.ispeaky.nan_measures",
+  "specification_id": "tools.ispeaky",
+  "description": "Missing measures fail only their own classifications.",
+  "inputs": [
+    {
+      "id": "pkl",
+      "value": [
+        "NaN",
+        50,
+        50
+      ]
+    },
+    {
+      "id": "akl",
+      "value": [
+        90,
+        "NaN",
+        90
+      ]
+    }
+  ],
+  "parameters": {
+    "pkl_threshold": 45,
+    "akl_threshold": 85
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Missing measures fail only their own classifications."
+  },
+  "expected_outputs": [
+    {
+      "id": "is_peaky",
+      "value": [
+        0,
+        0,
+        1
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

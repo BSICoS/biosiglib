@@ -1,0 +1,115 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "tools.peakedness",
+    "module": "tools"
+  },
+  "informative": {
+    "title": "Spectral peakedness",
+    "summary": "Measures narrow-band concentration and relative maximum height around a reference frequency."
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "lazaro_edr_qrs_slopes_2014",
+        "relation": "scientific_context",
+        "note": "Precedent for peak-conditioned averaging using narrow-band power concentration relative to a reference-centered wider band; its narrow band follows a selected local peak."
+      },
+      {
+        "id": "kontaxis_edr_af_2020",
+        "relation": "metric_definition",
+        "note": "Equations (10)-(15) define reference-centered concentration and a relative-maximum criterion. This contract generalizes the analysis to the supplied spectrum without a fixed physiological frequency range."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "pxx",
+        "data_type": "real_vector_or_matrix",
+        "shape": "vector_or_matrix",
+        "unit": "caller-defined power/Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum": 0,
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "f",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "reference_freq",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "Hz"
+      },
+      {
+        "id": "window",
+        "data_type": "real_scalar",
+        "default": 0.125,
+        "unit": "Hz",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "pkl",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "%"
+      },
+      {
+        "id": "akl",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "%"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "frequency_grid",
+        "text": "Assume a uniformly spaced frequency grid. F must be finite, strictly increasing, and match the number of frequency rows in pxx. Do not resample or interpolate. Uniform spacing is an input assumption; implementations need not validate it."
+      },
+      {
+        "target": "reference_freq",
+        "text": "An omitted or null reference selects the global maximum independently in each spectrum; tied maxima select the first frequency. MATLAB accepts [] for the automatic mode. An explicit reference must be a finite real scalar shared by all spectra, and may lie outside the grid."
+      },
+      {
+        "target": "bands",
+        "text": "The wide band includes frequencies from reference_freq - window/2 to reference_freq + window/2. The narrow band has width 0.4*window and the same center. Include both endpoints and impose no fixed frequency-range restriction."
+      },
+      {
+        "target": "pkl",
+        "text": "Return 100*sum(pxx in narrow band)/sum(pxx in wide band), or zero if the denominator is zero or the wide band has no samples. An empty narrow band has sum zero. Sum spectral samples without integration weights. On the assumed uniform grid, approximate the band integrals by equal-width rectangular sums; the common frequency spacing cancels in the ratio."
+      },
+      {
+        "target": "akl",
+        "text": "Return 100*max(pxx in wide band)/max(pxx), or zero if the global maximum is zero or the wide band has no samples. Compute independently of whether the narrow band contains samples. Automatic mode therefore returns 100 for nonzero spectra."
+      },
+      {
+        "target": "bounds",
+        "text": "Clamp both outputs to [0,100] to contain floating-point rounding."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Reject NaN or infinity anywhere in pxx or f; do not omit missing spectral values. Pxx must be real and nonnegative.",
+      "empty_input": "Reject empty spectra and empty frequency vectors.",
+      "input_orientation": "Accept a spectrum vector or a two-dimensional frequency-by-spectrum matrix. MATLAB row and column vectors and Python one-dimensional or singleton-axis vectors denote one spectrum. MATLAB returns one column vector per output; Python returns scalars for vector inputs and one-dimensional arrays for matrices. Shared outputs list spectra in column order.",
+      "insufficient_data": "A single frequency sample is sufficient. Zero spectra and bands without samples return zero for the corresponding measure."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.unrestricted_frequency",
+  "specification_id": "tools.peakedness",
+  "description": "A maximum at 2 Hz is treated identically to any other automatic reference.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "value": [
+        1,
+        2,
+        8,
+        4,
+        1
+      ]
+    },
+    {
+      "id": "f",
+      "value": [
+        1,
+        1.5,
+        2,
+        2.5,
+        3
+      ]
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "A maximum at 2 Hz is treated identically to any other automatic reference."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        100
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        100
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

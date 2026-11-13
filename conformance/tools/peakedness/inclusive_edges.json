@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.inclusive_edges",
+  "specification_id": "tools.peakedness",
+  "description": "The narrow band includes both 0.125 and 0.375 Hz: power 14 of 17.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "pxx"
+    },
+    {
+      "id": "f",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "f"
+    }
+  ],
+  "parameters": {
+    "reference_freq": 0.25,
+    "window": 0.625
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "The narrow band includes both 0.125 and 0.375 Hz: power 14 of 17."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        82.3529411764706
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        100
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

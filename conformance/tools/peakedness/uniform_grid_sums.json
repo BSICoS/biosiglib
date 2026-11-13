@@ -1,0 +1,49 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.uniform_grid_sums",
+  "specification_id": "tools.peakedness",
+  "description": "Uniform-grid rectangular sums give narrow power 8 and wide power 10; frequency spacing cancels.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "value": [
+        1,
+        8,
+        1
+      ]
+    },
+    {
+      "id": "f",
+      "value": [
+        0,
+        0.125,
+        0.25
+      ]
+    }
+  ],
+  "parameters": {
+    "reference_freq": 0.125,
+    "window": 0.5
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Uniform-grid rectangular sums give narrow power 8 and wide power 10; frequency spacing cancels."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        80
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        100
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

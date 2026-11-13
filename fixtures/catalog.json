@@ -1037,6 +1037,43 @@
       "processing": [
         "Exact window spectra follow from the DFT and one-sided density normalization; channel ordering and window counts are enumerated directly."
       ]
+    },
+    {
+      "id": "tools.synthetic.peakedness_cases",
+      "module": "tools",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Nonnegative spectra with exact binary frequency samples and hand-calculated band sums."
+      },
+      "files": [
+        {
+          "role": "spectra",
+          "path": "fixtures/data/tools/peakedness.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "f",
+          "unit": "Hz"
+        },
+        {
+          "id": "pxx",
+          "unit": "a.u./Hz"
+        },
+        {
+          "id": "ties",
+          "unit": "a.u./Hz"
+        },
+        {
+          "id": "zero",
+          "unit": "a.u./Hz"
+        }
+      ],
+      "processing": [
+        "Band sums and maxima are enumerated directly at inclusive frequency boundaries."
+      ]
     }
   ]
 }

@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.explicit_reference",
+  "specification_id": "tools.peakedness",
+  "description": "At 0.625 Hz, narrow power is 1, wide power 3, wide maximum 2 and global maximum 8.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "pxx"
+    },
+    {
+      "id": "f",
+      "fixture_id": "tools.synthetic.peakedness_cases",
+      "file_role": "spectra",
+      "column": "f"
+    }
+  ],
+  "parameters": {
+    "reference_freq": 0.625,
+    "window": 0.25
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "At 0.625 Hz, narrow power is 1, wide power 3, wide maximum 2 and global maximum 8."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        33.333333333333336
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        25
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

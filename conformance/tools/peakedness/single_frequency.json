@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.peakedness.single_frequency",
+  "specification_id": "tools.peakedness",
+  "description": "One nonzero sample at its automatic reference has full concentration.",
+  "inputs": [
+    {
+      "id": "pxx",
+      "value": [
+        3
+      ]
+    },
+    {
+      "id": "f",
+      "value": [
+        2
+      ]
+    }
+  ],
+  "parameters": {},
+  "oracle": {
+    "type": "analytical",
+    "description": "One nonzero sample at its automatic reference has full concentration."
+  },
+  "expected_outputs": [
+    {
+      "id": "pkl",
+      "value": [
+        100
+      ],
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "id": "akl",
+      "value": [
+        100
+      ],
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "nan_equal": true
+}

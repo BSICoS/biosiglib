@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "tools.ispeaky.matrix_shape",
+  "specification_id": "tools.ispeaky",
+  "description": "Classify matrices element by element; shared outputs use column order.",
+  "inputs": [
+    {
+      "id": "pkl",
+      "value": [
+        [
+          45,
+          30
+        ],
+        [
+          60,
+          90
+        ]
+      ]
+    },
+    {
+      "id": "akl",
+      "value": [
+        [
+          85,
+          100
+        ],
+        [
+          80,
+          90
+        ]
+      ]
+    }
+  ],
+  "parameters": {
+    "pkl_threshold": 45,
+    "akl_threshold": 85
+  },
+  "oracle": {
+    "type": "analytical",
+    "description": "Classify matrices element by element; shared outputs use column order."
+  },
+  "expected_outputs": [
+    {
+      "id": "is_peaky",
+      "value": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "absolute_tolerance": 0
+    }
+  ],
+  "nan_equal": true
+}

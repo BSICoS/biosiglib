@@ -551,6 +551,55 @@
       "issue": "3",
       "pages": "306-310",
       "doi": "10.1016/0013-4694(70)90143-4"
+    },
+    {
+      "id": "lazaro_edr_qrs_slopes_2014",
+      "type": "journal_article",
+      "title": "Electrocardiogram derived respiratory rate from QRS slopes and R-wave angle",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Alcaine",
+          "given_names": "Alejandro"
+        },
+        {
+          "type": "person",
+          "family_name": "Romero",
+          "given_names": "Daniel"
+        },
+        {
+          "type": "person",
+          "family_name": "Gil",
+          "given_names": "Eduardo"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        },
+        {
+          "type": "person",
+          "family_name": "Pueyo",
+          "given_names": "Esther"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        }
+      ],
+      "year": 2014,
+      "journal": "Annals of Biomedical Engineering",
+      "volume": "42",
+      "issue": "10",
+      "pages": "2072-2083",
+      "doi": "10.1007/s10439-014-1073-x",
+      "pmid": "25118665"
     }
   ]
 }
