@@ -1074,6 +1074,153 @@
       "processing": [
         "Band sums and maxima are enumerated directly at inclusive frequency boundaries."
       ]
+    },
+    {
+      "id": "ppg.synthetic.pulsedetection_cases",
+      "module": "ppg",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Analytical derivative peaks and repeated pulse cycles for threshold, missing-sample and optional reset behavior."
+      },
+      "files": [
+        {
+          "role": "crossing_peak",
+          "path": "fixtures/data/ppg/pulsedetection_crossing_peak.csv",
+          "format": "csv"
+        },
+        {
+          "role": "quadratic_refinement",
+          "path": "fixtures/data/ppg/pulsedetection_quadratic_refinement.csv",
+          "format": "csv"
+        },
+        {
+          "role": "halfway_rounding",
+          "path": "fixtures/data/ppg/pulsedetection_halfway_rounding.csv",
+          "format": "csv"
+        },
+        {
+          "role": "even_plateau",
+          "path": "fixtures/data/ppg/pulsedetection_even_plateau.csv",
+          "format": "csv"
+        },
+        {
+          "role": "flat_refinement",
+          "path": "fixtures/data/ppg/pulsedetection_flat_refinement.csv",
+          "format": "csv"
+        },
+        {
+          "role": "zero_signal",
+          "path": "fixtures/data/ppg/pulsedetection_zero_signal.csv",
+          "format": "csv"
+        },
+        {
+          "role": "negative_signal",
+          "path": "fixtures/data/ppg/pulsedetection_negative_signal.csv",
+          "format": "csv"
+        },
+        {
+          "role": "all_missing",
+          "path": "fixtures/data/ppg/pulsedetection_all_missing.csv",
+          "format": "csv"
+        },
+        {
+          "role": "leading_missing",
+          "path": "fixtures/data/ppg/pulsedetection_leading_missing.csv",
+          "format": "csv"
+        },
+        {
+          "role": "crossing_spans_missing",
+          "path": "fixtures/data/ppg/pulsedetection_crossing_spans_missing.csv",
+          "format": "csv"
+        },
+        {
+          "role": "missing_refinement_neighbor",
+          "path": "fixtures/data/ppg/pulsedetection_missing_refinement_neighbor.csv",
+          "format": "csv"
+        },
+        {
+          "role": "unclosed_crossing",
+          "path": "fixtures/data/ppg/pulsedetection_unclosed_crossing.csv",
+          "format": "csv"
+        },
+        {
+          "role": "strict_equality",
+          "path": "fixtures/data/ppg/pulsedetection_strict_equality.csv",
+          "format": "csv"
+        },
+        {
+          "role": "reset_deadline",
+          "path": "fixtures/data/ppg/pulsedetection_reset_deadline.csv",
+          "format": "csv"
+        },
+        {
+          "role": "reset_ceil",
+          "path": "fixtures/data/ppg/pulsedetection_reset_ceil.csv",
+          "format": "csv"
+        },
+        {
+          "role": "gain_gap_default",
+          "path": "fixtures/data/ppg/pulsedetection_gain_gap_default.csv",
+          "format": "csv"
+        },
+        {
+          "role": "gain_change_reset",
+          "path": "fixtures/data/ppg/pulsedetection_gain_change_reset.csv",
+          "format": "csv"
+        },
+        {
+          "role": "amplitude_outlier",
+          "path": "fixtures/data/ppg/pulsedetection_amplitude_outlier.csv",
+          "format": "csv"
+        },
+        {
+          "role": "gain_gap_default_expected",
+          "path": "fixtures/data/ppg/pulsedetection_gain_gap_default_expected.csv",
+          "format": "csv"
+        },
+        {
+          "role": "gain_gap_reset_expected",
+          "path": "fixtures/data/ppg/pulsedetection_gain_gap_reset_expected.csv",
+          "format": "csv"
+        },
+        {
+          "role": "gain_change_reset_expected",
+          "path": "fixtures/data/ppg/pulsedetection_gain_change_reset_expected.csv",
+          "format": "csv"
+        },
+        {
+          "role": "amplitude_outlier_expected",
+          "path": "fixtures/data/ppg/pulsedetection_amplitude_outlier_expected.csv",
+          "format": "csv"
+        },
+        {
+          "role": "continuous_history",
+          "path": "fixtures/data/ppg/pulsedetection_continuous_history.csv",
+          "format": "csv"
+        },
+        {
+          "role": "continuous_history_expected",
+          "path": "fixtures/data/ppg/pulsedetection_continuous_history_expected.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "dppg",
+          "unit": "a.u."
+        },
+        {
+          "id": "threshold",
+          "unit": "a.u."
+        }
+      ],
+      "processing": [
+        "Small cases contain explicitly constructed derivative samples; no preprocessing is applied.",
+        "Long cases repeat a 100-sample pulse cycle at 100 Hz. Gain-change cases multiply later samples by 0.05, optionally after a five-second NaN gap.",
+        "The amplitude-outlier case scales successive cycles by a repeating sequence of 1,1,1,4,1,1,3,1,1,1.",
+        "The continuous-history signal contains 120 cycles with scale 1+0.03*(cycle_index modulo 13), using zero-based cycle indices, and crosses both 4096- and 10000-sample boundaries."
+      ]
     }
   ]
 }

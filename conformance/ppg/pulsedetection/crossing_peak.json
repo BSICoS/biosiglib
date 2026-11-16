@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedetection.crossing_peak",
+  "specification_id": "ppg.pulsedetection",
+  "description": "Include the preceding sample when the first above-threshold sample is itself the peak.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "crossing_peak",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 10
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [
+        0.2
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        0.6,
+        0.54,
+        1,
+        1,
+        1
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Include the preceding sample when the first above-threshold sample is itself the peak. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}

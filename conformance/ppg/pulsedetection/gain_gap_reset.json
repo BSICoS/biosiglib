@@ -1,0 +1,57 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedetection.gain_gap_reset",
+  "specification_id": "ppg.pulsedetection",
+  "description": "Reset after two seconds without a raw detection and recover lower-amplitude pulses after missing data.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "gain_gap_default",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 100
+    }
+  ],
+  "parameters": {
+    "reset_after": 2
+  },
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [
+        0.43,
+        1.43,
+        2.43,
+        3.43,
+        4.43,
+        5.43,
+        11.43,
+        12.43,
+        13.43,
+        14.43,
+        15.43,
+        16.43,
+        17.43,
+        18.43,
+        19.43
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "gain_gap_reset_expected",
+      "column": "threshold",
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "biosigmat",
+    "description": "Full threshold and refined times generated from the committed continuous MATLAB detector on this synthetic input.",
+    "commit": "10466f613fe5217db2c527faab3f64c84ed8471f"
+  }
+}

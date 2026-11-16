@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedetection.negative_signal",
+  "specification_id": "ppg.pulsedetection",
+  "description": "No nonnegative sample leaves initialization undefined.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "negative_signal",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 10
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "No nonnegative sample leaves initialization undefined. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}

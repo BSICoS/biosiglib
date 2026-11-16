@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedetection.reset_ceil",
+  "specification_id": "ppg.pulsedetection",
+  "description": "Round the inactivity duration upward so a closing crossing before the deadline is retained.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "reset_ceil",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 10
+    }
+  ],
+  "parameters": {
+    "reset_after": 0.301
+  },
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [
+        0.2
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        0.6,
+        0.54,
+        1,
+        1,
+        1
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Round the inactivity duration upward so a closing crossing before the deadline is retained. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}
