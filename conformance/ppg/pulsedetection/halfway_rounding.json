@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedetection.halfway_rounding",
+  "specification_id": "ppg.pulsedetection",
+  "description": "Round the initial interval of 4.5 samples upward to five.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "halfway_rounding",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 6
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [
+        0.3333333333333333
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        0.6,
+        0.504,
+        1,
+        1,
+        0.84
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Round the initial interval of 4.5 samples upward to five. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}

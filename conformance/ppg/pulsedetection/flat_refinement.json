@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedetection.flat_refinement",
+  "specification_id": "ppg.pulsedetection",
+  "description": "An undefined flat fit removes the time after the raw peak has updated the threshold.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "flat_refinement",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 1
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        1.8,
+        0.36,
+        1,
+        0.2,
+        0.2
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "An undefined flat fit removes the time after the raw peak has updated the threshold. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}

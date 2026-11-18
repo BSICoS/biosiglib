@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedetection.unclosed_crossing",
+  "specification_id": "ppg.pulsedetection",
+  "description": "An above-threshold region without a closing crossing produces no detection.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "unclosed_crossing",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 1
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        1.8,
+        0.36,
+        0.36,
+        0.36,
+        0.36
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "An above-threshold region without a closing crossing produces no detection. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}

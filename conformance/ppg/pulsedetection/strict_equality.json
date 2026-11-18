@@ -1,0 +1,59 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedetection.strict_equality",
+  "specification_id": "ppg.pulsedetection",
+  "description": "Equality with the threshold floor is not an upward crossing.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "strict_equality",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 10
+    }
+  ],
+  "parameters": {
+    "adaptive_alpha_amp": 0.3333333333333333
+  },
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        3.0,
+        2.75,
+        2.5,
+        2.25,
+        2.0,
+        1.75,
+        1.5,
+        1.25,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Equality with the threshold floor is not an upward crossing. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}
