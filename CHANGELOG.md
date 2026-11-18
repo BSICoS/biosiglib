@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v3.1.0-beta - 2026-11-18
+
 - Added ppg.pulsedetection with continuous adaptive state, optional inactivity resets, refined times in seconds and shared conformance cases.
 
 ## v3.0.0-beta - 2026-11-13
