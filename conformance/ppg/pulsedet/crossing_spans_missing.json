@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.crossing_spans_missing",
-  "specification_id": "ppg.pulsedetection",
+  "id": "ppg.pulsedet.crossing_spans_missing",
+  "specification_id": "ppg.pulsedet",
   "description": "A crossing region can span missing samples; select its highest local peak.",
   "inputs": [
     {

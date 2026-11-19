@@ -1,18 +1,18 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.even_plateau",
-  "specification_id": "ppg.pulsedetection",
-  "description": "Select the earlier plateau center and refine to its midpoint.",
+  "id": "ppg.pulsedet.crossing_peak",
+  "specification_id": "ppg.pulsedet",
+  "description": "Include the preceding sample when the first above-threshold sample is itself the peak.",
   "inputs": [
     {
       "id": "dppg",
       "fixture_id": "ppg.synthetic.pulsedetection_cases",
-      "file_role": "even_plateau",
+      "file_role": "crossing_peak",
       "column": "dppg"
     },
     {
       "id": "sampling_frequency",
-      "value": 1
+      "value": 10
     }
   ],
   "parameters": {},
@@ -20,17 +20,18 @@
     {
       "id": "t_d",
       "value": [
-        1.5
+        0.2
       ],
       "absolute_tolerance": 1e-12
     },
     {
       "id": "threshold",
       "value": [
-        1.5,
+        0.6,
+        0.54,
         1,
-        0.2,
-        0.2
+        1,
+        1
       ],
       "absolute_tolerance": 1e-12
     }
@@ -38,6 +39,6 @@
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "Select the earlier plateau center and refine to its midpoint. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+    "description": "Include the preceding sample when the first above-threshold sample is itself the peak. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
   }
 }

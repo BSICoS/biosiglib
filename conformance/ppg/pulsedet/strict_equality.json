@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.strict_equality",
-  "specification_id": "ppg.pulsedetection",
+  "id": "ppg.pulsedet.strict_equality",
+  "specification_id": "ppg.pulsedet",
   "description": "Equality with the threshold floor is not an upward crossing.",
   "inputs": [
     {

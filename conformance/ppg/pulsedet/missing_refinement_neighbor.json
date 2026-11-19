@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.missing_refinement_neighbor",
-  "specification_id": "ppg.pulsedetection",
+  "id": "ppg.pulsedet.missing_refinement_neighbor",
+  "specification_id": "ppg.pulsedet",
   "description": "A missing original neighbor prevents refinement but does not undo adaptation.",
   "inputs": [
     {

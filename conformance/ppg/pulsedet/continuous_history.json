@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.continuous_history",
-  "specification_id": "ppg.pulsedetection",
+  "id": "ppg.pulsedet.continuous_history",
+  "specification_id": "ppg.pulsedet",
   "description": "Preserve adaptive history and the full threshold across 4096- and 10000-sample boundaries.",
   "inputs": [
     {

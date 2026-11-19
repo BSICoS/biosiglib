@@ -1,0 +1,71 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedel.ppg_gap",
+  "specification_id": "ppg.pulsedel",
+  "description": "A PPG gap separates the basal point from the detection. A detection on the gap has no fiducials.",
+  "inputs": [
+    {
+      "id": "ppg",
+      "fixture_id": "ppg.synthetic.pulsedel_cases",
+      "file_role": "pulse",
+      "column": "ppg_gap"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 20
+    },
+    {
+      "id": "t_d",
+      "value": [
+        0.25,
+        0.2
+      ]
+    },
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedel_cases",
+      "file_role": "pulse",
+      "column": "dppg"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_a",
+      "value": [
+        0.4,
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "t_b",
+      "value": [
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "t_m",
+      "value": [
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "t_o",
+      "value": [
+        0.25,
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "A PPG gap separates the basal point from the detection. A detection on the gap has no fiducials. Sample times follow the triangular PPG and supplied slope profile."
+  }
+}

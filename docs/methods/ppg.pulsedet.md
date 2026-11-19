@@ -1,5 +1,5 @@
 ---
-spec_id: ppg.pulsedetection
+spec_id: ppg.pulsedet
 title: Detect pulse maximum upslopes
 ---
 

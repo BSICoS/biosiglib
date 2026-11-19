@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.zero_signal",
-  "specification_id": "ppg.pulsedetection",
+  "id": "ppg.pulsedet.zero_signal",
+  "specification_id": "ppg.pulsedet",
   "description": "Zero input has no strict upward crossing.",
   "inputs": [
     {

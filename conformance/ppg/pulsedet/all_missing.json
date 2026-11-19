@@ -1,18 +1,18 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.flat_refinement",
-  "specification_id": "ppg.pulsedetection",
-  "description": "An undefined flat fit removes the time after the raw peak has updated the threshold.",
+  "id": "ppg.pulsedet.all_missing",
+  "specification_id": "ppg.pulsedet",
+  "description": "An entirely missing signal has no detections and an undefined threshold.",
   "inputs": [
     {
       "id": "dppg",
       "fixture_id": "ppg.synthetic.pulsedetection_cases",
-      "file_role": "flat_refinement",
+      "file_role": "all_missing",
       "column": "dppg"
     },
     {
       "id": "sampling_frequency",
-      "value": 1
+      "value": 10
     }
   ],
   "parameters": {},
@@ -25,11 +25,11 @@
     {
       "id": "threshold",
       "value": [
-        1.8,
-        0.36,
-        1,
-        0.2,
-        0.2
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN"
       ],
       "absolute_tolerance": 1e-12
     }
@@ -37,6 +37,6 @@
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "An undefined flat fit removes the time after the raw peak has updated the threshold. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+    "description": "An entirely missing signal has no detections and an undefined threshold. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
   }
 }

@@ -1,13 +1,13 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.gain_change_reset",
-  "specification_id": "ppg.pulsedetection",
-  "description": "Recover after a gain reduction without an explicit NaN gap.",
+  "id": "ppg.pulsedet.amplitude_outlier",
+  "specification_id": "ppg.pulsedet",
+  "description": "Exercise RR history, the five-value amplitude median and the correction for unusually large peaks.",
   "inputs": [
     {
       "id": "dppg",
       "fixture_id": "ppg.synthetic.pulsedetection_cases",
-      "file_role": "gain_change_reset",
+      "file_role": "amplitude_outlier",
       "column": "dppg"
     },
     {
@@ -15,9 +15,7 @@
       "value": 100
     }
   ],
-  "parameters": {
-    "reset_after": 2
-  },
+  "parameters": {},
   "expected_outputs": [
     {
       "id": "t_d",
@@ -28,6 +26,7 @@
         3.43,
         4.43,
         5.43,
+        6.43,
         7.43,
         8.43,
         9.43,
@@ -47,7 +46,7 @@
     {
       "id": "threshold",
       "fixture_id": "ppg.synthetic.pulsedetection_cases",
-      "file_role": "gain_change_reset_expected",
+      "file_role": "amplitude_outlier_expected",
       "column": "threshold",
       "absolute_tolerance": 1e-12
     }

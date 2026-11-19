@@ -1,13 +1,13 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.unclosed_crossing",
-  "specification_id": "ppg.pulsedetection",
-  "description": "An above-threshold region without a closing crossing produces no detection.",
+  "id": "ppg.pulsedet.flat_refinement",
+  "specification_id": "ppg.pulsedet",
+  "description": "An undefined flat fit removes the time after the raw peak has updated the threshold.",
   "inputs": [
     {
       "id": "dppg",
       "fixture_id": "ppg.synthetic.pulsedetection_cases",
-      "file_role": "unclosed_crossing",
+      "file_role": "flat_refinement",
       "column": "dppg"
     },
     {
@@ -27,9 +27,9 @@
       "value": [
         1.8,
         0.36,
-        0.36,
-        0.36,
-        0.36
+        1,
+        0.2,
+        0.2
       ],
       "absolute_tolerance": 1e-12
     }
@@ -37,6 +37,6 @@
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "An above-threshold region without a closing crossing produces no detection. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+    "description": "An undefined flat fit removes the time after the raw peak has updated the threshold. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
   }
 }

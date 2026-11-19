@@ -600,6 +600,43 @@
       "pages": "2072-2083",
       "doi": "10.1007/s10439-014-1073-x",
       "pmid": "25118665"
+    },
+    {
+      "id": "lazaro_pulse_width_2013",
+      "type": "journal_article",
+      "title": "Deriving respiration from photoplethysmographic pulse width",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Gil",
+          "given_names": "Eduardo"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        },
+        {
+          "type": "person",
+          "family_name": "Minchol\u00e9",
+          "given_names": "Ana"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        }
+      ],
+      "year": 2013,
+      "journal": "Medical & Biological Engineering & Computing",
+      "volume": "51",
+      "pages": "233-242",
+      "doi": "10.1007/s11517-012-0954-0"
     }
   ]
 }

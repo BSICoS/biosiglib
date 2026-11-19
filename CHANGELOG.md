@@ -6,6 +6,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+- Renamed `ppg.pulsedetection` to `ppg.pulsedet`.
+
+- Added the `ppg.pulsedel` contract for apex, basal, mid-amplitude and onset times.
+
 ## v3.1.0-beta - 2026-11-18
 
 - Added ppg.pulsedetection with continuous adaptive state, optional inactivity resets, refined times in seconds and shared conformance cases.

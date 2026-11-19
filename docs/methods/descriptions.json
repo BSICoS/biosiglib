@@ -202,7 +202,7 @@
     "akl_threshold": "Inclusive lower threshold for AKL, between zero and 100.",
     "is_peaky": "Whether both thresholds are met at each position."
   },
-  "ppg.pulsedetection": {
+  "ppg.pulsedet": {
     "dppg": "PPG derivative after filtering and any filter-delay compensation.",
     "sampling_frequency": "Sampling frequency of the derivative signal.",
     "method": "Pulse detector; adaptive is the currently defined method.",
@@ -212,5 +212,17 @@
     "reset_after": "Optional duration without a raw detection before restarting adaptation; null disables resets.",
     "t_d": "Refined maximum-upslope times in seconds, with the first sample at time zero.",
     "threshold": "Adaptive threshold aligned with every derivative sample, including missing stretches."
+  },
+  "ppg.pulsedel": {
+    "ppg": "Sampled PPG waveform.",
+    "sampling_frequency": "Sampling frequency of both signals.",
+    "t_d": "Approximate detection times in input order.",
+    "dppg": "Optional delay-aligned PPG derivative supplied by the caller.",
+    "window_a": "Forward search duration for the apex.",
+    "window_b": "Backward search duration for the basal point.",
+    "t_a": "Refined apex times.",
+    "t_b": "Refined basal times.",
+    "t_m": "Refined times at half the basal-to-apex amplitude.",
+    "t_o": "Derivative-based onset times."
   }
 }

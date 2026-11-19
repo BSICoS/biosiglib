@@ -1,13 +1,13 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.crossing_peak",
-  "specification_id": "ppg.pulsedetection",
-  "description": "Include the preceding sample when the first above-threshold sample is itself the peak.",
+  "id": "ppg.pulsedet.reset_ceil",
+  "specification_id": "ppg.pulsedet",
+  "description": "Round the inactivity duration upward so a closing crossing before the deadline is retained.",
   "inputs": [
     {
       "id": "dppg",
       "fixture_id": "ppg.synthetic.pulsedetection_cases",
-      "file_role": "crossing_peak",
+      "file_role": "reset_ceil",
       "column": "dppg"
     },
     {
@@ -15,7 +15,9 @@
       "value": 10
     }
   ],
-  "parameters": {},
+  "parameters": {
+    "reset_after": 0.301
+  },
   "expected_outputs": [
     {
       "id": "t_d",
@@ -39,6 +41,6 @@
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "Include the preceding sample when the first above-threshold sample is itself the peak. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+    "description": "Round the inactivity duration upward so a closing crossing before the deadline is retained. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
   }
 }

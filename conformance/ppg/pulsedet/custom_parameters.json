@@ -1,13 +1,13 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.reset_ceil",
-  "specification_id": "ppg.pulsedetection",
-  "description": "Round the inactivity duration upward so a closing crossing before the deadline is retained.",
+  "id": "ppg.pulsedet.custom_parameters",
+  "specification_id": "ppg.pulsedet",
+  "description": "Custom floor, refractory hold and decay fraction with a case-insensitive method name.",
   "inputs": [
     {
       "id": "dppg",
       "fixture_id": "ppg.synthetic.pulsedetection_cases",
-      "file_role": "reset_ceil",
+      "file_role": "crossing_peak",
       "column": "dppg"
     },
     {
@@ -16,7 +16,10 @@
     }
   ],
   "parameters": {
-    "reset_after": 0.301
+    "method": "ADAPTIVE",
+    "adaptive_alpha_amp": 0.3,
+    "adaptive_refract_period": 0.1,
+    "adaptive_tau_rr": 1.5
   },
   "expected_outputs": [
     {
@@ -30,10 +33,10 @@
       "id": "threshold",
       "value": [
         0.6,
-        0.54,
+        0.5475,
         1,
         1,
-        1
+        0.9416666666666667
       ],
       "absolute_tolerance": 1e-12
     }
@@ -41,6 +44,6 @@
   "nan_equal": true,
   "oracle": {
     "type": "analytical",
-    "description": "Round the inactivity duration upward so a closing crossing before the deadline is retained. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+    "description": "Initial slope is 0.6*0.7/8. After the peak, the refractory hold is one sample and decay lasts round(1.5*8)=12 samples."
   }
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schemas/conformance-case.schema.json",
-  "id": "ppg.pulsedetection.gain_gap_reset",
-  "specification_id": "ppg.pulsedetection",
+  "id": "ppg.pulsedet.gain_gap_reset",
+  "specification_id": "ppg.pulsedet",
   "description": "Reset after two seconds without a raw detection and recover lower-amplitude pulses after missing data.",
   "inputs": [
     {
