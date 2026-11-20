@@ -1,0 +1,124 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "resp.tidalvolume",
+    "module": "resp"
+  },
+  "informative": {
+    "title": "Estimate respiratory amplitude per cycle",
+    "summary": "Estimate each peak-to-following-valley amplitude and interpolate it at the cycle midpoint on the respiratory sample grid.",
+    "keywords": [
+      "respiration",
+      "tidal volume",
+      "peak-to-peak amplitude"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "lazaro_tidal_volume_2020",
+        "relation": "original_method",
+        "note": "Figure 2 describes extrema between zero crossings and subtracts two cubic-spline envelopes. The zero-crossing delineation is retained here."
+      },
+      {
+        "id": "lazaro_tidal_volume_2024",
+        "relation": "original_method",
+        "note": "Section II.C, equation 1 defines cycle amplitude at the temporal midpoint. Here the separation filter acts on zero crossings, and PCHIP interpolates the cycle amplitudes without subsequent smoothing."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "resp",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "mindist",
+        "data_type": "real_scalar",
+        "default": 0,
+        "unit": "s",
+        "constraints": {
+          "minimum": 0
+        }
+      },
+      {
+        "id": "max_gap",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "tdvol",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      },
+      {
+        "id": "upper_envelope",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      },
+      {
+        "id": "lower_envelope",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      }
+    ],
+    "definitions": [
+      {
+        "target": "detrending",
+        "text": "Remove a single least-squares straight line fitted to all finite samples at their original sample positions. Use the residual signal for extrema and amplitudes."
+      },
+      {
+        "target": "zero_crossings",
+        "text": "Within each contiguous finite segment, locate changes between consecutive nonzero signs at the first sample with the new sign. Keep the first candidate and any candidate at least mindist seconds after its previous raw candidate. Reduce successive retained crossings of the same direction to the first."
+      },
+      {
+        "target": "extrema",
+        "text": "Between consecutive retained crossings take the first highest sample for an upward-to-downward crossing interval and the first lowest sample for a downward-to-upward interval. Include both crossing samples. Discard incomplete boundary intervals."
+      },
+      {
+        "target": "cycle_amplitude",
+        "text": "Within the same observed segment pair each peak with its immediately following valley. Subtract valley amplitude from peak amplitude and assign the difference to the arithmetic mean of their sample positions, preserving half samples."
+      },
+      {
+        "target": "interpolation",
+        "text": "Fit each output independently on the original sample grid using PCHIP from its own anchors (cycle midpoints, peaks or valleys). Split before fitting when consecutive anchor positions differ by at least max_gap seconds at the given sampling frequency. Default max_gap is positive infinity (null in metadata). Use groups of at least two anchors, including their endpoints and without extrapolation."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "NaNs interrupt detection and pairing. Each curve may interpolate across missing signal when its surrounding anchors support interpolation.",
+      "empty_input": "Reject an empty signal.",
+      "input_orientation": "Row and column vectors represent the same sequence. MATLAB returns row vectors, with tdvol first. Python returns three one-dimensional arrays in the declared order.",
+      "insufficient_data": "Return NaN wherever an output lacks a supported anchor group, including entirely missing or constant signals."
+    }
+  }
+}

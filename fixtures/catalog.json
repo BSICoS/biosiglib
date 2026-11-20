@@ -1263,6 +1263,40 @@
           "unit": "a.u."
         }
       ]
+    },
+    {
+      "id": "resp.synthetic.tidalvolume_gaps",
+      "module": "resp",
+      "data_kind": "table",
+      "source": {
+        "type": "synthetic",
+        "description": "Symmetric four-sample cycles with two missing intervals and analytical amplitude and envelope supports."
+      },
+      "files": [
+        {
+          "role": "cycles",
+          "path": "fixtures/data/resp/tidalvolume_gaps.csv",
+          "format": "csv"
+        }
+      ],
+      "channels": [
+        {
+          "id": "resp",
+          "unit": "a.u."
+        },
+        {
+          "id": "tdvol",
+          "unit": "a.u."
+        },
+        {
+          "id": "upper_envelope",
+          "unit": "a.u."
+        },
+        {
+          "id": "lower_envelope",
+          "unit": "a.u."
+        }
+      ]
     }
   ]
 }

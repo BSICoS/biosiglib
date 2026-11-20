@@ -1,0 +1,89 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "resp.tidalvolume.close_crossings",
+  "specification_id": "resp.tidalvolume",
+  "description": "Raw crossings are one quarter second apart. Only the first survives a 0.3 s separation, leaving every curve unsupported.",
+  "inputs": [
+    {
+      "id": "resp",
+      "value": [
+        1,
+        -1,
+        3,
+        -3,
+        2,
+        -4,
+        2,
+        -3,
+        3,
+        -1,
+        1
+      ]
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 4
+    }
+  ],
+  "parameters": {
+    "mindist": 0.3
+  },
+  "expected_outputs": [
+    {
+      "id": "tdvol",
+      "value": [
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "upper_envelope",
+      "value": [
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "lower_envelope",
+      "value": [
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Raw crossings are one quarter second apart. Only the first survives a 0.3 s separation, leaving every curve unsupported."
+  }
+}

@@ -27,6 +27,7 @@
         "ecg",
         "ppg",
         "respiration",
+        "resp",
         "hrv",
         "tools"
       ]

@@ -236,5 +236,14 @@
     "max_gap": "Maximum separation before starting a new interpolation segment.",
     "lower_envelope": "PPG amplitudes interpolated between basal points.",
     "upper_envelope": "PPG amplitudes interpolated between apex points."
+  },
+  "resp.tidalvolume": {
+    "resp": "Uniformly sampled respiratory signal.",
+    "sampling_frequency": "Sampling frequency in Hz.",
+    "mindist": "Minimum separation from the previous raw zero-crossing candidate, in seconds.",
+    "max_gap": "Time in seconds between consecutive anchors at which a new group begins.",
+    "tdvol": "Peak-to-following-valley amplitudes interpolated at respiratory cycle midpoints.",
+    "upper_envelope": "Interpolated detrended peak amplitudes.",
+    "lower_envelope": "Interpolated detrended valley amplitudes."
   }
 }

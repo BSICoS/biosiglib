@@ -637,6 +637,102 @@
       "volume": "51",
       "pages": "233-242",
       "doi": "10.1007/s11517-012-0954-0"
+    },
+    {
+      "id": "lazaro_tidal_volume_2020",
+      "type": "conference_paper",
+      "title": "Electrocardiogram Derived Respiration for Tracking Changes in Tidal Volume from a Wearable Armband",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Reljin",
+          "given_names": "Natasa"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        },
+        {
+          "type": "person",
+          "family_name": "Gil",
+          "given_names": "Eduardo"
+        },
+        {
+          "type": "person",
+          "family_name": "Noh",
+          "given_names": "Yeonsik"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        },
+        {
+          "type": "person",
+          "family_name": "Chon",
+          "given_names": "Ki H."
+        }
+      ],
+      "year": 2020,
+      "journal": "42nd Annual International Conference of the IEEE Engineering in Medicine and Biology Society",
+      "pages": "596-599",
+      "doi": "10.1109/EMBC44109.2020.9175486",
+      "pmid": "33018059"
+    },
+    {
+      "id": "lazaro_tidal_volume_2024",
+      "type": "journal_article",
+      "title": "Tracking Tidal Volume From Holter and Wearable Armband Electrocardiogram Monitoring",
+      "authors": [
+        {
+          "type": "person",
+          "family_name": "L\u00e1zaro",
+          "given_names": "Jes\u00fas"
+        },
+        {
+          "type": "person",
+          "family_name": "Reljin",
+          "given_names": "Natasa"
+        },
+        {
+          "type": "person",
+          "family_name": "Bail\u00f3n",
+          "given_names": "Raquel"
+        },
+        {
+          "type": "person",
+          "family_name": "Gil",
+          "given_names": "Eduardo"
+        },
+        {
+          "type": "person",
+          "family_name": "Noh",
+          "given_names": "Yeonsik"
+        },
+        {
+          "type": "person",
+          "family_name": "Laguna",
+          "given_names": "Pablo"
+        },
+        {
+          "type": "person",
+          "family_name": "Chon",
+          "given_names": "Ki H."
+        }
+      ],
+      "year": 2024,
+      "journal": "IEEE Journal of Biomedical and Health Informatics",
+      "volume": "28",
+      "issue": "6",
+      "pages": "3457-3465",
+      "doi": "10.1109/JBHI.2024.3383232",
+      "pmid": "38557616"
     }
   ]
 }

@@ -51,6 +51,8 @@ nav:
           - Orthogonal subspace projection: methods/hrv.osp.md
           - False-positive removal: methods/hrv.removefp.md
           - Time-domain metrics: methods/hrv.tdmetrics.md
+      - Respiration:
+          - Tidal volume: methods/resp.tidalvolume.md
       - Utilities:
           - Expand NaN gaps: methods/tools.expandnans.md
           - Find repeated values: methods/tools.findsequences.md
