@@ -1,0 +1,57 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedet.missing_refinement_neighbor",
+  "specification_id": "ppg.pulsedet",
+  "description": "A missing original neighbor prevents refinement but does not undo adaptation.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "missing_refinement_neighbor",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 10
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        1.105263157894737,
+        0.994736842105263,
+        3,
+        3,
+        3,
+        2.7,
+        2.4,
+        2.1,
+        1.8,
+        1.5,
+        1.2000000000000002,
+        0.8999999999999999,
+        0.6000000000000001,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "A missing original neighbor prevents refinement but does not undo adaptation. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsenv.gap_threshold",
+  "specification_id": "ppg.pulsenv",
+  "description": "The equality gap splits the apex PCHIP into two straight lines before fitting. Basal support ends independently.",
+  "inputs": [
+    {
+      "id": "ppg",
+      "value": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        4,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 2
+    },
+    {
+      "id": "t_a",
+      "value": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "t_b",
+      "value": [
+        0.5,
+        1.5,
+        2.5
+      ]
+    }
+  ],
+  "parameters": {
+    "max_gap": 2
+  },
+  "expected_outputs": [
+    {
+      "id": "lower_envelope",
+      "value": [
+        "NaN",
+        1,
+        2,
+        3,
+        4,
+        5,
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "upper_envelope",
+      "value": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        "NaN",
+        "NaN",
+        "NaN",
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "The equality gap splits the apex PCHIP into two straight lines before fitting. Basal support ends independently."
+  }
+}

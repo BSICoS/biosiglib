@@ -1,0 +1,150 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "ppg.pulsedel",
+    "module": "ppg"
+  },
+  "informative": {
+    "title": "Delineate PPG pulse fiducials",
+    "summary": "Locates apex, basal, mid-amplitude and optional derivative-based onset times for each pulse detection.",
+    "keywords": [
+      "PPG",
+      "pulse delineation",
+      "onset"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "lazaro_pulse_width_2013",
+        "relation": "original_method",
+        "note": "Equations 2 to 4 define the onset relative to maximum upslope. This interface accepts the derivative from the caller."
+      },
+      {
+        "id": "lazaro_prv_sleep_apnea_ppg_2014",
+        "relation": "original_method",
+        "note": "Equations 3 and 4 define the basal reference and mid-amplitude point for PRV. This method uses configurable detection-relative extrema windows and refines their times."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "ppg",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "t_d",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s",
+        "allow_nan": true,
+        "allow_inf": false
+      },
+      {
+        "id": "dppg",
+        "data_type": "real_vector",
+        "unit": "a.u.",
+        "shape": "vector",
+        "allow_nan": true,
+        "allow_inf": false
+      }
+    ],
+    "parameters": [
+      {
+        "id": "window_a",
+        "data_type": "real_scalar",
+        "default": 0.25,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "window_b",
+        "data_type": "real_scalar",
+        "default": 0.15,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "t_a",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      },
+      {
+        "id": "t_b",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      },
+      {
+        "id": "t_m",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      },
+      {
+        "id": "t_o",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      }
+    ],
+    "definitions": [
+      {
+        "target": "detection_times",
+        "text": "Accept times from 0 through (N-1)/fs inclusive before rounding. Multiply times and window durations by fs, then round to the nearest sample, with positive half ties upward. Process each detection independently in its original position."
+      },
+      {
+        "target": "extrema",
+        "text": "On the uninterrupted PPG span containing the detection sample D, use tools.localmax on PPG[D:D+round(window_a*fs)] for A and on negated PPG[D-round(window_b*fs):D] for B. Intervals include both ends and are clipped to available samples. Endpoints are excluded from the local peaks."
+      },
+      {
+        "target": "refinement",
+        "text": "For sampled A and B refine the time using their immediate neighbors. For a selected sample p in a signal y, add (y[p-1]-y[p+1])/(2*(y[p-1]-2*y[p]+y[p+1])) to p before dividing by fs. A flat three-sample fit gives NaN."
+      },
+      {
+        "target": "mid_amplitude",
+        "text": "In the inclusive sampled interval B to A, select the earliest sample closest to (PPG[B]+PPG[A])/2. Refine its time using the negative absolute amplitude error on that interval. Keep an endpoint selected in this interval at its sample time."
+      },
+      {
+        "target": "onset",
+        "text": "Use the supplied real derivative aligned with PPG, of the same length, with NaNs allowed and infinities rejected. Search backward from sampled A by up to round(0.3*fs) samples, stopping at a gap in either input. Require at least two available samples and a positive maximum derivative. U is the earliest sample attaining that maximum. From the start of the available window through U, use a threshold of 0.05*dppg[U]. If any sample is at or below the threshold, choose the earliest sample closest to it. Otherwise choose the last interior local minimum (earlier center of a plateau); if none exists use the earliest absolute minimum. Return the selected sample time without refinement."
+      },
+      {
+        "target": "derivative_omitted",
+        "text": "Python defaults to all four arrays. The keyword points selects distinct letters from ABMO, case-insensitively, in the requested order. A single letter returns one array. Omitted dppg silently fills any requested t_o with NaNs. MATLAB permits up to three outputs without dppg and raises an error if the fourth is requested. Neither implementation computes a derivative."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Preserve a missing detection or a detection on missing PPG as a missing entry in every output. PPG gaps stop each search; derivative gaps affect onset only.",
+      "empty_input": "Reject empty PPG. Empty detection times yield empty outputs, subject to the MATLAB fourth-output requirement.",
+      "input_orientation": "Accept row and column vectors. Preserve order and duplicates. MATLAB returns column vectors and Python one-dimensional arrays.",
+      "insufficient_data": "Keep undefined fiducials as NaN. Missing sampled A or B prevents computing M. Missing sampled A prevents computing O."
+    }
+  }
+}

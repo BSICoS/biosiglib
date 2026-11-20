@@ -41,7 +41,9 @@ nav:
           - Slope-range respiration: methods/ecg.sloperange.md
       - PPG:
           - Hjorth artifact detection: methods/ppg.hjorth_artifacts.md
-          - Pulse detection: methods/ppg.pulsedetection.md
+          - Pulse delineation: methods/ppg.pulsedel.md
+          - Pulse envelopes: methods/ppg.pulsenv.md
+          - Pulse detection: methods/ppg.pulsedet.md
       - HRV:
           - Frequency-domain metrics: methods/hrv.fdmetrics.md
           - Gap filling: methods/hrv.fillgaps.md
@@ -49,6 +51,8 @@ nav:
           - Orthogonal subspace projection: methods/hrv.osp.md
           - False-positive removal: methods/hrv.removefp.md
           - Time-domain metrics: methods/hrv.tdmetrics.md
+      - Respiration:
+          - Tidal volume: methods/resp.tidalvolume.md
       - Utilities:
           - Expand NaN gaps: methods/tools.expandnans.md
           - Find repeated values: methods/tools.findsequences.md

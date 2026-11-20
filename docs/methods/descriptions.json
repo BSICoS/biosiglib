@@ -202,7 +202,7 @@
     "akl_threshold": "Inclusive lower threshold for AKL, between zero and 100.",
     "is_peaky": "Whether both thresholds are met at each position."
   },
-  "ppg.pulsedetection": {
+  "ppg.pulsedet": {
     "dppg": "PPG derivative after filtering and any filter-delay compensation.",
     "sampling_frequency": "Sampling frequency of the derivative signal.",
     "method": "Pulse detector; adaptive is the currently defined method.",
@@ -212,5 +212,38 @@
     "reset_after": "Optional duration without a raw detection before restarting adaptation; null disables resets.",
     "t_d": "Refined maximum-upslope times in seconds, with the first sample at time zero.",
     "threshold": "Adaptive threshold aligned with every derivative sample, including missing stretches."
+  },
+  "ppg.pulsedel": {
+    "ppg": "Sampled PPG waveform.",
+    "sampling_frequency": "Sampling frequency of both signals.",
+    "t_d": "Approximate detection times in input order.",
+    "dppg": "Optional delay-aligned PPG derivative supplied by the caller.",
+    "window_a": "Forward search duration for the apex.",
+    "window_b": "Backward search duration for the basal point.",
+    "t_a": "Refined apex times.",
+    "t_b": "Refined basal times.",
+    "t_m": "Refined times at half the basal-to-apex amplitude.",
+    "t_o": "Derivative-based onset times."
+  },
+  "ppg.pulsenv": {
+    "ppg": "Sampled PPG waveform.",
+    "sampling_frequency": "Sampling frequency of the PPG in Hz.",
+    "t_d": "Detection times for automatic delineation.",
+    "t_a": "Precomputed apex times, supplied with basal times.",
+    "t_b": "Precomputed basal times, supplied with apex times.",
+    "window_a": "Forward apex search window.",
+    "window_b": "Backward basal search window.",
+    "max_gap": "Maximum separation before starting a new interpolation segment.",
+    "lower_envelope": "PPG amplitudes interpolated between basal points.",
+    "upper_envelope": "PPG amplitudes interpolated between apex points."
+  },
+  "resp.tidalvolume": {
+    "resp": "Uniformly sampled respiratory signal.",
+    "sampling_frequency": "Sampling frequency in Hz.",
+    "mindist": "Minimum separation from the previous raw zero-crossing candidate, in seconds.",
+    "max_gap": "Time in seconds between consecutive anchors at which a new group begins.",
+    "tdvol": "Peak-to-following-valley amplitudes interpolated at respiratory cycle midpoints.",
+    "upper_envelope": "Interpolated detrended peak amplitudes.",
+    "lower_envelope": "Interpolated detrended valley amplitudes."
   }
 }

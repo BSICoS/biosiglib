@@ -1,0 +1,66 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedel.absolute_minimum",
+  "specification_id": "ppg.pulsedel",
+  "description": "Fall back to the absolute minimum.",
+  "inputs": [
+    {
+      "id": "ppg",
+      "fixture_id": "ppg.synthetic.pulsedel_cases",
+      "file_role": "pulse",
+      "column": "ppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 20
+    },
+    {
+      "id": "t_d",
+      "value": [
+        0.25
+      ]
+    },
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedel_cases",
+      "file_role": "pulse",
+      "column": "absolute_minimum"
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_a",
+      "value": [
+        0.4
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "t_b",
+      "value": [
+        0.15
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "t_m",
+      "value": [
+        0.275
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "t_o",
+      "value": [
+        0.1
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Fall back to the absolute minimum. Sample times follow the triangular PPG and supplied slope profile."
+  }
+}

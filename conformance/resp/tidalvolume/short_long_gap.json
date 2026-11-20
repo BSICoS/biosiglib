@@ -1,0 +1,49 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "resp.tidalvolume.short_long_gap",
+  "specification_id": "resp.tidalvolume",
+  "description": "All observed blocks have zero mean and slope. The short gap is bridged; the 4 s valley-anchor gap equals the limit. Each segment contributes two cycle anchors.",
+  "inputs": [
+    {
+      "id": "resp",
+      "fixture_id": "resp.synthetic.tidalvolume_gaps",
+      "file_role": "cycles",
+      "column": "resp"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 4
+    }
+  ],
+  "parameters": {
+    "max_gap": 4
+  },
+  "expected_outputs": [
+    {
+      "id": "tdvol",
+      "absolute_tolerance": 1e-11,
+      "fixture_id": "resp.synthetic.tidalvolume_gaps",
+      "file_role": "cycles",
+      "column": "tdvol"
+    },
+    {
+      "id": "upper_envelope",
+      "absolute_tolerance": 1e-11,
+      "fixture_id": "resp.synthetic.tidalvolume_gaps",
+      "file_role": "cycles",
+      "column": "upper_envelope"
+    },
+    {
+      "id": "lower_envelope",
+      "absolute_tolerance": 1e-11,
+      "fixture_id": "resp.synthetic.tidalvolume_gaps",
+      "file_role": "cycles",
+      "column": "lower_envelope"
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "All observed blocks have zero mean and slope. The short gap is bridged; the 4 s valley-anchor gap equals the limit. Each segment contributes two cycle anchors."
+  }
+}

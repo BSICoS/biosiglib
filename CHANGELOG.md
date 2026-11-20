@@ -6,6 +6,16 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+## v4.0.0-beta - 2026-11-20
+
+- Added the `resp.tidalvolume` contract for cycle amplitude and respiratory envelopes.
+
+- Added the `ppg.pulsenv` contract for pulse envelopes and specified optional fiducial selection in Python.
+
+- Breaking: renamed `ppg.pulsedetection` to `ppg.pulsedet`.
+
+- Added the `ppg.pulsedel` contract for apex, basal, mid-amplitude and onset times.
+
 ## v3.1.0-beta - 2026-11-18
 
 - Added ppg.pulsedetection with continuous adaptive state, optional inactivity resets, refined times in seconds and shared conformance cases.

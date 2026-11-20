@@ -1,0 +1,161 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "ppg.pulsedet",
+    "module": "ppg"
+  },
+  "informative": {
+    "title": "Detect pulse maximum upslopes",
+    "summary": "Detects and refines pulse maximum-upslopes in a PPG derivative using a continuously adapted threshold.",
+    "notes": [
+      "The input is already filtered and differentiated; this method does not perform preprocessing.",
+      "Optional inactivity resets can help after a device gain change. They are disabled by default.",
+      "The initialization, amplitude adaptation and discrete decay rules below define this variant of the published detector."
+    ],
+    "keywords": [
+      "PPG",
+      "pulse detection",
+      "adaptive threshold"
+    ]
+  },
+  "provenance": {
+    "references": [
+      {
+        "id": "lazaro_prv_sleep_apnea_ppg_2014",
+        "relation": "original_method",
+        "note": "Adaptive detection of maximum upslopes in the LPD-filtered PPG. This specification retains Biosiglib initialization and robust amplitude estimation, places the decay after the refractory period, and defines an optional inactivity reset."
+      }
+    ]
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "dppg",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "id": "method",
+        "data_type": "string",
+        "default": "adaptive"
+      },
+      {
+        "id": "adaptive_alpha_amp",
+        "data_type": "real_scalar",
+        "default": 0.2,
+        "unit": "1",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "adaptive_refract_period",
+        "data_type": "real_scalar",
+        "default": 0.15,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "adaptive_tau_rr",
+        "data_type": "real_scalar",
+        "default": 1,
+        "unit": "1",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "reset_after",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "t_d",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s"
+      },
+      {
+        "id": "threshold",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      }
+    ],
+    "definitions": [
+      {
+        "target": "coordinates_and_parameters",
+        "text": "Use zero-based sample coordinates n=0,...,N-1 and times n/fs, where fs=sampling_frequency. Round sample counts to the nearest integer, with positive half-way values rounded upward. Let alpha=adaptive_alpha_amp, r=round(adaptive_refract_period*fs), and R0=round(0.75*fs), corresponding to an initial estimate of 80 beats/minute. The three adaptive parameters are finite and positive; alpha is not restricted to values below one. Accept method=adaptive case-insensitively. Omitted or null reset_after disables resets; positive infinity is the MATLAB representation of this disabled setting. A finite reset_after must be positive; its sample count is L=ceil(reset_after*fs)."
+      },
+      {
+        "target": "initialization",
+        "text": "At initialization start s (initially 0), locate the first non-NaN sample f at or after s. Set A0 to three times the mean of the nonnegative samples from f through min(f+round(10*fs),N-1), inclusive, omitting NaNs and including zeros. An empty selection gives NaN. Start a threshold profile A0-A0*(1-alpha)*(n-s)/R0. If s+R0<N-1, replace values from s+R0 onward by alpha*A0; otherwise retain the linear profile through the end. Initial decay is anchored at s, including any leading NaNs, rather than at f. Initialize RR to R0, clear adaptive peak history, and start searching at s. With no available sample, the threshold is all NaN and detections are empty."
+      },
+      {
+        "target": "crossing_region",
+        "text": "From the current search position, find the first sample u strictly greater than the current threshold, then the first sample v at or after u strictly less than that threshold. Equality is neither crossing. Evaluate both searches against the current profile before any update. If either crossing is absent, stop when resets are disabled; otherwise apply the inactivity-reset rule. Search state is continuous over the full signal: temporary processing blocks must not change thresholds, history or results."
+      },
+      {
+        "target": "candidate_peak",
+        "text": "Apply tools.localmax to samples max(0,u-1) through v, inclusive, with no prominence or separation filtering. This selects the highest interior maximum, the first of equal-height peaks, and the earlier middle sample of an even plateau, while omitting NaNs but preserving original coordinates. If no peak exists, resume searching at v+1 without updating state. Otherwise let p be the selected raw sample coordinate and M the maximum of samples u through v, omitting NaNs."
+      },
+      {
+        "target": "amplitude_estimate",
+        "text": "Let H be the number of previously accepted raw detections since initialization. For H<=4, set A=M. For H>4, set A to the median of M and the sample amplitudes of the last four raw detections (five values in total). Append p to the raw history. Raw candidates affect adaptation even if their later time refinement is undefined."
+      },
+      {
+        "target": "rr_estimate",
+        "text": "After appending p, keep R0 for the first detection since initialization. With two or three detections use round(mean(successive raw sample intervals since initialization)); with four or more use round(median(the last three successive raw sample intervals)). Missing spans are included in those intervals. Use raw sample positions, not refined times."
+      },
+      {
+        "target": "refractory_and_outlier_correction",
+        "text": "Let e=min(p+r,N-1). Replace the threshold from p through e-1 by A. Initially set B=A. Once at least four raw detections exist since initialization, let E be the median sample amplitude of the preceding three raw detections, excluding p. If A>=2*E, replace B by E for the subsequent decay only. The refractory hold retains A. Resume searching at e; this is a threshold hold, not a separate candidate-distance filter."
+      },
+      {
+        "target": "updated_decay",
+        "text": "Let D=round(adaptive_tau_rr*RR). From e through e+D, inclusive, use threshold(n)=B-(B-alpha*B)*(n-e)/D; after e+D use alpha*B. Clip to the input length. Thus the decay duration is measured after the refractory period. The new profile overwrites the previous threshold at e. Keep IEEE undefined arithmetic: when D=0, the value at e is NaN and subsequent values are alpha*B. A zero R0 uses the same division and replacement rules as initialization."
+      },
+      {
+        "target": "inactivity_reset",
+        "text": "When enabled, the initial deadline is f+L and each accepted raw detection replaces it with p+L. Both crossing searches exclude samples at or after the deadline, so an unclosed region is discarded when the deadline is reached. Reinitialize at the first non-NaN sample at or after the deadline: clear RR/amplitude history, anchor a new initial profile there and set a fresh deadline from that sample. Keep earlier detections and threshold values before the restart. If no sample is available, stop and finish the previous profile. NaN spans count toward elapsed time; resets can also occur during finite low-amplitude stretches. The deadline takes priority over a crossing at the same sample."
+      },
+      {
+        "target": "refined_times",
+        "text": "Sort and deduplicate raw sample detections. For each p, fit the quadratic through the original samples y[p-1], y[p], y[p+1]. Set delta=(y[p-1]-y[p+1])/(2*(y[p-1]-2*y[p]+y[p+1])) and t_d=(p+delta)/fs. Do not refine against the NaN-compressed peak-search sequence. Discard NaN refined times, including undefined flat three-sample fits and fits with missing neighbors. Refinement does not retrospectively change history or threshold. Return times in raw-detection order and a threshold value for every input sample."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Allow missing samples; their threshold comparisons are false. Do not automatically split the signal or reset history at a NaN span. A crossing region may span NaNs and peak selection omits them. Undefined initialization produces a NaN threshold and no crossings. Time refinement can discard a candidate with a missing neighbor. Infinite or complex input samples are outside the valid input domain.",
+      "empty_input": "Reject empty signals.",
+      "input_orientation": "Row and column inputs represent the same sample sequence. MATLAB returns column vectors; Python returns one-dimensional vectors. The time origin is zero in both implementations.",
+      "insufficient_data": "Return empty t_d when there is no complete crossing region with a refinable interior peak. Zero signals give a zero threshold. Signals with no nonnegative sample give a NaN threshold. Retain the discrete rounding rules for short signals and low sampling frequencies."
+    }
+  }
+}

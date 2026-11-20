@@ -1,0 +1,59 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsedet.crossing_spans_missing",
+  "specification_id": "ppg.pulsedet",
+  "description": "A crossing region can span missing samples; select its highest local peak.",
+  "inputs": [
+    {
+      "id": "dppg",
+      "fixture_id": "ppg.synthetic.pulsedetection_cases",
+      "file_role": "crossing_spans_missing",
+      "column": "dppg"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 10
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "t_d",
+      "value": [
+        0.59
+      ],
+      "absolute_tolerance": 1e-12
+    },
+    {
+      "id": "threshold",
+      "value": [
+        1.8333333333333333,
+        1.65,
+        1.4666666666666668,
+        1.2833333333333332,
+        1.0999999999999999,
+        0.9166666666666666,
+        4,
+        4,
+        4,
+        3.6,
+        3.2,
+        2.8,
+        2.4,
+        2.0,
+        1.5999999999999996,
+        1.1999999999999997,
+        0.7999999999999998,
+        0.8,
+        0.8,
+        0.8
+      ],
+      "absolute_tolerance": 1e-12
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "A crossing region can span missing samples; select its highest local peak. Expected values follow the discrete threshold recurrence and the three-sample quadratic formula."
+  }
+}
