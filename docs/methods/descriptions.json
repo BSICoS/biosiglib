@@ -224,5 +224,17 @@
     "t_b": "Refined basal times.",
     "t_m": "Refined times at half the basal-to-apex amplitude.",
     "t_o": "Derivative-based onset times."
+  },
+  "ppg.pulsenv": {
+    "ppg": "Sampled PPG waveform.",
+    "sampling_frequency": "Sampling frequency of the PPG in Hz.",
+    "t_d": "Detection times for automatic delineation.",
+    "t_a": "Precomputed apex times, supplied with basal times.",
+    "t_b": "Precomputed basal times, supplied with apex times.",
+    "window_a": "Forward apex search window.",
+    "window_b": "Backward basal search window.",
+    "max_gap": "Maximum separation before starting a new interpolation segment.",
+    "lower_envelope": "PPG amplitudes interpolated between basal points.",
+    "upper_envelope": "PPG amplitudes interpolated between apex points."
   }
 }

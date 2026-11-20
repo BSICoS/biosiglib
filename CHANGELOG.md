@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ## Unreleased
 
+- Added the `ppg.pulsenv` contract for pulse envelopes and specified optional fiducial selection in Python.
+
 - Renamed `ppg.pulsedetection` to `ppg.pulsedet`.
 
 - Added the `ppg.pulsedel` contract for apex, basal, mid-amplitude and onset times.

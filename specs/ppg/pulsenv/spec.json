@@ -1,0 +1,140 @@
+{
+  "$schema": "../../../schemas/algorithm-spec.schema.json",
+  "metadata": {
+    "id": "ppg.pulsenv",
+    "module": "ppg"
+  },
+  "informative": {
+    "title": "Estimate PPG pulse envelopes",
+    "summary": "Interpolate lower and upper envelopes between basal and apex fiducials on the PPG time grid.",
+    "keywords": [
+      "PPG",
+      "envelope",
+      "PCHIP"
+    ]
+  },
+  "provenance": {
+    "references": []
+  },
+  "normative": {
+    "inputs": [
+      {
+        "id": "ppg",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u.",
+        "allow_nan": true,
+        "allow_inf": false,
+        "constraints": {
+          "minimum_length": 1
+        }
+      },
+      {
+        "id": "sampling_frequency",
+        "data_type": "real_scalar",
+        "shape": "scalar",
+        "unit": "Hz",
+        "allow_nan": false,
+        "allow_inf": false,
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "t_d",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s",
+        "allow_nan": true,
+        "allow_inf": false
+      },
+      {
+        "id": "t_a",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s",
+        "allow_nan": true,
+        "allow_inf": false
+      },
+      {
+        "id": "t_b",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "s",
+        "allow_nan": true,
+        "allow_inf": false
+      }
+    ],
+    "parameters": [
+      {
+        "id": "window_a",
+        "data_type": "real_scalar",
+        "default": 0.25,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "window_b",
+        "data_type": "real_scalar",
+        "default": 0.15,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      },
+      {
+        "id": "max_gap",
+        "data_type": "real_scalar",
+        "default": null,
+        "unit": "s",
+        "constraints": {
+          "exclusive_minimum": 0
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "lower_envelope",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      },
+      {
+        "id": "upper_envelope",
+        "data_type": "real_vector",
+        "shape": "vector",
+        "unit": "a.u."
+      }
+    ],
+    "definitions": [
+      {
+        "target": "time_grid",
+        "text": "Sample n has time n/sampling_frequency for n=0,...,N-1. Supply a finite positive scalar frequency in Hz. Detection and fiducial times are seconds from the first sample. Reject times outside the closed recording interval before rounding."
+      },
+      {
+        "target": "fiducials",
+        "text": "Supply t_d alone or both t_a and t_b. In detection mode obtain A and B from ppg.pulsedel using window_a and window_b. Precomputed times bypass delineation. Each side is independent; NaNs remain missing. Ignore order and repeated anchors."
+      },
+      {
+        "target": "anchors",
+        "text": "Sort finite times for each envelope separately. Round relative time times sampling frequency to the nearest sample (positive halves upward), using that sample position and observed PPG amplitude as the interpolation knot. For times mapping to one sample keep the earliest fiducial time. Omit knots on missing PPG."
+      },
+      {
+        "target": "gap_rule",
+        "text": "The default max_gap is unlimited (null in metadata, positive infinity in code). For each envelope split before interpolation if the elapsed time between consecutive valid fiducials is at least max_gap seconds. Compare fiducial times before snapping to samples. Differences equal to the threshold within clock roundoff count as equal."
+      },
+      {
+        "target": "interpolation",
+        "text": "Fit shape-preserving piecewise cubic Hermite interpolation (PCHIP) independently to each group of at least two distinct knots. With two knots use their straight line. Evaluate only from first to last knot inclusive on the common sample grid. Do not clip to detection times or force ordering between the curves."
+      }
+    ],
+    "behavior": {
+      "nan_handling": "Missing PPG restricts delineation and disqualifies missing anchor amplitudes. It does not independently split or mask the interpolated envelope.",
+      "empty_input": "Reject an empty PPG. Empty or entirely missing detections yield NaN envelopes and one warning.",
+      "input_orientation": "Row and column vectors represent the same sequence. MATLAB returns columns (lower alone for one output). Python returns two one-dimensional arrays, lower then upper.",
+      "insufficient_data": "Leave samples outside supported groups and singleton groups NaN. With any nonmissing detection, or when explicit fiducials are used, warn separately for each requested envelope with no supported group."
+    }
+  }
+}

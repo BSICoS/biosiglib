@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../schemas/conformance-case.schema.json",
+  "id": "ppg.pulsenv.missing_ppg",
+  "specification_id": "ppg.pulsenv",
+  "description": "Both envelopes interpolate over a missing PPG sample when bounded by nearby anchors.",
+  "inputs": [
+    {
+      "id": "ppg",
+      "fixture_id": "ppg.synthetic.pulsedel_cases",
+      "file_role": "pulse",
+      "column": "ppg_gap"
+    },
+    {
+      "id": "sampling_frequency",
+      "value": 20
+    },
+    {
+      "id": "t_a",
+      "value": [
+        0.15,
+        0.25
+      ]
+    },
+    {
+      "id": "t_b",
+      "value": [
+        0.1,
+        0.3
+      ]
+    }
+  ],
+  "parameters": {},
+  "expected_outputs": [
+    {
+      "id": "lower_envelope",
+      "value": [
+        "NaN",
+        "NaN",
+        1,
+        1.5,
+        2,
+        2.5,
+        3,
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-11
+    },
+    {
+      "id": "upper_envelope",
+      "value": [
+        "NaN",
+        "NaN",
+        "NaN",
+        0,
+        1,
+        2,
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN",
+        "NaN"
+      ],
+      "absolute_tolerance": 1e-11
+    }
+  ],
+  "nan_equal": true,
+  "oracle": {
+    "type": "analytical",
+    "description": "Both envelopes interpolate over a missing PPG sample when bounded by nearby anchors."
+  }
+}

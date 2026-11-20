@@ -42,6 +42,7 @@ nav:
       - PPG:
           - Hjorth artifact detection: methods/ppg.hjorth_artifacts.md
           - Pulse delineation: methods/ppg.pulsedel.md
+          - Pulse envelopes: methods/ppg.pulsenv.md
           - Pulse detection: methods/ppg.pulsedet.md
       - HRV:
           - Frequency-domain metrics: methods/hrv.fdmetrics.md

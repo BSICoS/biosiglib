@@ -137,7 +137,7 @@
       },
       {
         "target": "derivative_omitted",
-        "text": "Python returns all four arrays and silently fills t_o with NaNs when dppg is omitted. MATLAB permits up to three outputs without dppg and raises an error if the fourth is requested. Neither implementation computes a derivative."
+        "text": "Python defaults to all four arrays. The keyword points selects distinct letters from ABMO, case-insensitively, in the requested order. A single letter returns one array. Omitted dppg silently fills any requested t_o with NaNs. MATLAB permits up to three outputs without dppg and raises an error if the fourth is requested. Neither implementation computes a derivative."
       }
     ],
     "behavior": {

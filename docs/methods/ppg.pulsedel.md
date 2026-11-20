@@ -23,6 +23,6 @@ The apex and basal point are extrema on opposite sides of the detection. The mid
 
 All times are in seconds. Each result corresponds to the detection at the same position, even when times are repeated, unsorted or missing. Searches stop at missing PPG samples. Derivative gaps affect only the onset.
 
-Python always returns four arrays. Omitting the derivative silently fills the onset array with one NaN per detection. MATLAB accepts calls for up to three outputs without the derivative and raises an error when the fourth output is requested without it.
+Python returns four arrays by default. Use `points="AB"` to compute just the apex and basal times. One letter returns one array. Omitting the derivative silently fills the onset array with one NaN per detection. MATLAB accepts calls for up to three outputs without the derivative and raises an error when the fourth output is requested without it.
 
 <!-- BIOSIGLIB METHOD RESOURCES -->
